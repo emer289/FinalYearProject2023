@@ -10,6 +10,11 @@ let regions = []
 let vbsWidth = regionWidth;
 let vbsSlider;
 
+let worm;
+
+let count = 0;
+
+
 function setup() {
     createCanvas(
         width,
@@ -23,16 +28,43 @@ function setup() {
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
+    frameRate(5);
+    worm = new Worm()
+
 
 }
 
 function draw() {
 
+    while(count<10){
+        worm.grow();
+        count++;
+    }
+    console.log(count)
     updateText()
 
     createRegions()
     background(150,150,150);
     drawRegions()
+
+    worm.update();
+    worm.show();
+    //worm.changeDir();
+}
+
+function keyPressed() {
+    if (keyCode === LEFT_ARROW) {
+        worm.setDir(-10, 0);
+    } else if (keyCode === RIGHT_ARROW) {
+        worm.setDir(10, 0);
+    } else if (keyCode === DOWN_ARROW) {
+        worm.setDir(0, 10);
+    } else if (keyCode === UP_ARROW) {
+        worm.setDir(0, -10);
+    } else if (key == ' ') {
+        worm.grow();
+    }
+
 }
 
 function createRegions(){
