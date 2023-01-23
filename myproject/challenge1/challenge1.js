@@ -7,6 +7,9 @@ const farmHeight = height/2
 
 let regions = []
 
+let vbsWidth = regionWidth;
+let vbsSlider;
+
 function setup() {
     createCanvas(
         width,
@@ -16,9 +19,19 @@ function setup() {
 
     createRegions();
 
+    vbsSlider = createSlider(10, 100, 10, 10);
+    vbsSlider.style("width", "100px");
+    vbsSlider.parent(`length`);
+
+
 }
 
 function draw() {
+
+    updateText()
+
+    createRegions()
+    background(150,150,150);
     drawRegions()
 }
 
@@ -26,15 +39,15 @@ function createRegions(){
 
     //index 0
     let water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [25,50,255])
-    regions.push(water);
+    regions[0] = water;
 
     //index 1
-    let VBS = new Vbs( water.x+water.width+spacing, water.y, regionWidth, water.height, [175,100,0], water.x+water.width+spacing+regionWidth,farmHeight)
-    regions.push(VBS);
+    let VBS = new Vbs( water.x+water.width+spacing, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight)
+    regions[1] = VBS;
 
     //index 2
     let farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0])
-    regions.push(farm);
+    regions[2] = farm;
 }
 
 function drawRegions(){
@@ -44,5 +57,13 @@ function drawRegions(){
     }
 }
 
+function updateText(){
+    select("#vbsText").html(`${vbsSlider.value()} meters   `);
+
+}
+
+function enterPressed(){
+    vbsWidth = (width / 4) + vbsSlider.value()
+}
 
 
