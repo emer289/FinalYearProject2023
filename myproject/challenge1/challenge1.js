@@ -11,8 +11,9 @@ let vbsWidth = regionWidth;
 let vbsSlider;
 
 let s;
-let scl = 20;
+let scl = 10;
 let count = 0;
+let count1 = 0;
 
 
 function setup() {
@@ -28,8 +29,8 @@ function setup() {
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
-    s = new Worm()
-    frameRate(10);
+    s = new EarthWorm("r1", "r2")
+    frameRate(5);
 
 
 
@@ -43,9 +44,10 @@ function draw() {
     background(150,150,150);
     drawRegions()
 
-    if(count<4){
+
+    if(count1<4){
         s.grow()
-        count++
+        count1++
     }
     s.update();
     s.show();
