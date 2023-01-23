@@ -10,8 +10,8 @@ let regions = []
 let vbsWidth = regionWidth;
 let vbsSlider;
 
-let worm;
-
+let s;
+let scl = 20;
 let count = 0;
 
 
@@ -28,44 +28,34 @@ function setup() {
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
-    frameRate(5);
-    worm = new Worm()
+    s = new Worm()
+    frameRate(10);
+
 
 
 }
 
+
 function draw() {
 
-    while(count<10){
-        worm.grow();
-        count++;
-    }
-    console.log(count)
     updateText()
-
     createRegions()
     background(150,150,150);
     drawRegions()
 
-    worm.update();
-    worm.show();
-    //worm.changeDir();
-}
-
-function keyPressed() {
-    if (keyCode === LEFT_ARROW) {
-        worm.setDir(-10, 0);
-    } else if (keyCode === RIGHT_ARROW) {
-        worm.setDir(10, 0);
-    } else if (keyCode === DOWN_ARROW) {
-        worm.setDir(0, 10);
-    } else if (keyCode === UP_ARROW) {
-        worm.setDir(0, -10);
-    } else if (key == ' ') {
-        worm.grow();
+    if(count<4){
+        s.grow()
+        count++
     }
+    s.update();
+    s.show();
+    s.changeDir();
+
+    fill(255, 0, 100);
+
 
 }
+
 
 function createRegions(){
 

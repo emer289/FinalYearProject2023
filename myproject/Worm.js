@@ -1,114 +1,72 @@
-class Worm {
+// Daniel Shiffman
+// http://codingtra.in
+// http://patreon.com/codingtrain
+// Code for: https://youtu.be/AaGK-fj-BAM
 
-    constructor() {
-        this.body = [];
-        this.body[0] = (new Coordinate(
-            Math.floor(500),
-            Math.floor(500)
-        ));
-        this.body[1] = (new Coordinate(
-            Math.floor(500),
-            Math.floor(510)
-        ));
-        this.xdir = 0;
-        this.ydir = 0;
-        this.len = 0;
-        this.dir = "up";
+function Worm() {
+    this.x = 0;
+    this.y = 0;
+    this.xspeed = 1;
+    this.yspeed = 0;
+    this.total = 0;
+    this.tail = [];
+    this.trav = "up"
+
+
+    this.dir = function(x, y) {
+        this.xspeed = x;
+        this.yspeed = y;
     }
 
-    setDir(x, y) {
-        this.xdir = x;
-        this.ydir = y;
+    this.update = function() {
+        for (let i = 0; i < this.tail.length - 1; i++) {
+            this.tail[i] = this.tail[i + 1];
+        }
+        if (this.total >= 1) {
+            this.tail[this.total - 1] = createVector(this.x, this.y);
+        }
+
+        this.x = this.x + this.xspeed * scl;
+        this.y = this.y + this.yspeed * scl;
+
+        this.x = constrain(this.x, 0, width - scl);
+        this.y = constrain(this.y, 0, height - scl);
     }
 
-    update() {
-        let head = this.body[this.body.length-1];
-        this.body.shift();
-        head.x += this.xdir;
-        head.y += this.ydir;
-        this.body.push(head);
+    this.show = function() {
+        fill(255);
+        for (let i = 0; i < this.tail.length; i++) {
+            rect(this.tail[i].x, this.tail[i].y, scl, scl);
+        }
+        rect(this.x, this.y, scl, scl);
+
     }
 
-    grow() {
-        let head = this.body[this.body.length-1];
-        this.len++;
-        this.body.push(head);
+    this.grow = function() {
+        s.total++;
     }
 
+    this.changeDir = function() {
 
+        let num = int(random(1,5))
 
-    show() {
-
-        for(let i = 0; i < this.body.length; i++) {
-            fill(0);
-            noStroke();
-            rect(this.body[i].x, this.body[i].y, 10, 10)
+        if (num == 1) {
+            s.dir(0, -1);
+            s.trav = "up"
+        } else if (num == 2) {
+            s.dir(0, 1);
+            s.trav = "down"
+        } else if (num == 3) {
+            s.dir(1, 0);
+            s.trav = "right"
+        } else if (num == 4) {
+            s.dir(-1, 0);
+            s.trav = "left"
         }
     }
 
-    changeDir(){
-        let num = int(random(1,4))
-
-        if(this.dir == "up" && num == 1){
-            //turns left
-            this.setDir(-10, 0);
-            this.dir = "left";
-        }else if(this.dir == "up" && num == 2){
-            //keep going up
-            this.setDir(0, -10);
-            this.dir = "up";
-        }else if(this.dir == "up" && num == 3){
-            //turn right
-            this.setDir(10, 0);
-            this.dir = "right";
-        }
-
-
-        if(this.dir == "down" && num == 1){
-            //turns left
-            this.setDir(-10, 0);
-            this.dir = "left";
-        }else if(this.dir == "down" && num == 2){
-            //keep going down
-            this.setDir(0, 10);
-            this.dir = "down";
-        }else if(this.dir == "down" && num == 3){
-            //turn right
-            this.setDir(10, 0);
-            this.dir = "right";
-        }
-
-        if(this.dir == "left" && num == 1){
-            //keep going left
-            this.setDir(-10, 0);
-            this.dir = "left";
-        }else if(this.dir == "left" && num == 2){
-            //turn up
-            this.setDir(0, -10);
-            this.dir = "up";
-        }else if(this.dir == "left" && num == 3){
-            //turn down
-            this.setDir(0, 10);
-            this.dir = "down";
-        }
-
-        if(this.dir == "right" && num == 1){
-            //keep going right
-            this.setDir(10, 0);
-            this.dir = "left";
-        }else if(this.dir == "right" && num == 2){
-            //turn up
-            this.setDir(0, -10);
-            this.dir = "up";
-        }else if(this.dir == "right" && num == 3){
-            //turn down
-            this.setDir(0, 10);
-            this.dir = "down";
-        }
 
 
 
-
-    }
 
 }
