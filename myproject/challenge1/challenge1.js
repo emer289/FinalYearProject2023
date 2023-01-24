@@ -66,6 +66,8 @@ let cichoriumIntybusImage;
 //Plantago Lanceolata
 let plantagoLanceolataImage;
 
+let bankBalance;
+
 
 //vbs Images
 let shrubImage;
@@ -113,12 +115,12 @@ function setup() {
 
     //init crop dictionary
 
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage);
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40);
 
 
     //init Vbs plant dictionary
@@ -128,6 +130,7 @@ function setup() {
     }
 
 
+    bankBalance = 1000;
 
 
 
@@ -196,6 +199,7 @@ function drawVbsPlants(){
 function updateText(){
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
     select("#wormText").html(`${calculateWormPop()}`);
+    select("#bankText").html(`€ ${calculateBankBalance()}`);
 
 }
 
@@ -212,6 +216,7 @@ function organiseCropsToSow(){
         if(checkBoxGroup[i].checked){
             cropCount += 1
             cropsToSow.push(crops[i]);
+            bankBalance -= crops[i].price
         }
     }
 
@@ -268,6 +273,10 @@ function drawWorms(){
 
 function calculateWormPop(){
     return 3;
+}
+
+function calculateBankBalance(){
+    return bankBalance;
 }
 
 

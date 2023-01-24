@@ -1,10 +1,11 @@
 class Plant {
-    constructor(name, pos, rootLen, pic) {
+    constructor(name, pos, rootLen, pic, price) {
 
         this.name = name
         this.pos = pos
         this.rootLen = rootLen
         this.pic = pic
+        this.price = price
         this.size = 60
 
     }
