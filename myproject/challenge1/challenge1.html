@@ -20,17 +20,30 @@
 
 
         <h1>Choose your crops to sow</h1>
-        <form method="post" name="form_name" id="form_name">
-            <label><input type="checkbox" name="check[]" value="CheckBox 1"/>Crop 1</label>
-            <label><input type="checkbox" name="check[]" value="CheckBox 2"/>Crop 2</label>
+        <form method="post" name="crops_form" id="crops_form">
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 1"/>Crop 1</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 2"/>Crop 2</label>
             <br>
-            <label><input type="checkbox" name="check[]" value="CheckBox 3"/>Crop 3</label>
-            <label><input type="checkbox" name="check[]" value="CheckBox 4"/>Crop 4</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 3"/>Crop 3</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 4"/>Crop 4</label>
             <br>
-            <label><input type="checkbox" name="check[]" value="CheckBox 5"/>Crop 5</label>
-            <label><input type="checkbox" name="check[]" value="CheckBox 6"/>Crop 6</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 5"/>Crop 5</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 6"/>Crop 6</label>
         </form>
-        <script type="text/javascript">checkBoxLimit()</script>
+        <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]')</script>
+
+        <h1>Choose your VBS plants</h1>
+        <form method="post" name="Vbs_form" id="Vbs_form">
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 1"/>Weed 1</label>
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 2"/>Weed 2</label>
+            <br>
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 3"/>Weed 3</label>
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 4"/>Weed 4</label>
+            <br>
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 5"/>Weed 5</label>
+            <label><input type="checkbox" name="checkVbs[]" value="CheckBox 6"/>Weed 6</label>
+        </form>
+        <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]')</script>
 
         <button onclick="enterPressed()">Enter</button>
     </div>

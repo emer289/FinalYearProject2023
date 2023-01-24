@@ -7,6 +7,7 @@ const farmHeight = height/2
 
 let regions = []
 let farm;
+let VBS;
 
 //VBS
 let vbsWidth = regionWidth;
@@ -74,6 +75,8 @@ function draw() {
         cropCounter++;
     }
 
+    let vbsp = new VbsPlant("crop",  1, 10*2)
+    vbsp.render();
 
 }
 
@@ -87,7 +90,7 @@ function createRegions(){
     regions[0] = water;
 
     //index 1
-    let VBS = new Vbs( water.x+water.width+spacing, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight)
+    VBS = new Vbs( water.x+water.width+spacing, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight)
     regions[1] = VBS;
 
     //index 2
@@ -109,7 +112,7 @@ function updateText(){
 
 function enterPressed(){
     vbsWidth = (width / 4) + vbsSlider.value()
-    let checkBoxGroup = document.forms['form_name']['check[]'];
+    let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
             cropCount += 1
@@ -166,8 +169,8 @@ function calculateWormPop(){
 }
 
 
-function checkBoxLimit() {
-    let checkBoxGroup = document.forms['form_name']['check[]'];
+function checkBoxLimit(form_name, check) {
+    let checkBoxGroup = document.forms[form_name][check];
     let limit = 3;
     for (let i = 0; i < checkBoxGroup.length; i++) {
         checkBoxGroup[i].onclick = function() {

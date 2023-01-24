@@ -8,7 +8,6 @@ class Plant {
     }
 
     render() {
-        console.log("farm x is ", farm.x)
         translate(farm.x + (farm.width/7)*(this.pos), farm.y)
         branch(this.rootLen);
         translate(0,-this.rootLen)
@@ -16,6 +15,21 @@ class Plant {
     }
 
 
+}
+
+class VbsPlant extends Plant {
+    constructor() {
+        super();
+    }
+
+    render() {
+        let mp = midpoint(VBS.x, VBS.topRightx, VBS.y, VBS.topRighty)
+        translate(mp.x, mp.y)
+        line(0, 0, 0, 75);
+       // branch(this.rootLen);
+        translate(0,-this.rootLen)
+        translate(-(mp.x), -(mp.y))
+    }
 }
 
 function branch(len){
@@ -31,4 +45,9 @@ function branch(len){
         branch(len*0.67)
         pop()
     }
+}
+
+function midpoint(x1, x2, y1, y2)
+{
+    return(new Coordinate(((x1+x2)/2), ((y1+y2)/2)))
 }
