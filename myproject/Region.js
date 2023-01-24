@@ -1,10 +1,11 @@
 class Region {
-    constructor(x, y, width, height, colour) {
+    constructor(x, y, width, height, colour, text) {
 
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.text = text
 
         this.centre = new Coordinate(
             Math.floor(this.x + this.width / 2),
@@ -17,12 +18,16 @@ class Region {
         fill(this.colour);
 
         rect(this.x, this.y, this.width, this.height);
+
+        fill(255)
+        textSize(32);
+        text(this.text, this.x+this.width/3, this.y+this.height -10);
     }
 }
 
 class Vbs extends Region {
-    constructor(x, y, width, height, colour, topRightx, topRighty) {
-        super(x,y,width,height,colour)
+    constructor(x, y, width, height, colour, topRightx, topRighty, text) {
+        super(x,y,width,height,colour, text)
 
         this.topRightx = topRightx
         this.topRighty = topRighty
@@ -32,5 +37,9 @@ class Vbs extends Region {
         fill(this.colour);
         rect(this.x, this.y, this.width, this.height);
         triangle(this.x, this.y, this.x+this.width, this.y, this.topRightx, this.topRighty);
+
+        fill(255)
+        textSize(32);
+        text(this.text, this.x+this.width/3, this.y+this.height -10);
     }
 }
