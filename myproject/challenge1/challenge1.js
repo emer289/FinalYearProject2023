@@ -14,7 +14,7 @@ let vbsWidth = regionWidth;
 let vbsSlider;
 
 //Worms
-let scl = 5;
+let scl = 8;
 let worms = []
 
 //Crops
@@ -222,7 +222,7 @@ function drawWorms(){
 
 
     for(const worm of worms){
-        if(worm.count<2){
+        if(worm.count<100){
             worm.grow()
             worm.count++
         }

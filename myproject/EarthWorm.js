@@ -29,8 +29,8 @@ class EarthWorm {
     }
 
     dir(x,y) {
-        this.xspeed = x;
-        this.yspeed = y;
+        this.xspeed = x/15;
+        this.yspeed = y/15;
     }
 
     update(){
