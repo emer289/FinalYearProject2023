@@ -6,6 +6,7 @@ const regionWidth = (width / 4);
 const farmHeight = height/2
 
 let regions = []
+let farm;
 
 //VBS
 let vbsWidth = regionWidth;
@@ -41,7 +42,7 @@ function setup() {
     vbsSlider.parent(`length`);
 
     for(let i=0; i<totNumOfCrops; i++){
-        let crop = new Plant("crop" + (i+1).toString(), regions[2], i)
+        let crop = new Plant("crop" + (i+1).toString(),  i, 10+i*2)
         crops[i] = crop;
     }
     frameRate(10);
@@ -90,7 +91,7 @@ function createRegions(){
     regions[1] = VBS;
 
     //index 2
-    let farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0])
+    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0])
     regions[2] = farm;
 }
 

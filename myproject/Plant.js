@@ -1,18 +1,18 @@
 class Plant {
-    constructor(name, region, pos) {
+    constructor(name, pos, rootLen) {
 
         this.name = name
-        this.region = region;
         this.pos = pos
+        this.rootLen = rootLen
 
     }
 
     render() {
-        console.log("this.pos is ", this.pos)
-        translate(this.region.x + (this.region.width/7)*this.pos, this.region.y)
-        line(0, 0, 0, 75);
-        //branch(25);
-        translate(-(this.region.x + (this.region.width/7)*this.pos), -(this.region.y))
+        console.log("farm x is ", farm.x)
+        translate(farm.x + (farm.width/7)*(this.pos), farm.y)
+        branch(this.rootLen);
+        translate(0,-this.rootLen)
+        translate(-(farm.x + (farm.width/7)*(this.pos)), -(farm.y))
     }
 
 
