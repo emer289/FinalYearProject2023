@@ -43,13 +43,13 @@ class EarthWorm {
 
         }
         if (this.tail[this.total - 1].x <= this.VBS.x + this.VBS.width/2) {
-            this.x = this.farm.x + this.farm.width - scl
+            this.x = this.farm.x + this.farm.width/2 - scl
         } else if (this.tail[this.total - 1].x >= this.farm.x + this.farm.width/2) {
-            this.x = this.VBS.x + this.VBS.width/2
+            this.x = this.VBS.x + this.VBS.width/2 + scl
         } else if (this.tail[this.total - 1].y <= this.farm.y + this.farm.height/4) {
             this.y = this.farm.y + this.farm.height - scl
-        } else if (this.tail[this.total - 1].y >= this.farm.y + this.farm.height - scl) {
-            this.y = this.farm.y + this.farm.height/4
+        } else if (this.tail[this.total - 1].y >= this.farm.y + this.farm.height) {
+            this.y = this.farm.y + this.farm.height/4 + scl
         }
 
 
