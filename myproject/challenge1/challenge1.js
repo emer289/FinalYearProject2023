@@ -36,10 +36,17 @@ let fishSize = 10;
 let fishImage;
 
 
+//Nitrogen cycle components
+let bacteriaPopulationSize = 3;
+let bacteriaSize = width/65;
 let bacteria1Image;
 let bacteria2Image;
 let bacteria3Image;
 
+let NitrogenCyclePop = []
+
+let n2PopulationSize = 15;
+let n2Size = width/65;
 let n2Image;
 let nh4Image;
 let no2Image;
@@ -68,6 +75,8 @@ function setup() {
 
     createWorms(calculateWormPop())
     createFishes();
+    initSoilHealth()
+
 
     vbsSlider = createSlider(0, 100, 0, 10);
     vbsSlider.style("width", "100px");
@@ -85,7 +94,7 @@ function setup() {
         VbsPlants[i] = weed;
     }
 
-    frameRate(7);
+
 
 
 
@@ -101,9 +110,11 @@ function draw() {
 
     noStroke()
     drawRegions();
-    drawWorms();
+    frameRate(60);
     moveFish();
+    moveNCP()
 
+    drawWorms();
     //plants
     stroke(1)
     drawCrops();
@@ -209,6 +220,7 @@ function createWorms(quantity){
 
 function drawWorms(){
 
+
     for(const worm of worms){
         if(worm.count<2){
             worm.grow()
@@ -262,5 +274,91 @@ function moveFish(){
     for(const fish of fishPopulation){
         fish.move()
         fish.render(5)
+    }
+}
+
+
+function initSoilHealth(){
+    createBacteria();
+    createN2();
+}
+
+function createBacteria(){
+
+    for(let i=0; i<=bacteriaPopulationSize; i++){
+        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1");
+        NitrogenCyclePop.push(bacterium1)
+        if(i < bacteriaPopulationSize/2){
+            bacterium1.direction.x *= -1
+            bacterium1.direction.y *= -1
+        }
+
+        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2");
+        NitrogenCyclePop.push(bacterium2)
+        if(i < bacteriaPopulationSize/2){
+            bacterium2.direction.x *= -1
+            bacterium2.direction.y *= -1
+        }
+
+        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3");
+        NitrogenCyclePop.push(bacterium3)
+        if(i < bacteriaPopulationSize/2){
+            bacterium3.direction.x *= -1
+            bacterium3.direction.y *= -1
+        }
+    }
+}
+
+function createN2(){
+
+    for(let i=0; i<=n2PopulationSize; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2");
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+
+}
+
+function moveNCP(){
+    for(const nc of NitrogenCyclePop){
+
+        nc.move()
+        nc.render(5)
+        for(const nc2 of NitrogenCyclePop){
+            checkCollision(nc, nc2)
+        }
+    }
+}
+
+function checkCollision(nc, nc2){
+    //collision detection
+    if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && ((nc.type == "n2" && nc2.type == "bacterium1"))
+    ){
+        nc.pic = nh4Image
+        nc.type = "nh4"
+    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && (nc.type == "bacterium1" && nc2.type == "n2")){
+        nc2.pic = nh4Image
+        nc2.type = "nh4"
+    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && (nc.type == "bacterium2" && nc2.type == "nh4")){
+        nc2.pic = no2Image
+        nc2.type = "no2"
+    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && (nc.type == "nh4" && nc2.type == "bacterium2")){
+        nc.pic = no2Image
+        nc.type = "no2"
+    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && (nc.type == "bacterium3" && nc2.type == "no2")){
+        nc2.pic = no3Image
+        nc2.type = "no3"
+    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
+        && (nc.type == "no2" && nc2.type == "bacterium3")){
+        nc.pic = no3Image
+        nc.type = "no3"
     }
 }

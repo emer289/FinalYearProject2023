@@ -1,6 +1,6 @@
 class NitrogenCycleComponents {
 
-    constructor(size, state, Region2, type) {
+    constructor(size, state, type) {
         this.type = type;
         this.currentRegion = VBS;
         this.Region2 = farm;
