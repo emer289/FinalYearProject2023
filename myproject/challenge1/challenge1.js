@@ -65,15 +65,12 @@ function draw() {
     drawWorms();
 
 
+
     //plants
     stroke(1)
+    drawCrops();
 
-    for(let i=0; i<cropsToSow.length; i++){
-        cropsToSow[i].pos = i+1;
-        console.log(cropsToSow[i].pos);
-        cropsToSow[i].render()
-        cropCounter++;
-    }
+
 
     let vbsp = new VbsPlant("crop",  1, 10*2)
     vbsp.render();
@@ -104,6 +101,14 @@ function drawRegions(){
     }
 }
 
+function drawCrops(){
+    for(let i=0; i<cropsToSow.length; i++){
+        cropsToSow[i].pos = i+1;
+        console.log(cropsToSow[i].pos);
+        cropsToSow[i].render()
+        cropCounter++;
+    }
+}
 function updateText(){
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
     select("#wormText").html(`${calculateWormPop()}`);
@@ -112,6 +117,11 @@ function updateText(){
 
 function enterPressed(){
     vbsWidth = (width / 4) + vbsSlider.value()
+    organiseCropsToSow();
+
+}
+
+function organiseCropsToSow(){
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
@@ -120,27 +130,24 @@ function enterPressed(){
         }
     }
 
-    console.log("cropsToSow are 1 ", cropsToSow)
 
-   if(cropCount == 1){
-       for(let i=1; i<totNumOfCrops; i++){
-           cropsToSow[i] = cropsToSow[0]
-       }
-   }else if(cropCount == 2){
-       console.log("cropCount is ", cropCount)
-       for(let i=2; i<totNumOfCrops; i=i+2){
-           cropsToSow[i] = cropsToSow[0]
-           cropsToSow[i+1] = cropsToSow[1]
-       }
-   }else{
-       //cropCount == 3
-       cropsToSow[3] = cropsToSow[0]
-       cropsToSow[4] = cropsToSow[1]
-       cropsToSow[5] = cropsToSow[2]
-   }
 
-    console.log("cropsToSow are 2 ", cropsToSow)
-
+    if(cropCount == 1){
+        for(let i=1; i<totNumOfCrops; i++){
+            cropsToSow[i] = cropsToSow[0]
+        }
+    }else if(cropCount == 2){
+        console.log("cropCount is ", cropCount)
+        for(let i=2; i<totNumOfCrops; i=i+2){
+            cropsToSow[i] = cropsToSow[0]
+            cropsToSow[i+1] = cropsToSow[1]
+        }
+    }else{
+        //cropCount == 3
+        cropsToSow[3] = cropsToSow[0]
+        cropsToSow[4] = cropsToSow[1]
+        cropsToSow[5] = cropsToSow[2]
+    }
 }
 
 function createWorms(quantity){
