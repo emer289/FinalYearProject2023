@@ -18,13 +18,15 @@ let scl = 5;
 let worms = []
 
 //Crops
-let cropCounter = 0;
 let cropCount = 0;
 let cropsToSow = []
+let vbsToPlant = []
 
 let crops = [];
+let VbsPlants = []
 
 const totNumOfCrops = 6
+const totNumOfVbsPlants = 3
 
 
 function setup() {
@@ -42,10 +44,18 @@ function setup() {
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
+    //init crop dictionary
     for(let i=0; i<totNumOfCrops; i++){
         let crop = new Plant("crop" + (i+1).toString(),  i, 10+i*2)
         crops[i] = crop;
     }
+
+    //init Vbs plant dictionary
+    for(let i=0; i<totNumOfVbsPlants; i++){
+        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2)
+        VbsPlants[i] = weed;
+    }
+
     frameRate(10);
 
 
@@ -64,16 +74,11 @@ function draw() {
     drawRegions();
     drawWorms();
 
-
-
     //plants
     stroke(1)
     drawCrops();
+    drawVbsPlants();
 
-
-
-    let vbsp = new VbsPlant("crop",  1, 10*2)
-    vbsp.render();
 
 }
 
@@ -104,9 +109,14 @@ function drawRegions(){
 function drawCrops(){
     for(let i=0; i<cropsToSow.length; i++){
         cropsToSow[i].pos = i+1;
-        console.log(cropsToSow[i].pos);
         cropsToSow[i].render()
-        cropCounter++;
+    }
+}
+
+function drawVbsPlants(){
+    console.log("vbsToPlant is ", vbsToPlant)
+    for(let i=0; i<vbsToPlant.length; i++){
+        vbsToPlant[i].render()
     }
 }
 function updateText(){
@@ -118,6 +128,7 @@ function updateText(){
 function enterPressed(){
     vbsWidth = (width / 4) + vbsSlider.value()
     organiseCropsToSow();
+    organiseVbsPlants();
 
 }
 
@@ -147,6 +158,15 @@ function organiseCropsToSow(){
         cropsToSow[3] = cropsToSow[0]
         cropsToSow[4] = cropsToSow[1]
         cropsToSow[5] = cropsToSow[2]
+    }
+}
+
+function organiseVbsPlants(){
+    let checkBoxGroup = document.forms['Vbs_form']['checkVbs[]'];
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        if(checkBoxGroup[i].checked){
+            vbsToPlant.push(VbsPlants[i]);
+        }
     }
 }
 
