@@ -18,16 +18,16 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor() {
-        super();
+    constructor(name, pos, rootLen) {
+        super(name, pos, rootLen);
     }
 
     render() {
         let mp = midpoint(VBS.x, VBS.topRightx, VBS.y, VBS.topRighty)
         translate(mp.x, mp.y)
-        line(0, 0, 0, 75);
-       // branch(this.rootLen);
-        translate(0,-this.rootLen)
+        //line(0, 0, 0, 75);
+        branch(this.rootLen);
+        //translate(0,-this.rootLen)
         translate(-(mp.x), -(mp.y))
     }
 }
