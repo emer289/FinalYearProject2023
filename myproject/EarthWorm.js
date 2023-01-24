@@ -1,13 +1,29 @@
 class EarthWorm {
-    constructor(region1, region2) {
+    constructor(VBS, farm) {
 
-        this.x = 0;
-        this.y = 0;
+        this.farm = farm;
+        this.VBS = VBS
+        this.count = 0;
+
+        this.topLeft = new Coordinate(
+            this.VBS.x + this.VBS.width/2,
+            this.farm.y + this.farm.height/4
+        );
+        this.bottomRight = new Coordinate(
+            this.farm.x + this.farm.width/2,
+            this.farm.y + this.farm.height - scl
+        );
+
+
+        this.x = random(this.topLeft.x, this.bottomRight.x);
+        this.y = random(this.topLeft.y, this.bottomRight.y);
         this.xspeed = 1;
         this.yspeed = 0;
         this.total = 0;
         this.tail = [];
         this.trav = "right"
+
+
 
 
     }
@@ -18,18 +34,31 @@ class EarthWorm {
     }
 
     update(){
+
         for (let i = 0; i < this.tail.length - 1; i++) {
             this.tail[i] = this.tail[i + 1];
         }
         if (this.total >= 1) {
             this.tail[this.total - 1] = createVector(this.x, this.y);
+
         }
+        if (this.tail[this.total - 1].x <= this.VBS.x + this.VBS.width/2) {
+            this.x = this.farm.x + this.farm.width - scl
+        } else if (this.tail[this.total - 1].x >= this.farm.x + this.farm.width/2) {
+            this.x = this.VBS.x + this.VBS.width/2
+        } else if (this.tail[this.total - 1].y <= this.farm.y + this.farm.height/4) {
+            this.y = this.farm.y + this.farm.height - scl
+        } else if (this.tail[this.total - 1].y >= this.farm.y + this.farm.height - scl) {
+            this.y = this.farm.y + this.farm.height/4
+        }
+
+
 
         this.x = this.x + this.xspeed * scl;
         this.y = this.y + this.yspeed * scl;
 
-        this.x = constrain(this.x, 0, width - scl);
-        this.y = constrain(this.y, 0, height - scl);
+        // this.x = constrain(this.x, this.VBS.x + this.VBS.width/2, this.farm.x + this.farm.width - scl);
+        // this.y = constrain(this.y, this.VBS.y + this.VBS.height/4, this.farm.height - scl);
     }
     show() {
         fill(255, 155, 155);
@@ -98,7 +127,7 @@ class EarthWorm {
                 //right
                 this.dir(1, 0);
             } else if (num == 3 ) {
-                //left
+                //down
                 this.dir(0, 1);
                 this.trav = "down";
             } else {
@@ -118,7 +147,7 @@ class EarthWorm {
                 //left
                 this.dir(-1, 0);
             } else if (num == 3 ) {
-                //left
+                //down
                 this.dir(0, 1);
                 this.trav = "down";
             } else {

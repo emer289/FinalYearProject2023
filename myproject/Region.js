@@ -15,7 +15,7 @@ class Region {
 
     render() {
         fill(this.colour);
-        noStroke()
+
         rect(this.x, this.y, this.width, this.height);
     }
 }
@@ -30,7 +30,6 @@ class Vbs extends Region {
 
     render() {
         fill(this.colour);
-        noStroke();
         rect(this.x, this.y, this.width, this.height);
         triangle(this.x, this.y, this.x+this.width, this.y, this.topRightx, this.topRighty);
     }

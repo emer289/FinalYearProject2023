@@ -10,10 +10,12 @@ let regions = []
 let vbsWidth = regionWidth;
 let vbsSlider;
 
-let s;
-let scl = 10;
-let count = 0;
-let count1 = 0;
+
+let scl = 5;
+
+let worms = []
+
+let plant1Picked = false;
 
 
 function setup() {
@@ -25,12 +27,14 @@ function setup() {
 
     createRegions();
 
+    createWorms(calculateWormPop())
+
     vbsSlider = createSlider(10, 100, 10, 10);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
-    s = new EarthWorm("r1", "r2")
-    frameRate(5);
+
+    frameRate(10);
 
 
 
@@ -41,22 +45,29 @@ function draw() {
 
     updateText()
     createRegions()
+
     background(150,150,150);
-    drawRegions()
 
 
-    if(count1<4){
-        s.grow()
-        count1++
-    }
-    s.update();
-    s.show();
-    s.changeDir();
+    noStroke()
+    drawRegions();
 
     fill(255, 0, 100);
 
+    drawWorms();
+
+    stroke(1)
+    line(30, 20, 85, 75);
+
+    fill(255,0,0)
+    let p = new Plant("plannt", regions[2])
+    if(plant1Picked){
+        p.render()
+    }
 
 }
+
+
 
 
 function createRegions(){
@@ -76,18 +87,49 @@ function createRegions(){
 
 function drawRegions(){
     for(const region of regions){
-        fill(51)
-        region.render(5)
+        region.render()
     }
 }
 
 function updateText(){
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
+    select("#wormText").html(`${calculateWormPop()}`);
 
 }
 
 function enterPressed(){
     vbsWidth = (width / 4) + vbsSlider.value()
+    if(document.getElementById("my-checkbox-p1").checked){
+        plant1Picked = true;
+    }else{
+        plant1Picked = false;
+    }
+}
+
+function createWorms(quantity){
+    console.log("quantity is ", quantity)
+    for(let i=0; i<quantity; i++){
+        let s = new EarthWorm(regions[1], regions[2])
+        worms.push(s)
+    }
+}
+
+function drawWorms(){
+
+    for(const worm of worms){
+        if(worm.count<2){
+            worm.grow()
+            worm.count++
+        }
+        worm.update();
+        worm.show();
+        worm.changeDir();
+
+    }
+}
+
+function calculateWormPop(){
+    return 3;
 }
 
 
