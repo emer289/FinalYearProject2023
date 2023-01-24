@@ -34,15 +34,34 @@ class NitrogenCycleComponents {
 
 
     move() {
-        if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
-            this.direction.x *= -1;
-        } else if (this.pos.x <= this.topLeft.x) {
-            this.direction.x *= -1;
-        } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
-            this.direction.y *= -1;
-        } else if (this.pos.y <= this.topLeft.y) {
-            this.direction.y *= -1;
+
+
+        //in the triangle
+        if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
+            if(isInside(VBS.x, VBS.y + this.size, VBS.x, farm.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
+                this.direction.x *= -1;
+                this.direction.y *= -1;
+            }
+        }else{
+            //to far right
+            if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
+                this.direction.x *= -1;
+
+                // to far left and
+            } else if (this.pos.x <= this.topLeft.x ) {
+                this.direction.x *= -1;
+
+                //to far down
+            } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
+                this.direction.y *= -1;
+
+                //to far up and
+            } else if (this.pos.y <= farm.y ) {
+                this.direction.y *= -1;
+            }
         }
+
+
         this.pos = new Coordinate(
             this.pos.x + this.direction.x/4,
             this.pos.y + this.direction.y/4
@@ -56,5 +75,55 @@ class NitrogenCycleComponents {
             this.size * 2,
             this.size * 2
         );
+    }
+}
+
+function area(x1, y1, x2, y2, x3, y3)
+{
+    return Math.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0);
+}
+
+function isInside(x1, y1, x2, y2, x3, y3, x, y)
+{
+
+    let A = area (x1, y1, x2, y2, x3, y3);
+
+    let A1 = area (x, y, x2, y2, x3, y3);
+
+    let A2 = area (x1, y1, x, y, x3, y3);
+
+    let A3 = area (x1, y1, x2, y2, x, y);
+
+    return (A == A1 + A2 + A3);
+}
+
+
+
+//if it's too far right
+if (x > width - r ) {
+    xspeed = -xspeed;
+}
+
+//if it's too far down
+if(y > height - r){
+    yspeed = -yspeed;
+
+}
+
+
+//if it's in the triangle
+if (y < (height/2 - r) ) {
+    console.log("in the triangle");
+    if(isInside(x1 + r, y1, x2, y2+r, x3, y3, x, y)){
+
+    }else{
+        xspeed = -xspeed;
+        yspeed = -yspeed;
+    }
+}else{
+    console.log("NOT in the triangle");
+    //it's not in the triangle so check the left side
+    if(x < width/2+r){
+        xspeed = -xspeed;
     }
 }
