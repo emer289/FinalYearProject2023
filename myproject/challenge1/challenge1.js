@@ -35,8 +35,26 @@ let fishPopulation = []
 let fishSize = 10;
 let fishImage;
 
+
+let bacteria1Image;
+let bacteria2Image;
+let bacteria3Image;
+
+let n2Image;
+let nh4Image;
+let no2Image;
+let no3Image;
+
 function preload(){
-   fishImage = loadImage('../Pictures/fish.png')
+   fishImage = loadImage('../Pictures/fish.png');
+   bacteria1Image = loadImage("../Pictures/bacteria.png");
+   bacteria2Image = loadImage("../Pictures/bacteria2.png");
+   bacteria3Image = loadImage("../Pictures/bacteria3.png");
+   n2Image = loadImage("../Pictures/N2.png");
+   nh4Image = loadImage("../Pictures/NH4.png");
+   no2Image = loadImage("../Pictures/NO2.png");
+   no3Image = loadImage("../Pictures/no3.png")
+
 }
 
 function setup() {

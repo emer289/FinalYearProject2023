@@ -53,8 +53,8 @@ class NitrogenCycleComponents {
             this.pic,
             this.pos.x,
             this.pos.y,
-            wormSize * 2,
-            wormSize * 2
+            this.size * 2,
+            this.size * 2
         );
     }
 }
