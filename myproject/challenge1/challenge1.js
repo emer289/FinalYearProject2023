@@ -7,15 +7,22 @@ const farmHeight = height/2
 
 let regions = []
 
+//VBS
 let vbsWidth = regionWidth;
 let vbsSlider;
 
-
+//Worms
 let scl = 5;
-
 let worms = []
 
-let plant1Picked = false;
+//Crops
+let cropCounter = 0;
+let cropCount = 0;
+let cropsToSow = []
+
+let crops = [];
+
+const totNumOfCrops = 6
 
 
 function setup() {
@@ -29,11 +36,14 @@ function setup() {
 
     createWorms(calculateWormPop())
 
-    vbsSlider = createSlider(10, 100, 10, 10);
+    vbsSlider = createSlider(0, 100, 0, 10);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
-
+    for(let i=0; i<totNumOfCrops; i++){
+        let crop = new Plant("crop" + (i+1).toString(), regions[2], i)
+        crops[i] = crop;
+    }
     frameRate(10);
 
 
@@ -48,22 +58,21 @@ function draw() {
 
     background(150,150,150);
 
-
     noStroke()
     drawRegions();
-
-    fill(255, 0, 100);
-
     drawWorms();
 
-    stroke(1)
-    line(30, 20, 85, 75);
 
-    fill(255,0,0)
-    let p = new Plant("plannt", regions[2])
-    if(plant1Picked){
-        p.render()
+    //plants
+    stroke(1)
+
+    for(let i=0; i<cropsToSow.length; i++){
+        cropsToSow[i].pos = i+1;
+        console.log(cropsToSow[i].pos);
+        cropsToSow[i].render()
+        cropCounter++;
     }
+
 
 }
 
@@ -99,15 +108,38 @@ function updateText(){
 
 function enterPressed(){
     vbsWidth = (width / 4) + vbsSlider.value()
-    if(document.getElementById("my-checkbox-p1").checked){
-        plant1Picked = true;
-    }else{
-        plant1Picked = false;
+    let checkBoxGroup = document.forms['form_name']['check[]'];
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        if(checkBoxGroup[i].checked){
+            cropCount += 1
+            cropsToSow.push(crops[i]);
+        }
     }
+
+    console.log("cropsToSow are 1 ", cropsToSow)
+
+   if(cropCount == 1){
+       for(let i=1; i<totNumOfCrops; i++){
+           cropsToSow[i] = cropsToSow[0]
+       }
+   }else if(cropCount == 2){
+       console.log("cropCount is ", cropCount)
+       for(let i=2; i<totNumOfCrops; i=i+2){
+           cropsToSow[i] = cropsToSow[0]
+           cropsToSow[i+1] = cropsToSow[1]
+       }
+   }else{
+       //cropCount == 3
+       cropsToSow[3] = cropsToSow[0]
+       cropsToSow[4] = cropsToSow[1]
+       cropsToSow[5] = cropsToSow[2]
+   }
+
+    console.log("cropsToSow are 2 ", cropsToSow)
+
 }
 
 function createWorms(quantity){
-    console.log("quantity is ", quantity)
     for(let i=0; i<quantity; i++){
         let s = new EarthWorm(regions[1], regions[2])
         worms.push(s)
@@ -132,4 +164,22 @@ function calculateWormPop(){
     return 3;
 }
 
+
+function checkBoxLimit() {
+    let checkBoxGroup = document.forms['form_name']['check[]'];
+    let limit = 3;
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        checkBoxGroup[i].onclick = function() {
+            let checkedcount = 0;
+            for (let i = 0; i < checkBoxGroup.length; i++) {
+                checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
+            }
+            if (checkedcount > limit) {
+                console.log("You can select maximum of " + limit + " checkboxes.");
+                alert("You can select maximum of " + limit + " checkboxes.");
+                this.checked = false;
+            }
+        }
+    }
+}
 

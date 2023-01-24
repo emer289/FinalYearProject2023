@@ -17,9 +17,20 @@
         <h3>Choose the VBS Length</h3>
         <h3 id="length"><span id="vbsText"></span></h3>
 
+
+
         <h1>Choose your crops to sow</h1>
-        <input type="checkbox" id="my-checkbox-p1" >
-        <p id="message">Plant 1</p>
+        <form method="post" name="form_name" id="form_name">
+            <label><input type="checkbox" name="check[]" value="CheckBox 1"/>Crop 1</label>
+            <label><input type="checkbox" name="check[]" value="CheckBox 2"/>Crop 2</label>
+            <br>
+            <label><input type="checkbox" name="check[]" value="CheckBox 3"/>Crop 3</label>
+            <label><input type="checkbox" name="check[]" value="CheckBox 4"/>Crop 4</label>
+            <br>
+            <label><input type="checkbox" name="check[]" value="CheckBox 5"/>Crop 5</label>
+            <label><input type="checkbox" name="check[]" value="CheckBox 6"/>Crop 6</label>
+        </form>
+        <script type="text/javascript">checkBoxLimit()</script>
 
         <button onclick="enterPressed()">Enter</button>
     </div>
