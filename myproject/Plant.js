@@ -1,14 +1,23 @@
 class Plant {
-    constructor(name, pos, rootLen) {
+    constructor(name, pos, rootLen, pic) {
 
         this.name = name
         this.pos = pos
         this.rootLen = rootLen
+        this.pic = pic
+        this.size = 60
 
     }
 
     render() {
         translate(farm.x + (farm.width/7)*(this.pos), farm.y)
+        image(
+            this.pic,
+            0-this.size/2,
+            0-this.size,
+            this.size,
+            this.size
+        );
         branch(this.rootLen);
         translate(0,-this.rootLen)
         translate(-(farm.x + (farm.width/7)*(this.pos)), -(farm.y))
@@ -18,18 +27,31 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor(name, pos, rootLen) {
-        super(name, pos, rootLen);
+    constructor(name, pos, rootLen, pic) {
+        super(name, pos, rootLen, pic);
+        this.size = 60
     }
 
     render() {
         let mp = midpoint(VBS.x, VBS.topRightx, VBS.y, VBS.topRighty)
+
+        image(
+            this.pic,
+            mp.x - this.size/2,
+            mp.y - this.size,
+            this.size,
+            this.size
+        );
+
+
         translate(mp.x, mp.y)
         //line(0, 0, 0, 75);
         branch(this.rootLen);
         //translate(0,-this.rootLen)
         translate(-(mp.x), -(mp.y))
     }
+
+
 }
 
 function branch(len){

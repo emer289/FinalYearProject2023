@@ -52,6 +52,24 @@ let nh4Image;
 let no2Image;
 let no3Image;
 
+//crop Images
+//Lolium Perenne
+let loliumPerenneImage;
+//Phleum Pratense
+let phleumPratenseImage;
+//Trifolium Pratense
+let trifoliumPratenseImage;
+//Trifolium Repens
+let trifoliumRepensImage;
+//Cichorium Intybus
+let cichoriumIntybusImage;
+//Plantago Lanceolata
+let plantagoLanceolataImage;
+
+
+//vbs Images
+let shrubImage;
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -60,7 +78,18 @@ function preload(){
    n2Image = loadImage("../Pictures/N2.png");
    nh4Image = loadImage("../Pictures/NH4.png");
    no2Image = loadImage("../Pictures/NO2.png");
-   no3Image = loadImage("../Pictures/no3.png")
+   no3Image = loadImage("../Pictures/no3.png");
+
+   //crops
+   loliumPerenneImage = loadImage("../Pictures/loliumPerenneImage.png");
+   phleumPratenseImage = loadImage("../Pictures/phleumPratense.png");
+   trifoliumPratenseImage = loadImage("../Pictures/trifoliumPratense.png");
+   trifoliumRepensImage = loadImage("../Pictures/trifoliumRepens.png");
+   cichoriumIntybusImage = loadImage("../Pictures/cichoriumIntybusImage.png");
+   plantagoLanceolataImage = loadImage("../Pictures/PlantagoLanceolata.png");
+
+   //VBS Images
+    shrubImage = loadImage("../Pictures/shrubImage.png");
 
 }
 
@@ -69,7 +98,7 @@ function setup() {
         width,
         height
     );
-    background(155);
+
 
     createRegions();
 
@@ -83,14 +112,18 @@ function setup() {
     vbsSlider.parent(`length`);
 
     //init crop dictionary
-    for(let i=0; i<totNumOfCrops; i++){
-        let crop = new Plant("crop" + (i+1).toString(),  i, 10+i*2)
-        crops[i] = crop;
-    }
+
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage);
+
 
     //init Vbs plant dictionary
     for(let i=0; i<totNumOfVbsPlants; i++){
-        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2)
+        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, loliumPerenneImage)
         VbsPlants[i] = weed;
     }
 
@@ -106,7 +139,7 @@ function draw() {
     updateText()
     createRegions()
 
-    background(150,150,150);
+    background(100);
 
     noStroke()
     drawRegions();
