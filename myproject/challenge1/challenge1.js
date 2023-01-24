@@ -362,3 +362,4 @@ function checkCollision(nc, nc2){
         nc.type = "no3"
     }
 }
+

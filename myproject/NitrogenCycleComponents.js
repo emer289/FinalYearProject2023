@@ -38,13 +38,13 @@ class NitrogenCycleComponents {
 
         //in the triangle
         if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
-            if(isInside(VBS.x, VBS.y + this.size, VBS.x, farm.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
+            if(isInside(VBS.x, VBS.y + this.size , VBS.x, farm.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
                 this.direction.x *= -1;
                 this.direction.y *= -1;
             }
         }else{
             //to far right
-            if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
+            if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
                 this.direction.x *= -1;
 
                 // to far left and
@@ -52,7 +52,7 @@ class NitrogenCycleComponents {
                 this.direction.x *= -1;
 
                 //to far down
-            } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
+            } else if (this.pos.y + this.size + this.size >= farm.y + farm.height) {
                 this.direction.y *= -1;
 
                 //to far up and
