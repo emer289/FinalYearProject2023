@@ -29,6 +29,16 @@ const totNumOfCrops = 6
 const totNumOfVbsPlants = 3
 
 
+//fish
+let fishPopulationSize = 5;
+let fishPopulation = []
+let fishSize = 10;
+let fishImage;
+
+function preload(){
+   fishImage = loadImage('../Pictures/fish.png')
+}
+
 function setup() {
     createCanvas(
         width,
@@ -39,6 +49,7 @@ function setup() {
     createRegions();
 
     createWorms(calculateWormPop())
+    createFishes();
 
     vbsSlider = createSlider(0, 100, 0, 10);
     vbsSlider.style("width", "100px");
@@ -56,7 +67,7 @@ function setup() {
         VbsPlants[i] = weed;
     }
 
-    frameRate(10);
+    frameRate(7);
 
 
 
@@ -73,11 +84,13 @@ function draw() {
     noStroke()
     drawRegions();
     drawWorms();
+    moveFish();
 
     //plants
     stroke(1)
     drawCrops();
     drawVbsPlants();
+
 
 
 }
@@ -114,7 +127,6 @@ function drawCrops(){
 }
 
 function drawVbsPlants(){
-    console.log("vbsToPlant is ", vbsToPlant)
     for(let i=0; i<vbsToPlant.length; i++){
         vbsToPlant[i].render()
     }
@@ -148,7 +160,7 @@ function organiseCropsToSow(){
             cropsToSow[i] = cropsToSow[0]
         }
     }else if(cropCount == 2){
-        console.log("cropCount is ", cropCount)
+
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
             cropsToSow[i+1] = cropsToSow[1]
@@ -214,3 +226,23 @@ function checkBoxLimit(form_name, check) {
     }
 }
 
+
+//fish
+function createFishes(){
+    let water = regions[0];
+    for(let i=0; i<=fishPopulationSize; i++){
+        let fish = new Fish(fishSize, "healthy", water);
+        fishPopulation.push(fish)
+        if(i < fishPopulationSize/2){
+            fish.direction.x *= -1
+            fish.direction.y *= -1
+        }
+    }
+}
+
+function moveFish(){
+    for(const fish of fishPopulation){
+        fish.move()
+        fish.render(5)
+    }
+}
