@@ -22,13 +22,20 @@ class Fish {
 
 
     move() {
+        //to far right
         if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
             this.direction.x *= -1;
+
+            //too far left
         } else if (this.pos.x <= this.topLeft.x) {
             this.direction.x *= -1;
+
+            //to far down
         } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
             this.direction.y *= -1;
-        } else if (this.pos.y <= this.topLeft.y) {
+
+            //to far up
+        } else if (this.pos.y <= this.topLeft.y + this.size) {
             this.direction.y *= -1;
         }
         this.pos = new Coordinate(

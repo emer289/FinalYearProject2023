@@ -67,6 +67,37 @@ class NitrogenCycleComponents {
             this.pos.y + this.direction.y/4
         );
     }
+
+
+    checkCollision(nc2){
+        //collision detection
+        if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && ((this.type == "n2" && nc2.type == "bacterium1"))
+        ){
+            this.pic = nh4Image
+            this.type = "nh4"
+        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && (this.type == "bacterium1" && nc2.type == "n2")){
+            nc2.pic = nh4Image
+            nc2.type = "nh4"
+        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && (this.type == "bacterium2" && nc2.type == "nh4")){
+            nc2.pic = no2Image
+            nc2.type = "no2"
+        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && (this.type == "nh4" && nc2.type == "bacterium2")){
+            this.pic = no2Image
+            this.type = "no2"
+        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && (this.type == "bacterium3" && nc2.type == "no2")){
+            nc2.pic = no3Image
+            nc2.type = "no3"
+        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+            && (this.type == "no2" && nc2.type == "bacterium3")){
+            this.pic = no3Image
+            this.type = "no3"
+        }
+    }
     render() {
         image(
             this.pic,

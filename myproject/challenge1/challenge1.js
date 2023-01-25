@@ -72,6 +72,9 @@ let bankBalance;
 //vbs Images
 let shrubImage;
 
+
+//chemical reactions
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -176,6 +179,14 @@ function createRegions(){
     //index 2
     farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0], "Farm")
     regions[2] = farm;
+
+    //chemical reaction 1
+    let chemicalReaction1 = new Region(spacing, spacing, regionWidth, regionWidth, [25,50,255], "cr1")
+    regions[3] = chemicalReaction1;
+
+    //chemical reaction 2
+
+    //chemical reaction 3
 }
 
 function drawRegions(){
@@ -370,38 +381,10 @@ function moveNCP(){
         nc.move()
         nc.render(5)
         for(const nc2 of NitrogenCyclePop){
-            checkCollision(nc, nc2)
+            nc.checkCollision(nc2)
         }
     }
 }
 
-function checkCollision(nc, nc2){
-    //collision detection
-    if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && ((nc.type == "n2" && nc2.type == "bacterium1"))
-    ){
-        nc.pic = nh4Image
-        nc.type = "nh4"
-    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && (nc.type == "bacterium1" && nc2.type == "n2")){
-        nc2.pic = nh4Image
-        nc2.type = "nh4"
-    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && (nc.type == "bacterium2" && nc2.type == "nh4")){
-        nc2.pic = no2Image
-        nc2.type = "no2"
-    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && (nc.type == "nh4" && nc2.type == "bacterium2")){
-        nc.pic = no2Image
-        nc.type = "no2"
-    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && (nc.type == "bacterium3" && nc2.type == "no2")){
-        nc2.pic = no3Image
-        nc2.type = "no3"
-    }else if(dist(nc.pos.x, nc.pos.y, nc2.pos.x, nc2.pos.y) < nc.size
-        && (nc.type == "no2" && nc2.type == "bacterium3")){
-        nc.pic = no3Image
-        nc.type = "no3"
-    }
-}
+
 
