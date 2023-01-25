@@ -130,31 +130,52 @@ function isInside(x1, y1, x2, y2, x3, y3, x, y)
 
 
 
-//if it's too far right
-if (x > width - r ) {
-    xspeed = -xspeed;
-}
+class ChemicalReactions extends NitrogenCycleComponents {
+    constructor(size, state, type, region) {
+        super(size, state, type)
+        this.region = region
 
-//if it's too far down
-if(y > height - r){
-    yspeed = -yspeed;
+        this.topLeft = new Coordinate(
+            this.region.x,
+            this.region.y
+        );
+        this.bottomRight = new Coordinate(
+            this.region.x + this.region.width,
+            this.region.y + this.region.height
+        );
 
-}
-
-
-//if it's in the triangle
-if (y < (height/2 - r) ) {
-    console.log("in the triangle");
-    if(isInside(x1 + r, y1, x2, y2+r, x3, y3, x, y)){
-
-    }else{
-        xspeed = -xspeed;
-        yspeed = -yspeed;
+        this.pos = startLocation(this.topLeft, this.bottomRight);
+        this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
     }
-}else{
-    console.log("NOT in the triangle");
-    //it's not in the triangle so check the left side
-    if(x < width/2+r){
-        xspeed = -xspeed;
+
+
+    move(){
+
+        //to far right
+        if (this.pos.x + this.size + this.size >= this.region.x + this.region.width) {
+            this.direction.x *= -1;
+
+            // to far left and
+        } else if (this.pos.x <= this.region.x ) {
+            this.direction.x *= -1;
+
+            //to far down
+        } else if (this.pos.y + this.size + this.size >= this.region.y + this.region.height) {
+            this.direction.y *= -1;
+
+            //to far up and
+        } else if (this.pos.y <= this.region.y ) {
+            this.direction.y *= -1;
+        }
+
+        this.pos = new Coordinate(
+            this.pos.x + this.direction.x/4,
+            this.pos.y + this.direction.y/4
+        );
     }
+
+
 }
+
+
+

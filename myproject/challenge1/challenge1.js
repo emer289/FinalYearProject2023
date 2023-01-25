@@ -74,6 +74,9 @@ let shrubImage;
 
 
 //chemical reactions
+let chemicalReaction1 = [];
+let chemicalReaction2;
+let chemicalReaction3;
 
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
@@ -110,6 +113,10 @@ function setup() {
     createWorms(calculateWormPop())
     createFishes();
     initSoilHealth()
+
+    createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
+
+
 
 
     vbsSlider = createSlider(0, 100, 0, 10);
@@ -151,13 +158,16 @@ function draw() {
     drawRegions();
     frameRate(60);
     moveFish();
-    moveNCP()
+    //moveNCP();
+    moveChemicals(chemicalReaction1);
 
-    drawWorms();
+    //drawWorms();
+
     //plants
     stroke(1)
     drawCrops();
     drawVbsPlants();
+
 
 
 
@@ -181,8 +191,8 @@ function createRegions(){
     regions[2] = farm;
 
     //chemical reaction 1
-    let chemicalReaction1 = new Region(spacing, spacing, regionWidth, regionWidth, [25,50,255], "cr1")
-    regions[3] = chemicalReaction1;
+    let crRegion = new Region(spacing, spacing, regionWidth, regionWidth, [25,50,255], "cr1")
+    regions[3] = crRegion;
 
     //chemical reaction 2
 
@@ -387,4 +397,26 @@ function moveNCP(){
 }
 
 
+
+function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
+    let b = new ChemicalReactions(bacteriaSize, "healthy",  bacterium, region);
+    chemicalReaction[0] = b
+    let n = new ChemicalReactions(bacteriaSize, "healthy", nutrient, region);
+    chemicalReaction[1] = n
+
+}
+
+function moveChemicals(chemicalReaction){
+
+    for(const nc of chemicalReaction){
+
+        nc.move()
+        nc.render()
+        for(const nc2 of chemicalReaction){
+            nc.checkCollision(nc2)
+        }
+    }
+
+
+}
 
