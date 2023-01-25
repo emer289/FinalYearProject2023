@@ -75,8 +75,9 @@ let shrubImage;
 
 //chemical reactions
 let chemicalReaction1 = [];
-let chemicalReaction2;
-let chemicalReaction3;
+let chemicalReaction2  = [];
+let chemicalReaction3 = [];
+
 
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
@@ -114,7 +115,7 @@ function setup() {
     createFishes();
     initSoilHealth()
 
-    createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
+    resetSketch()
 
 
 
@@ -158,10 +159,12 @@ function draw() {
     drawRegions();
     frameRate(60);
     moveFish();
-    //moveNCP();
+    moveNCP();
     moveChemicals(chemicalReaction1);
+    moveChemicals(chemicalReaction2);
+    moveChemicals(chemicalReaction3);
 
-    //drawWorms();
+    drawWorms();
 
     //plants
     stroke(1)
@@ -191,12 +194,16 @@ function createRegions(){
     regions[2] = farm;
 
     //chemical reaction 1
-    let crRegion = new Region(spacing, spacing, regionWidth, regionWidth, [25,50,255], "cr1")
-    regions[3] = crRegion;
+    let cr1Region = new Region(spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr1")
+    regions[3] = cr1Region;
 
     //chemical reaction 2
+    let cr2Region = new Region(cr1Region.x + cr1Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr2")
+    regions[4] = cr2Region;
 
     //chemical reaction 3
+    let cr3Region = new Region(cr2Region.x + cr2Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr3")
+    regions[5] = cr3Region;
 }
 
 function drawRegions(){
@@ -419,4 +426,12 @@ function moveChemicals(chemicalReaction){
 
 
 }
+
+
+function resetSketch(){
+    createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
+    createChemicalReact("nh4", "bacterium2", chemicalReaction2, regions[4])
+    createChemicalReact("no2", "bacterium3", chemicalReaction3, regions[5])
+}
+
 

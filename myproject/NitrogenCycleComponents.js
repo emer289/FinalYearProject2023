@@ -22,6 +22,12 @@ class NitrogenCycleComponents {
 
         if(type == "n2"){
             this.pic = n2Image;
+        }else if(type == "no2"){
+            this.pic = no2Image
+        }else if(type == "nh4"){
+            this.pic = nh4Image
+        }else if(type == "no3"){
+            this.pic = no3Image
         }else if(type == "bacterium1"){
             this.pic = bacteria1Image;
         }else if(type == "bacterium2"){

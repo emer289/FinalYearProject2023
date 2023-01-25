@@ -39,8 +39,8 @@ class Fish {
             this.direction.y *= -1;
         }
         this.pos = new Coordinate(
-            this.pos.x + this.direction.x,
-            this.pos.y + this.direction.y
+            this.pos.x + this.direction.x/2,
+            this.pos.y + this.direction.y/2
         );
     }
     render() {
