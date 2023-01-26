@@ -43,15 +43,15 @@ function setup() {
 
 
     //chemical reaction 1
-    let cr1Region = new Region(spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr1")
+    let cr1Region = new Region(spacing/2, spacing*2, regionWidth, regionWidth/2, [175,100,0], "")
     areas[0] = cr1Region;
 
     //chemical reaction 2
-    let cr2Region = new Region(cr1Region.x + cr1Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr2")
+    let cr2Region = new Region(cr1Region.x + cr1Region.width + spacing/2, spacing*2, regionWidth, regionWidth/2, [175,100,0], "")
     areas[1] = cr2Region;
 
     //chemical reaction 3
-    let cr3Region = new Region(cr2Region.x + cr2Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr3")
+    let cr3Region = new Region(cr2Region.x + cr2Region.width + spacing/2, spacing*2, regionWidth, regionWidth/2, [175,100,0], "")
     areas[2] = cr3Region;
 
     background(100);
@@ -64,8 +64,11 @@ function draw(){
     for(const area of areas){
         area.render()
     }
+    text('n2 + b1 = nh4', spacing, (spacing*2)-3);
     moveChemicals(chemicalReaction1);
+    text('nh4 + b2 = no2', areas[1].x+spacing, (spacing*2)-3);
     moveChemicals(chemicalReaction2);
+    text('no2 + b3 = no3', areas[2].x+spacing, (spacing*2)-3);
     moveChemicals(chemicalReaction3);
 
 
