@@ -1,0 +1,101 @@
+const width = window.innerWidth * 0.73;
+const height = window.innerHeight * 0.8;
+
+let bacteria1Image;
+let bacteria2Image;
+let bacteria3Image;
+
+let n2Image;
+let nh4Image;
+let no2Image;
+let no3Image;
+
+
+//chemical reactions
+let chemicalReaction1 = [];
+let chemicalReaction2  = [];
+let chemicalReaction3 = [];
+
+let areas = []
+
+const spacing = 20;
+const regionWidth = (width / 4);
+let bacteriaSize = width/65;
+
+
+function preload(){
+
+    bacteria1Image = loadImage("../Pictures/bacteria.png");
+    bacteria2Image = loadImage("../Pictures/bacteria2.png");
+    bacteria3Image = loadImage("../Pictures/bacteria3.png");
+    n2Image = loadImage("../Pictures/N2.png");
+    nh4Image = loadImage("../Pictures/NH4.png");
+    no2Image = loadImage("../Pictures/NO2.png");
+    no3Image = loadImage("../Pictures/no3.png");
+
+}
+
+function setup() {
+    createCanvas(
+        width,
+        height
+    );
+
+
+    //chemical reaction 1
+    let cr1Region = new Region(spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr1")
+    areas[0] = cr1Region;
+
+    //chemical reaction 2
+    let cr2Region = new Region(cr1Region.x + cr1Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr2")
+    areas[1] = cr2Region;
+
+    //chemical reaction 3
+    let cr3Region = new Region(cr2Region.x + cr2Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr3")
+    areas[2] = cr3Region;
+
+    background(100);
+    resetSketch()
+}
+
+
+function draw(){
+
+    for(const area of areas){
+        area.render()
+    }
+    moveChemicals(chemicalReaction1);
+    moveChemicals(chemicalReaction2);
+    moveChemicals(chemicalReaction3);
+
+
+}
+
+
+function resetSketch(){
+    createChemicalReact("n2", "bacterium1", chemicalReaction1, areas[0])
+    createChemicalReact("nh4", "bacterium2", chemicalReaction2, areas[1])
+    createChemicalReact("no2", "bacterium3", chemicalReaction3, areas[2])
+}
+
+function moveChemicals(chemicalReaction){
+
+    for(const nc of chemicalReaction){
+
+        nc.move()
+        nc.render()
+        for(const nc2 of chemicalReaction){
+            nc.checkCollision(nc2)
+        }
+    }
+
+
+}
+
+function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
+    let b = new ChemicalReactions(bacteriaSize, "healthy",  bacterium, region);
+    chemicalReaction[0] = b
+    let n = new ChemicalReactions(bacteriaSize, "healthy", nutrient, region);
+    chemicalReaction[1] = n
+
+}

@@ -14,6 +14,7 @@ class Plant {
         this.rootBottomRight = new Coordinate(this.rootTopLeft.x + farm.width, farm.y + this.rootLen*4)
 
 
+
     }
 
     render() {
@@ -26,7 +27,7 @@ class Plant {
         image(
             this.pic,
             0-this.size/2,
-            0-this.size + 5,
+            0-this.size + this.size/10,
             this.size,
             this.size
         );
@@ -50,7 +51,7 @@ class VbsPlant extends Plant {
         image(
             this.pic,
             mp.x - this.size/2,
-            mp.y - this.size + 5,
+            mp.y - this.size + this.size/10,
             this.size,
             this.size
         );

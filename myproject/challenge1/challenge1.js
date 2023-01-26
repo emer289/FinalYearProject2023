@@ -75,9 +75,9 @@ let shrubImage;
 
 
 //chemical reactions
-let chemicalReaction1 = [];
-let chemicalReaction2  = [];
-let chemicalReaction3 = [];
+// let chemicalReaction1 = [];
+// let chemicalReaction2  = [];
+// let chemicalReaction3 = [];
 
 
 function preload(){
@@ -116,7 +116,7 @@ function setup() {
     createFishes();
     initSoilHealth()
 
-    resetSketch()
+    // resetSketch()
 
 
 
@@ -161,9 +161,9 @@ function draw() {
     frameRate(60);
     moveFish();
     moveNCP();
-    moveChemicals(chemicalReaction1);
-    moveChemicals(chemicalReaction2);
-    moveChemicals(chemicalReaction3);
+    // moveChemicals(chemicalReaction1);
+    // moveChemicals(chemicalReaction2);
+    // moveChemicals(chemicalReaction3);
 
     drawWorms();
 
@@ -194,17 +194,7 @@ function createRegions(){
     farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0], "Farm")
     regions[2] = farm;
 
-    //chemical reaction 1
-    let cr1Region = new Region(spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr1")
-    regions[3] = cr1Region;
 
-    //chemical reaction 2
-    let cr2Region = new Region(cr1Region.x + cr1Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr2")
-    regions[4] = cr2Region;
-
-    //chemical reaction 3
-    let cr3Region = new Region(cr2Region.x + cr2Region.width + spacing/2, spacing/2, regionWidth, regionWidth/2, [175,100,0], "cr3")
-    regions[5] = cr3Region;
 }
 
 function drawRegions(){
@@ -362,21 +352,21 @@ function initSoilHealth(){
 function createBacteria(){
 
     for(let i=0; i<=bacteriaPopulationSize; i++){
-        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1");
+        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm);
         NitrogenCyclePop.push(bacterium1)
         if(i < bacteriaPopulationSize/2){
             bacterium1.direction.x *= -1
             bacterium1.direction.y *= -1
         }
 
-        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2");
+        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2", VBS, farm);
         NitrogenCyclePop.push(bacterium2)
         if(i < bacteriaPopulationSize/2){
             bacterium2.direction.x *= -1
             bacterium2.direction.y *= -1
         }
 
-        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3");
+        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3", VBS, farm);
         NitrogenCyclePop.push(bacterium3)
         if(i < bacteriaPopulationSize/2){
             bacterium3.direction.x *= -1
@@ -388,7 +378,7 @@ function createBacteria(){
 function createN2(){
 
     for(let i=0; i<=n2PopulationSize; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2");
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
             n2.direction.x *= -1
@@ -417,34 +407,34 @@ function moveNCP(){
 
 
 
-function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
-    let b = new ChemicalReactions(bacteriaSize, "healthy",  bacterium, region);
-    chemicalReaction[0] = b
-    let n = new ChemicalReactions(bacteriaSize, "healthy", nutrient, region);
-    chemicalReaction[1] = n
+// function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
+//     let b = new ChemicalReactions(bacteriaSize, "healthy",  bacterium, region);
+//     chemicalReaction[0] = b
+//     let n = new ChemicalReactions(bacteriaSize, "healthy", nutrient, region);
+//     chemicalReaction[1] = n
+//
+// }
 
-}
-
-function moveChemicals(chemicalReaction){
-
-    for(const nc of chemicalReaction){
-
-        nc.move()
-        nc.render()
-        for(const nc2 of chemicalReaction){
-            nc.checkCollision(nc2)
-        }
-    }
-
-
-}
+// function moveChemicals(chemicalReaction){
+//
+//     for(const nc of chemicalReaction){
+//
+//         nc.move()
+//         nc.render()
+//         for(const nc2 of chemicalReaction){
+//             nc.checkCollision(nc2)
+//         }
+//     }
+//
+//
+// }
 
 
-function resetSketch(){
-    createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
-    createChemicalReact("nh4", "bacterium2", chemicalReaction2, regions[4])
-    createChemicalReact("no2", "bacterium3", chemicalReaction3, regions[5])
-}
+// function resetSketch(){
+//     createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
+//     createChemicalReact("nh4", "bacterium2", chemicalReaction2, regions[4])
+//     createChemicalReact("no2", "bacterium3", chemicalReaction3, regions[5])
+// }
 
 
 function checkRootNutrientCollision(nutrient, index){

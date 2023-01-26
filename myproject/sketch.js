@@ -1,9 +1,10 @@
-
+const width = window.innerWidth * 0.73;
+const height = window.innerHeight * 0.8;
 
 function setup() {
     createCanvas(
-        window.innerWidth,
-        window.innerHeight
+        width,
+        height
     );
     background(0);
 
