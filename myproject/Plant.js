@@ -1,5 +1,5 @@
 class Plant {
-    constructor(name, pos, rootLen, pic, price) {
+    constructor(name, pos, rootLen, pic, price, x, w, y) {
 
         this.name = name
         this.pos = pos
@@ -7,23 +7,27 @@ class Plant {
         this.pic = pic
         this.price = price
         this.size = 60
+        this.regionX = x
+        this.regionWidth = w
+        this.regionY = y
+
 
         //root position - 1/14
         // 1/14 because it's half way between the root position and the previous root position
-        this.rootTopLeft = new Coordinate(farm.x + ( (farm.width/7) ) - (farm.width/14), farm.y)
-        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + farm.width, farm.y + this.rootLen*4)
+        this.rootTopLeft = new Coordinate( this.regionX + ( (this.regionWidth/7) ) - (this.regionWidth/14), this.regionY)
+        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + this.regionWidth, this.regionY + this.rootLen*4)
 
 
 
     }
 
-    render() {
+    render(x,w,y) {
         //root position - 1/14
         // 1/14 because it's half way between the root position and the previous root position
-        this.rootTopLeft = new Coordinate(farm.x + ( (farm.width/7) ) - (farm.width/14), farm.y)
-        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + (farm.width), farm.y + this.rootLen*4)
+        this.rootTopLeft = new Coordinate(x + ( (w/7) ) - (w/14), y)
+        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + w, y + this.rootLen*4)
 
-        translate(farm.x + (farm.width/7)*(this.pos), farm.y)
+        translate(x + (w/7)*(this.pos), y)
         image(
             this.pic,
             0-this.size/2,
@@ -33,7 +37,7 @@ class Plant {
         );
         branch(this.rootLen);
         translate(0,-this.rootLen)
-        translate(-(farm.x + (farm.width/7)*(this.pos)), -(farm.y))
+        translate(-(x + (w/7)*(this.pos)), -(y))
     }
 
 

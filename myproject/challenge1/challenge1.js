@@ -127,12 +127,12 @@ function setup() {
 
     //init crop dictionary
 
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40);
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50, farm.x, farm.width, farm.y);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59, farm.x, farm.width, farm.y);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25, farm.x, farm.width, farm.y);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57, farm.x, farm.width, farm.y);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90, farm.x, farm.width, farm.y);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40, farm.x, farm.width, farm.y);
 
 
     //init Vbs plant dictionary
@@ -206,7 +206,7 @@ function drawRegions(){
 function drawCrops(){
     for(let i=0; i<cropsToSow.length; i++){
         cropsToSow[i].pos = i+1;
-        cropsToSow[i].render()
+        cropsToSow[i].render(farm.x, farm.width, farm.y)
 
 
     }
@@ -394,7 +394,7 @@ function moveNCP(){
 
         nc.move()
         nc.render(5)
-        //if it's nitrite check if it collides with the plant roots
+        //if it's nitrite, check if it collides with the plant roots
         if(nc.type == "no3"){
             checkRootNutrientCollision(nc, i)
         }
@@ -407,42 +407,8 @@ function moveNCP(){
 
 
 
-// function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
-//     let b = new ChemicalReactions(bacteriaSize, "healthy",  bacterium, region);
-//     chemicalReaction[0] = b
-//     let n = new ChemicalReactions(bacteriaSize, "healthy", nutrient, region);
-//     chemicalReaction[1] = n
-//
-// }
-
-// function moveChemicals(chemicalReaction){
-//
-//     for(const nc of chemicalReaction){
-//
-//         nc.move()
-//         nc.render()
-//         for(const nc2 of chemicalReaction){
-//             nc.checkCollision(nc2)
-//         }
-//     }
-//
-//
-// }
-
-
-// function resetSketch(){
-//     createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
-//     createChemicalReact("nh4", "bacterium2", chemicalReaction2, regions[4])
-//     createChemicalReact("no2", "bacterium3", chemicalReaction3, regions[5])
-// }
-
 
 function checkRootNutrientCollision(nutrient, index){
-
-    // if(Math.floor(nutrient.pos.x) <= Math.floor(cropsToSow[0].rootBottomRight.x)
-    //     && Math.floor(nutrient.pos.x) >= Math.floor(cropsToSow[0].rootTopLeft.x)
-    //     && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)
-    // )
 
     //collision detection
     if(cropsToSow.length > 0){
