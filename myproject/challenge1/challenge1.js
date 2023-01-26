@@ -1,6 +1,7 @@
 const width = window.innerWidth * 0.73;
 const height = window.innerHeight * 0.8;
 
+
 const spacing = 20;
 const regionWidth = (width / 4);
 const farmHeight = height/2
@@ -216,7 +217,11 @@ function drawCrops(){
     for(let i=0; i<cropsToSow.length; i++){
         cropsToSow[i].pos = i+1;
         cropsToSow[i].render()
+
+
     }
+
+
 }
 
 function drawVbsPlants(){
@@ -252,6 +257,7 @@ function organiseCropsToSow(){
 
     if(cropCount == 1){
         for(let i=1; i<totNumOfCrops; i++){
+            //name, pos, rootLen, pic, price
             cropsToSow[i] = cropsToSow[0]
         }
     }else if(cropCount == 2){
@@ -393,13 +399,19 @@ function createN2(){
 }
 
 function moveNCP(){
+    let i=0;
     for(const nc of NitrogenCyclePop){
 
         nc.move()
         nc.render(5)
+        //if it's nitrite check if it collides with the plant roots
+        if(nc.type == "no3"){
+            checkRootNutrientCollision(nc, i)
+        }
         for(const nc2 of NitrogenCyclePop){
             nc.checkCollision(nc2)
         }
+        i++;
     }
 }
 
@@ -432,6 +444,37 @@ function resetSketch(){
     createChemicalReact("n2", "bacterium1", chemicalReaction1, regions[3])
     createChemicalReact("nh4", "bacterium2", chemicalReaction2, regions[4])
     createChemicalReact("no2", "bacterium3", chemicalReaction3, regions[5])
+}
+
+
+function checkRootNutrientCollision(nutrient, index){
+
+    // if(Math.floor(nutrient.pos.x) <= Math.floor(cropsToSow[0].rootBottomRight.x)
+    //     && Math.floor(nutrient.pos.x) >= Math.floor(cropsToSow[0].rootTopLeft.x)
+    //     && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)
+    // )
+
+    //collision detection
+    if(cropsToSow.length > 0){
+
+        if(Math.floor(nutrient.pos.x) <= Math.floor(cropsToSow[0].rootBottomRight.x)
+            && Math.floor(nutrient.pos.x) >= Math.floor(cropsToSow[0].rootTopLeft.x)
+            && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)
+        )
+        {
+            console.log("collision detected")
+            console.log("crop count")
+            NitrogenCyclePop.splice(index, 1)
+
+            for(let c=0; c < cropCount; c++){
+                console.log("growwinggggg")
+                cropsToSow[c].size += 10
+            }
+
+        }
+    }
+
+
 }
 
 
