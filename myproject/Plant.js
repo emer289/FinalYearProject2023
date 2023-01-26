@@ -46,26 +46,56 @@ class Plant {
 class VbsPlant extends Plant {
     constructor(name, pos, rootLen, pic) {
         super(name, pos, rootLen, pic);
-        this.size = 60
+        this.size = 60*2
     }
 
     render() {
+
+        //VBS numbers hard coded in need to be changed
         let mp = midpoint(VBS.x, VBS.topRightx, VBS.y, VBS.topRighty)
 
-        image(
-            this.pic,
-            mp.x - this.size/2,
-            mp.y - this.size + this.size/10,
-            this.size,
-            this.size
-        );
 
 
-        translate(mp.x, mp.y)
-        //line(0, 0, 0, 75);
-        branch(this.rootLen);
-        //translate(0,-this.rootLen)
-        translate(-(mp.x), -(mp.y))
+            image(
+                this.pic,
+                VBS.x + this.size/10,
+                VBS.y - this.size -10,
+                this.size,
+                this.size
+            );
+
+
+            image(
+                this.pic,
+                mp.x - 60,
+                mp.y - 100,
+                this.size,
+                this.size
+            );
+
+            image(
+                this.pic,
+                VBS.topRightx - 120,
+                VBS.topRighty - 60,
+                this.size,
+                this.size
+            );
+
+            let zx = VBS.x
+            let zy = VBS.y
+
+
+            for(let i=2; i<8; i++){
+                translate(zx + (30*i), zy - (17*i))
+                branch(this.rootLen);
+                translate(0,-this.rootLen)
+                translate(-(zx + (30*i)), -(zy - (17*i)))
+
+            }
+
+
+
+
     }
 
 

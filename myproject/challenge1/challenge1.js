@@ -99,7 +99,7 @@ function preload(){
    plantagoLanceolataImage = loadImage("../Pictures/PlantagoLanceolata.png");
 
    //VBS Images
-    shrubImage = loadImage("../Pictures/shrubImage.png");
+    shrubImage = loadImage("../Pictures/shrub.png");
 
 }
 
@@ -137,7 +137,7 @@ function setup() {
 
     //init Vbs plant dictionary
     for(let i=0; i<totNumOfVbsPlants; i++){
-        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, loliumPerenneImage)
+        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, shrubImage)
         VbsPlants[i] = weed;
     }
 
