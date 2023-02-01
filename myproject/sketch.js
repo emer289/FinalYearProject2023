@@ -1,38 +1,33 @@
-const width = window.innerWidth * 0.73;
-const height = window.innerHeight * 0.8;
+let rain = [];
+let rainButton;
+let isRaining = false;
 
 function setup() {
-    createCanvas(
-        width,
-        height
-    );
-    background(0);
-
+    let canvas = createCanvas(windowWidth, windowHeight / 2);
+    canvas.parent("sketch-holder");
+    rainButton = select("#rain-button");
+    rainButton.mousePressed(toggleRain);
 }
 
-function draw() {
-    background(0, 150);
-
-}
-
-function checkBoxLimit() {
-    let checkBoxGroup = document.forms['form_name']['check[]'];
-    let limit = 2;
-    for (let i = 0; i < checkBoxGroup.length; i++) {
-        checkBoxGroup[i].onclick = function() {
-            let checkedcount = 0;
-            for (let i = 0; i < checkBoxGroup.length; i++) {
-                checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
-            }
-            if (checkedcount > limit) {
-                console.log("You can select maximum of " + limit + " checkboxes.");
-                alert("You can select maximum of " + limit + " checkboxes.");
-                this.checked = false;
-            }
+function toggleRain() {
+    isRaining = !isRaining;
+    if (isRaining) {
+        for (let i = 0; i < 500; i++) {
+            rain[i] = new Raindrop();
         }
+    } else {
+        rain = [];
     }
 }
 
-
+function draw() {
+    background(230, 230, 250);
+    for (let i = 0; i < rain.length; i++) {
+        if (isRaining) {
+            rain[i].fall();
+            rain[i].show();
+        }
+    }
+}
 
 

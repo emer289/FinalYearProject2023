@@ -1,21 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="sketch.js"></script>
-    <a href="challenge1/challenge1.html" class="btn">challenge1 &rarr;</a>
-
-    <h1>Using Div</h1>
-    <div id="checkboxgroup">
-        <input type="checkbox" value="CheckBox 1" name="check[]">
-        <input type="checkbox" value="CheckBox 2" name="check[]">
-        <input type="checkbox" value="CheckBox 3" name="check[]">
-    </div>
-    <script type="text/javascript">
-        onlyOneCheckBox()
-    </script>
+    <script src="Raindrop.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body style="margin: 0; overflow: hidden;">
+<body>
+<button id="rain-button">Start/Stop Rain</button>
+<div id="sketch-holder"></div>
 </body>
 </html>
+

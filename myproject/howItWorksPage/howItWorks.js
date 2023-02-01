@@ -25,6 +25,9 @@ let bacteriaSize = width/65;
 let loliumPerenne;
 let no3s = []
 
+let subscriptSize = 12
+let texSize = 24
+
 function preload(){
 
     bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -39,6 +42,7 @@ function preload(){
 }
 
 function setup() {
+
     createCanvas(
         width,
         height
@@ -67,6 +71,8 @@ function setup() {
     loliumPerenne.size = loliumPerenne.size*2
     background(100);
     resetSketch()
+
+
 }
 
 
@@ -78,7 +84,16 @@ function draw(){
     loliumPerenne.render(areas[3].x, areas[3].width, areas[3].y);
     text("no3 is absorbed by the plant \n and the plant grows ", areas[3].x, areas[3].y+areas[3].height+40)
 
-    text('n2 + b1 = nh4', spacing, (spacing*2)-3);
+
+    textSize(texSize);
+    textLeading(30);
+    text("N", spacing, (spacing*2)-3);
+    textSize(subscriptSize);
+    text("2", spacing+ subscriptSize + subscriptSize/2, (spacing*2)+3);
+    textSize(texSize);
+    text(" + b1 = nh4", spacing*2, (spacing*2)-3);
+
+    //text('N2 + b1 = nh4', spacing, (spacing*2)-3);
     moveChemicals(chemicalReaction1);
     text('nh4 + b2 = no2', areas[1].x+spacing, (spacing*2)-3);
     moveChemicals(chemicalReaction2);

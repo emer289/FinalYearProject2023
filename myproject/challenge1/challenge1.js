@@ -80,6 +80,9 @@ let shrubImage;
 // let chemicalReaction3 = [];
 
 
+let rain = [];
+let isRaining = false;
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -104,7 +107,7 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(
+    let canvas = createCanvas(
         width,
         height
     );
@@ -151,6 +154,8 @@ function setup() {
 
 function draw() {
 
+
+
     updateText()
     createRegions()
 
@@ -171,6 +176,15 @@ function draw() {
     stroke(1)
     drawCrops();
     drawVbsPlants();
+
+
+    for (let i = 0; i < rain.length; i++) {
+
+        if (isRaining) {
+            rain[i].fall();
+            rain[i].show();
+        }
+    }
 
 
 
@@ -433,4 +447,17 @@ function checkRootNutrientCollision(nutrient, index){
 
 }
 
+function toggleRain() {
+
+    console.log("is raining is ", isRaining)
+    isRaining = !isRaining;
+    console.log("is raining is ", isRaining)
+    if (isRaining) {
+        for (let i = 0; i < 500; i++) {
+            rain[i] = new Raindrop();
+        }
+    } else {
+        rain = [];
+    }
+}
 
