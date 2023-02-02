@@ -2,7 +2,7 @@ const width = window.innerWidth * 0.73;
 const height = window.innerHeight * 0.8;
 
 
-const spacing = 20;
+const spacing = 0;
 const regionWidth = (width / 4);
 const farmHeight = height/2
 
@@ -46,8 +46,9 @@ let bacteria2Image;
 let bacteria3Image;
 
 let NitrogenCyclePop = []
+let NitrogenCycleWaterPop = []
 
-let n2PopulationSize = 15;
+let n2PopulationSize = 10;
 let n2Size = width/65;
 let n2Image;
 let nh4Image;
@@ -73,6 +74,9 @@ let bankBalance;
 
 //vbs Images
 let shrubImage;
+
+
+let sunSize = 50;
 
 
 //chemical reactions
@@ -180,8 +184,10 @@ function draw() {
     drawCrops();
     drawVbsPlants();
 
-
+    createSun()
     makeItRain()
+    water.colour = [0,50+NitrogenCycleWaterPop.length*5,100]
+
 
 
 
@@ -205,7 +211,7 @@ function makeItRain(){
 function createRegions(){
 
     //index 0
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [0,50,100], "Water")
     regions[0] = water;
 
     //index 1
@@ -248,6 +254,7 @@ function updateText(){
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
     select("#wormText").html(`${calculateWormPop()}`);
     select("#bankText").html(`€ ${calculateBankBalance()}`);
+    select("#waterQualityText").html(`${calculateWaterQuality()}`)
 
 }
 
@@ -326,6 +333,9 @@ function drawWorms(){
 
 function calculateWormPop(){
     return 3;
+}
+function calculateWaterQuality(){
+    return 100 - (3*NitrogenCycleWaterPop.length)
 }
 
 function calculateBankBalance(){
@@ -464,16 +474,14 @@ function checkRootNutrientCollision(nutrient, index){
 
 function toggleRain() {
 
-    console.log("is raining is ", isRaining)
     isRaining = !isRaining;
-    console.log("is raining is ", isRaining)
     if (isRaining) {
         for (let i = 0; i < 500; i++) {
             rain[i] = new Raindrop();
         }
 
         for(const ncc of  NitrogenCyclePop){
-            if(ncc.type === "nh4"){
+            if(ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3"){
                 ncc.inTransit = true;
             }
         }
@@ -481,6 +489,19 @@ function toggleRain() {
     } else {
         rain = [];
     }
+}
+
+
+function createSun(){
+    noStroke();
+    fill(255, 255, 0);
+    ellipse(width / 6, height / 6, sunSize, sunSize);
+    
+
+}
+
+function growSun() {
+    sunSize += 10;
 }
 
 

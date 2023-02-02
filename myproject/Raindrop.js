@@ -1,6 +1,6 @@
 class Raindrop {
     constructor() {
-        this.x = random(width/4, 3*width/4);
+        this.x = random(water.x, farm.x+farm.width);
         this.y = random(-500, -50);
         this.z = random(0, 20);
         this.len = map(this.z, 0, 20, 10, 20);

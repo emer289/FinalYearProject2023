@@ -65,26 +65,53 @@ class NitrogenCycleComponents {
             }
         }else if(this.inTransit){
 
+            if(this.pos.x < farm.x && this.pos.y < water.y){
+                console.log("lost one")
+                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+
+            }
+            if(this.pos.y<farm.y){
+                console.log("lost one 2")
+                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+
+            }
+
+            if(this.pos.y > water.y + water.height){
+                console.log("lost one 3")
+                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+
+            }
             //to high
-            if(this.pos.y < water.y){
+            if(this.pos.y <= water.y && this.pos.x > farm.x && this.pos.x + this.size < farm.x + farm.width){
+               // console.log("In here 1", this.type)
                 this.direction.y += .01;
+            }else if(this.pos.y <= water.y && (this.pos.x <= farm.x || this.pos.x >= farm.x + farm.width)){
+               // console.log("In here 2", this.type)
+                this.direction.x += .01;
+            }else if(this.pos.x + this.size > farm.x + farm.width){
+              //  console.log("In here 3", this.type)
+                this.direction.x *= -1;
             }else if(this.pos.y + this.size >= water.y + water.height){
+               // console.log("In here 4", this.type)
                 this.direction.y *= -1;
-            }else if(this.pos.x > water.x + (water.width/2)){
+            }else if((this.pos.x > water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
+               // console.log("In here 5", this.type)
                 this.direction.x -= .01;
-            }else if(this.pos.x <= water.x + (water.width/2)){
+            }else if((this.pos.x <= water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
+               // console.log("In here 6", this.type)
+                NitrogenCycleWaterPop.push(this)
                 this.inWater = true;
                 this.inTransit = false
             }
 
         }else{
             //in the triangle
-            if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
-                if(isInside(VBS.x, VBS.y + this.size , VBS.topRightx, VBS.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
-                    this.direction.x *= -1;
-                    this.direction.y *= -1;
-                }
-            }else{
+            // if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
+            //     if(isInside(VBS.x, VBS.y + this.size , VBS.topRightx, VBS.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
+            //         this.direction.x *= -1;
+            //         this.direction.y *= -1;
+            //     }
+            // }else{
                 //to far right
                 if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
                     this.direction.x *= -1;
@@ -94,14 +121,14 @@ class NitrogenCycleComponents {
                     this.direction.x *= -1;
 
                     //to far down
-                } else if (this.pos.y + this.size + this.size >= farm.y + farm.height) {
+                } else if (this.pos.y + this.size >= farm.y + farm.height) {
                     this.direction.y *= -1;
 
                     //to far up and
                 } else if (this.pos.y <= farm.y ) {
                     this.direction.y *= -1;
                 }
-            }
+            //}
         }
 
 
@@ -115,56 +142,56 @@ class NitrogenCycleComponents {
 
     checkCollision(nc2){
         //collision detection
-        if(!this.inTransit){
+        //if(!this.inTransit){
             if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && ((this.type == "n2" && nc2.type == "bacterium1"))
             ){
 
-
-                this.pic = nh4Image
-                this.type = "nh4"
-                if(isRaining){
-                    this.inTransit = true
-                }else{
-                    this.inTransit = false
-                }
+                //
+                // this.pic = nh4Image
+                // this.type = "nh4"
+                // if(isRaining){
+                //     this.inTransit = true
+                // }else{
+                //     this.inTransit = false
+                // }
             }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && (this.type == "bacterium1" && nc2.type == "n2")){
 
-                this.inTransit = false
+               // this.inTransit = false
                 nc2.pic = nh4Image
                 nc2.type = "nh4"
-                if(isRaining){
-                    nc2.inTransit = true
-                }else{
-                    nc2.inTransit = false
-                }
+                // if(isRaining){
+                //     nc2.inTransit = true
+                // }else{
+                //     nc2.inTransit = false
+                // }
             }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && (this.type == "bacterium2" && nc2.type == "nh4")){
 
                 nc2.pic = no2Image
                 nc2.type = "no2"
-                nc2.inTransit = false
+               // nc2.inTransit = false
             }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && (this.type == "nh4" && nc2.type == "bacterium2")){
 
                 this.pic = no2Image
                 this.type = "no2"
-                this.inTransit = false
+                //this.inTransit = false
             }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && (this.type == "bacterium3" && nc2.type == "no2")){
 
                 nc2.pic = no3Image
                 nc2.type = "no3"
-                nc2.inTransit = false
+                //nc2.inTransit = false
             }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
                 && (this.type == "no2" && nc2.type == "bacterium3")){
 
                 this.pic = no3Image
                 this.type = "no3"
-                this.inTransit = false
+               // this.inTransit = false
             }
-        }
+      //  }
 
     }
     render() {
