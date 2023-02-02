@@ -6,12 +6,12 @@ class NitrogenCycleComponents {
         this.Region2 = Region2;
 
         this.topLeft = new Coordinate(
-            this.currentRegion.x,
-            this.currentRegion.y
+            this.Region2.x,
+            this.Region2.y
         );
         this.bottomRight = new Coordinate(
-            this.currentRegion.x + this.currentRegion.width + this.Region2.width,
-            this.currentRegion.y + this.currentRegion.height
+            this.Region2.x + this.Region2.width,
+            this.Region2.y + this.Region2.height
         );
 
         this.pos = startLocation(this.topLeft, this.bottomRight);
