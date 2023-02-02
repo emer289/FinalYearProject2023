@@ -11,7 +11,7 @@ let farm;
 let VBS;
 
 //VBS
-let vbsWidth = regionWidth;
+let vbsWidth = 0;
 let vbsSlider;
 
 //Worms
@@ -116,12 +116,12 @@ function setup() {
     createRegions();
 
     createWorms(calculateWormPop())
-    createFishes();
+
     initSoilHealth()
 
     // resetSketch()
 
-
+    createFishes();
 
 
     vbsSlider = createSlider(0, 100, 0, 10);
@@ -157,13 +157,15 @@ function draw() {
 
 
     updateText()
-    createRegions()
+
 
     background(100);
 
     noStroke()
     drawRegions();
     frameRate(60);
+
+
     moveFish();
     moveNCP();
     // moveChemicals(chemicalReaction1);
@@ -201,8 +203,11 @@ function createRegions(){
     regions[0] = water;
 
     //index 1
-    VBS = new Vbs( water.x+water.width+spacing, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight, "VBS")
+    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight, "")
     regions[1] = VBS;
+
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    regions[0] = water;
 
     //index 2
     farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0], "Farm")
@@ -241,9 +246,13 @@ function updateText(){
 }
 
 function enterPressed(){
-    vbsWidth = (width / 4) + vbsSlider.value()
+
+    vbsWidth = vbsSlider.value()
+    createRegions()
     organiseCropsToSow();
     organiseVbsPlants();
+
+    createFishes()
 
 }
 
@@ -342,7 +351,7 @@ function createFishes(){
     let water = regions[0];
     for(let i=0; i<=fishPopulationSize; i++){
         let fish = new Fish(fishSize, "healthy", water);
-        fishPopulation.push(fish)
+        fishPopulation[i]=fish
         if(i < fishPopulationSize/2){
             fish.direction.x *= -1
             fish.direction.y *= -1
