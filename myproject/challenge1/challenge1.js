@@ -9,6 +9,7 @@ const farmHeight = height/2
 let regions = []
 let farm;
 let VBS;
+let water;
 
 //VBS
 let vbsWidth = 0;
@@ -180,13 +181,7 @@ function draw() {
     drawVbsPlants();
 
 
-    for (let i = 0; i < rain.length; i++) {
-
-        if (isRaining) {
-            rain[i].fall();
-            rain[i].show();
-        }
-    }
+    makeItRain()
 
 
 
@@ -194,16 +189,27 @@ function draw() {
 }
 
 
+function makeItRain(){
+    for (let i = 0; i < rain.length; i++) {
 
+        if (isRaining) {
+            rain[i].fall();
+            rain[i].show();
+        }
+
+    }
+
+
+}
 
 function createRegions(){
 
     //index 0
-    let water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [25,50,255], "Water")
     regions[0] = water;
 
     //index 1
-    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing+vbsWidth,farmHeight, "")
+    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
     regions[1] = VBS;
 
     water = new Region(spacing, farmHeight + farmHeight/2, regionWidth - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
@@ -250,7 +256,7 @@ function enterPressed(){
     vbsWidth = vbsSlider.value()
     createRegions()
     organiseCropsToSow();
-    organiseVbsPlants();
+    //organiseVbsPlants();
 
     createFishes()
 
@@ -465,8 +471,18 @@ function toggleRain() {
         for (let i = 0; i < 500; i++) {
             rain[i] = new Raindrop();
         }
+
+        for(const ncc of  NitrogenCyclePop){
+            if(ncc.type === "nh4"){
+                ncc.inTransit = true;
+            }
+        }
+
     } else {
         rain = [];
     }
 }
+
+
+
 

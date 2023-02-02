@@ -8,7 +8,6 @@ class Raindrop {
     }
 
     fall() {
-
         this.y = this.y + this.yspeed;
 
         let grav = map(this.z, 0, 20, 0, 0.2);

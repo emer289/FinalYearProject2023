@@ -4,6 +4,8 @@ class NitrogenCycleComponents {
         this.type = type;
         this.currentRegion = currentRegion;
         this.Region2 = Region2;
+        this.inTransit = false;
+        this.inWater = false;
 
         this.topLeft = new Coordinate(
             this.Region2.x,
@@ -42,30 +44,66 @@ class NitrogenCycleComponents {
     move() {
 
 
-        //in the triangle
-        if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
-            if(isInside(VBS.x, VBS.y + this.size , VBS.topRightx, VBS.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
-                this.direction.x *= -1;
-                this.direction.y *= -1;
-            }
-        }else{
+        if(this.inWater){
+            //move around the water
+
             //to far right
-            if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
+            if (this.pos.x + this.size + this.size >= water.x + water.width) {
                 this.direction.x *= -1;
 
-                // to far left and
-            } else if (this.pos.x <= this.topLeft.x ) {
+                //too far left
+            } else if (this.pos.x <= water.x) {
                 this.direction.x *= -1;
 
                 //to far down
-            } else if (this.pos.y + this.size + this.size >= farm.y + farm.height) {
+            } else if (this.pos.y + this.size + this.size >= water.y + water.height) {
                 this.direction.y *= -1;
 
-                //to far up and
-            } else if (this.pos.y <= farm.y ) {
+                //to far up
+            } else if (this.pos.y <= water.y + this.size) {
                 this.direction.y *= -1;
             }
+        }else if(this.inTransit){
+
+            //to high
+            if(this.pos.y < water.y){
+                this.direction.y += .01;
+            }else if(this.pos.y + this.size >= water.y + water.height){
+                this.direction.y *= -1;
+            }else if(this.pos.x > water.x + (water.width/2)){
+                this.direction.x -= .01;
+            }else if(this.pos.x <= water.x + (water.width/2)){
+                this.inWater = true;
+                this.inTransit = false
+            }
+
+        }else{
+            //in the triangle
+            if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
+                if(isInside(VBS.x, VBS.y + this.size , VBS.topRightx, VBS.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
+                    this.direction.x *= -1;
+                    this.direction.y *= -1;
+                }
+            }else{
+                //to far right
+                if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
+                    this.direction.x *= -1;
+
+                    // to far left and
+                } else if (this.pos.x <= this.topLeft.x ) {
+                    this.direction.x *= -1;
+
+                    //to far down
+                } else if (this.pos.y + this.size + this.size >= farm.y + farm.height) {
+                    this.direction.y *= -1;
+
+                    //to far up and
+                } else if (this.pos.y <= farm.y ) {
+                    this.direction.y *= -1;
+                }
+            }
         }
+
 
 
         this.pos = new Coordinate(
@@ -77,32 +115,57 @@ class NitrogenCycleComponents {
 
     checkCollision(nc2){
         //collision detection
-        if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && ((this.type == "n2" && nc2.type == "bacterium1"))
-        ){
-            this.pic = nh4Image
-            this.type = "nh4"
-        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && (this.type == "bacterium1" && nc2.type == "n2")){
-            nc2.pic = nh4Image
-            nc2.type = "nh4"
-        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && (this.type == "bacterium2" && nc2.type == "nh4")){
-            nc2.pic = no2Image
-            nc2.type = "no2"
-        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && (this.type == "nh4" && nc2.type == "bacterium2")){
-            this.pic = no2Image
-            this.type = "no2"
-        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && (this.type == "bacterium3" && nc2.type == "no2")){
-            nc2.pic = no3Image
-            nc2.type = "no3"
-        }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
-            && (this.type == "no2" && nc2.type == "bacterium3")){
-            this.pic = no3Image
-            this.type = "no3"
+        if(!this.inTransit){
+            if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && ((this.type == "n2" && nc2.type == "bacterium1"))
+            ){
+
+
+                this.pic = nh4Image
+                this.type = "nh4"
+                if(isRaining){
+                    this.inTransit = true
+                }else{
+                    this.inTransit = false
+                }
+            }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && (this.type == "bacterium1" && nc2.type == "n2")){
+
+                this.inTransit = false
+                nc2.pic = nh4Image
+                nc2.type = "nh4"
+                if(isRaining){
+                    nc2.inTransit = true
+                }else{
+                    nc2.inTransit = false
+                }
+            }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && (this.type == "bacterium2" && nc2.type == "nh4")){
+
+                nc2.pic = no2Image
+                nc2.type = "no2"
+                nc2.inTransit = false
+            }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && (this.type == "nh4" && nc2.type == "bacterium2")){
+
+                this.pic = no2Image
+                this.type = "no2"
+                this.inTransit = false
+            }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && (this.type == "bacterium3" && nc2.type == "no2")){
+
+                nc2.pic = no3Image
+                nc2.type = "no3"
+                nc2.inTransit = false
+            }else if(dist(this.pos.x, this.pos.y, nc2.pos.x, nc2.pos.y) < this.size
+                && (this.type == "no2" && nc2.type == "bacterium3")){
+
+                this.pic = no3Image
+                this.type = "no3"
+                this.inTransit = false
+            }
         }
+
     }
     render() {
         image(

@@ -1,12 +1,18 @@
 let rain = [];
 let rainButton;
 let isRaining = false;
+let soil;
+let nutrients = [];
 
 function setup() {
     let canvas = createCanvas(windowWidth, windowHeight / 2);
     canvas.parent("sketch-holder");
     rainButton = select("#rain-button");
     rainButton.mousePressed(toggleRain);
+    soil = new Region();
+    for (let i = 0; i < 10; i++) {
+        nutrients[i] = new Nutrient();
+    }
 }
 
 function toggleRain() {
@@ -28,8 +34,11 @@ function draw() {
             rain[i].show();
         }
     }
-    fill(138, 43, 226);
-    rect(0, height - 40, width, 40);
+    soil.show();
+    for (let i = 0; i < nutrients.length; i++) {
+        nutrients[i].bounce();
+        nutrients[i].show();
+    }
 }
 
 class Raindrop {
@@ -57,5 +66,37 @@ class Raindrop {
         strokeWeight(thick);
         stroke(138, 43, 226);
         line(this.x, this.y, this.x, this.y + this.len);
+    }
+}
+
+class Region {
+    constructor() {
+        this.x = 0;
+        this.y = height - 40;
+        this.width = width;
+        this.height = 40;
+        this.color = color(138, 43, 226);
+    }
+
+    show() {
+        fill(this.color);
+        rect(this.x, this.y, this.width, this.height);
+    }
+}
+
+class Nutrient {
+    constructor() {
+        this.x = random(width);
+        this.y = height - 40;
+        this.diameter = 20;
+        this.speed = 3;
+        this.direction = 1;
+    }
+
+    bounce() {
+        this.x += this.speed * this.direction;
+        if (this.x > width - this.diameter / 2 || this.x < this.diameter / 2) {
+            this.direction *= -1;
+        }
     }
 }
