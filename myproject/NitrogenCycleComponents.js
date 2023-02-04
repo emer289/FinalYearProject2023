@@ -44,81 +44,78 @@ class NitrogenCycleComponents {
     move() {
 
 
-        if(this.inWater){
-            //move around the water
 
-            //to far right
-            if (this.pos.x + this.size + this.size >= water.x + water.width) {
+        if(this.inWater && !this.inTransit){
+
+            if (this.pos.x + this.size >= water.x + water.width) {
                 this.direction.x *= -1;
-
                 //too far left
             } else if (this.pos.x <= water.x) {
                 this.direction.x *= -1;
-
                 //to far down
-            } else if (this.pos.y + this.size + this.size >= water.y + water.height) {
+            } else if (this.pos.y + this.size >= water.y + water.height) {
                 this.direction.y *= -1;
-
                 //to far up
-            } else if (this.pos.y <= water.y + this.size) {
+            } else if (this.pos.y <= water.y ) {
                 this.direction.y *= -1;
             }
-        }else if(this.inTransit){
 
-            if(this.pos.x < farm.x && this.pos.y < water.y){
-                console.log("lost one")
-                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
-
-            }
-            if(this.pos.y<farm.y){
-                console.log("lost one 2")
-                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
-
-            }
-
-            if(this.pos.y > water.y + water.height){
-                console.log("lost one 3")
-                this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
-
-            }
-            //to high
-            if(this.pos.y <= water.y && this.pos.x > farm.x && this.pos.x + this.size < farm.x + farm.width){
-               // console.log("In here 1", this.type)
-                this.direction.y += .01;
-            }else if(this.pos.y <= water.y && (this.pos.x <= farm.x || this.pos.x >= farm.x + farm.width)){
-               // console.log("In here 2", this.type)
-                this.direction.x += .01;
-            }else if(this.pos.x + this.size > farm.x + farm.width){
-              //  console.log("In here 3", this.type)
-                this.direction.x *= -1;
-            }else if(this.pos.y + this.size >= water.y + water.height){
-               // console.log("In here 4", this.type)
-                this.direction.y *= -1;
-            }else if((this.pos.x > water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
-               // console.log("In here 5", this.type)
+        }else if(this.inTransit && !this.inWater){
+            if(this.pos.y >= water.y && this.pos.x + this.size*2 > water.x + water.width ){
                 this.direction.x -= .01;
-            }else if((this.pos.x <= water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
-               // console.log("In here 6", this.type)
+                this.direction.y = 0
+            }else if( this.pos.x <= water.x + water.width  && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
                 NitrogenCycleWaterPop.push(this)
                 this.inWater = true;
                 this.inTransit = false
-            }
+                this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
+            }else{
+                if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
 
-        }else{
-            //in the triangle
-            // if(this.pos.x <= VBS.x + VBS.width + this.size && this.pos.y <= VBS.y + this.size){
-            //     if(isInside(VBS.x, VBS.y + this.size , VBS.topRightx, VBS.y, VBS.topRightx + this.size, VBS.topRighty, this.pos.x, this.pos.y)){
-            //         this.direction.x *= -1;
-            //         this.direction.y *= -1;
-            //     }
-            // }else{
-
-            if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
+                    let ind = NitrogenCyclePop.indexOf(this)
+                    //VBS grows
+                    if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
+                        NitrogenCyclePop.splice(ind, 1)
+                    }else{
                         this.direction.x *= -1;
                         this.direction.y *= -1;
+                    }
+
+                }else{
+                    //to far right
+                    if (this.pos.x + this.size >= farm.x + farm.width) {
+                        this.direction.x *= -1;
+
+                        // to far left and
+                    } else if (this.pos.x <= this.topLeft.x ) {
+                        this.direction.x *= -1;
+
+                        //to far down
+                    } else if (this.pos.y + this.size >= farm.y + farm.height) {
+                        this.direction.y *= -1;
+
+                        //to far up and
+                    } else if (this.pos.y <= farm.y ) {
+                        this.direction.y *= -1;
+                    }
+                }
+            }
+        }else if (!this.inTransit && !this.inWater){
+
+            if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
+
+                    let ind = NitrogenCyclePop.indexOf(this)
+                    //VBS grows
+                    if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
+                        NitrogenCyclePop.splice(ind, 1)
+                    }else{
+                        this.direction.x *= -1;
+                        this.direction.y *= -1;
+                    }
+
             }else{
                 //to far right
-                if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
+                if (this.pos.x + this.size >= farm.x + farm.width) {
                     this.direction.x *= -1;
 
                     // to far left and
@@ -135,7 +132,6 @@ class NitrogenCycleComponents {
                 }
             }
 
-            //}
         }
 
 
@@ -230,6 +226,116 @@ function isInside(x1, y1, x2, y2, x3, y3, x, y)
 
     return (A == A1 + A2 + A3);
 }
+
+//intransit movement
+
+// if(this.pos.x < farm.x && this.pos.y < water.y){
+//     this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+//
+// }
+// if(this.pos.y<farm.y){
+//     this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+//
+// }
+//
+// if(this.pos.y > water.y + water.height){
+//     this.pos = startLocation(new Coordinate(water.x, water.y), new Coordinate(water.x + water.width, water.y+water.height));
+//
+// }
+// //to high
+// if(this.pos.y <= water.y && this.pos.x > farm.x && this.pos.x + this.size < farm.x + farm.width){
+//
+//     this.direction.y += .01;
+// }else if(this.pos.y <= water.y && (this.pos.x <= farm.x || this.pos.x >= farm.x + farm.width)){
+//
+//     this.direction.x += .01;
+// }else if(this.pos.x + this.size > farm.x + farm.width){
+//
+//     this.direction.x *= -1;
+// }else if(this.pos.y + this.size >= water.y + water.height){
+//
+//     this.direction.y *= -1;
+// }else if((this.pos.x > water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
+//
+//     this.direction.x -= .01;
+// }else if((this.pos.x <= water.x + (water.width/2)) && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height){
+//
+//     NitrogenCycleWaterPop.push(this)
+//     this.inWater = true;
+//     this.inTransit = false
+// }
+
+
+
+// else if (this.inWater && this.pos.x + this.size >= water.x + water.width) {
+//         this.direction.x *= -1;
+//         //too far left
+//     } else if (this.inWater && this.pos.x <= water.x) {
+//         this.direction.x *= -1;
+//         //to far down
+//     } else if (this.inWater && this.pos.y + this.size >= water.y + water.height) {
+//         this.direction.y *= -1;
+//         //to far up
+//     } else if (this.inWater && this.pos.y <= water.y + this.size) {
+//         this.direction.y *= -1;
+//     }
+
+// if(this.inWater && !this.inTransit){
+//
+//     this.direction.x = 0
+//     this.direction.y = 0
+//
+// }else if(this.inTransit && !this.inWater){
+//     if(this.pos.y >= water.y && this.pos.x > water.x && this.pos.x + this.size < farm.x + farm.width && this.pos.y + this.size <= water.y + water.height){
+//         this.direction.x -= .01;
+//         this.direction.y = 0
+//     }else if( this.pos.x <= water.x + water.width  && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
+//         NitrogenCycleWaterPop.push(this)
+//         this.inWater = true;
+//         this.inTransit = false
+//         this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
+//     }
+// }else if (!this.inTransit && !this.inWater){
+//
+//     if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
+//
+//         let ind = NitrogenCyclePop.indexOf(this)
+//         //VBS grows
+//         if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
+//             NitrogenCyclePop.splice(ind, 1)
+//         }else{
+//             this.direction.x *= -1;
+//             this.direction.y *= -1;
+//         }
+//
+//     }else{
+//         //to far right
+//         if (this.pos.x + this.size >= farm.x + farm.width) {
+//             this.direction.x *= -1;
+//
+//             // to far left and
+//         } else if (this.pos.x <= this.topLeft.x ) {
+//             this.direction.x *= -1;
+//
+//             //to far down
+//         } else if (this.pos.y + this.size >= farm.y + farm.height) {
+//             this.direction.y *= -1;
+//
+//             //to far up and
+//         } else if (this.pos.y <= farm.y ) {
+//             this.direction.y *= -1;
+//         }
+//     }
+//
+// }
+//
+//
+//
+// this.pos = new Coordinate(
+//     this.pos.x + this.direction.x/4,
+//     this.pos.y + this.direction.y/4
+// );
+// }
 
 
 

@@ -349,9 +349,8 @@ function calculateBankBalance(){
 }
 
 
-function checkBoxLimit(form_name, check) {
+function checkBoxLimit(form_name, check, limit) {
     let checkBoxGroup = document.forms[form_name][check];
-    let limit = 3;
     for (let i = 0; i < checkBoxGroup.length; i++) {
         checkBoxGroup[i].onclick = function() {
             let checkedcount = 0;
@@ -463,8 +462,7 @@ function checkRootNutrientCollision(nutrient, index){
             && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)
         )
         {
-            console.log("collision detected")
-            console.log("crop count")
+
             NitrogenCyclePop.splice(index, 1)
 
             for(let c=0; c < cropCount; c++){

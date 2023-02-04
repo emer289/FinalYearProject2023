@@ -44,7 +44,7 @@
             <br>
             <label><input type="checkbox" name="checkCrops[]" value="CheckBox 6"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €40</label>
         </form>
-        <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]')</script>
+        <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
 
         <h3>Choose your VBS plants</h3>
         <form method="post" name="Vbs_form" id="Vbs_form">
@@ -55,7 +55,15 @@
             <label><input type="checkbox" name="checkVbs[]" value="CheckBox 3"/>Grasses</label>
 
         </form>
-        <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]')</script>
+        <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
+
+        <h3>Add fertiliser</h3>
+        <form method="post" name="fer_form" id="fer_form">
+            <label><input type="checkbox" name="checkfer[]" value="CheckBox 1"/>Yes</label>
+            <label><input type="checkbox" name="checkfer[]" value="CheckBox 2"/>No</label>
+
+        </form>
+        <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
 
         <button onclick="enterPressed()">Enter</button>
     </div>
