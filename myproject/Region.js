@@ -15,9 +15,29 @@ class Region {
     }
 
     render() {
-        fill(this.colour);
+        if(this.text != "Water"){
+            fill(this.colour);
+            rect(this.x, this.y, this.width, this.height);
+        }else{
 
-        rect(this.x, this.y, this.width, this.height);
+            if(NitrogenCycleWaterPop.length < 1){
+                fill(this.colour);
+                rect(this.x, this.y, this.width, this.height);
+            }else{
+                rect(this.x, this.y, this.width, this.height);
+                for (let i = 0; i <= this.height; i++) {
+                    let inter = map(i, 0, this.height, this.colour[1]+ 25*NitrogenCycleWaterPop.length, 100);
+                    stroke(0,inter,this.colour[2] - 25*NitrogenCycleWaterPop.length);
+                    line(0, this.y + i, this.width, this.y + i);
+                }
+            }
+
+
+        }
+        noStroke()
+
+
+
 
         fill(255)
         textSize(12);

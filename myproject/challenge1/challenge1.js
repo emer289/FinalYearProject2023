@@ -186,7 +186,11 @@ function draw() {
 
     createSun()
     makeItRain()
-    water.colour = [0,50+NitrogenCycleWaterPop.length*5,100]
+
+
+
+
+
     drawVbsPlants();
 
 
@@ -494,7 +498,7 @@ function toggleRain() {
         }
 
         for(const ncc of  NitrogenCyclePop){
-            if(ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3"){
+            if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3") && ncc.inWater == false){
                 ncc.inTransit = true;
             }
         }
