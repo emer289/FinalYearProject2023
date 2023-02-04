@@ -88,6 +88,8 @@ let sunSize = 50;
 let rain = [];
 let isRaining = false;
 
+let addFer = false;
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -273,6 +275,14 @@ function enterPressed(){
         ncc.topLeft = new Coordinate(VBS.x, VBS.y)
     }
 
+    let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
+    if(checkBoxGroup[0].checked){
+        addFer = true
+        addFertilisers()
+    }else{
+        addFer = false
+    }
+
 }
 
 function organiseCropsToSow(){
@@ -389,28 +399,28 @@ function moveFish(){
 
 
 function initSoilHealth(){
-    createBacteria();
-    createN2();
+    createBacteria(false);
+    createN2(false);
 }
 
-function createBacteria(){
+function createBacteria(isFer){
 
     for(let i=0; i<=bacteriaPopulationSize; i++){
-        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm);
+        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer);
         NitrogenCyclePop.push(bacterium1)
         if(i < bacteriaPopulationSize/2){
             bacterium1.direction.x *= -1
             bacterium1.direction.y *= -1
         }
 
-        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2", VBS, farm);
+        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2", VBS, farm, isFer);
         NitrogenCyclePop.push(bacterium2)
         if(i < bacteriaPopulationSize/2){
             bacterium2.direction.x *= -1
             bacterium2.direction.y *= -1
         }
 
-        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3", VBS, farm);
+        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3", VBS, farm, isFer);
         NitrogenCyclePop.push(bacterium3)
         if(i < bacteriaPopulationSize/2){
             bacterium3.direction.x *= -1
@@ -419,10 +429,10 @@ function createBacteria(){
     }
 }
 
-function createN2(){
+function createN2(isFer){
 
     for(let i=0; i<=n2PopulationSize; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm);
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
             n2.direction.x *= -1
@@ -509,5 +519,7 @@ function growSun() {
 }
 
 
-
+function addFertilisers(){
+    createN2(true);
+}
 

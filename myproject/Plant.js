@@ -77,7 +77,6 @@ class VbsPlant extends Plant {
         //draw lines where plants will go
 
         for(let i=1; i<yValues.length; i++){
-            console.log("in herererer")
             line(xValues[i], yValues[i], xValues[i], yValues[i]-40)
         }
 
