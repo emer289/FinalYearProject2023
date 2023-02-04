@@ -77,12 +77,18 @@ class NitrogenCycleComponents {
                 this.inTransit = false
                 this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
             }else{
+
                 if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
 
                     let ind = NitrogenCyclePop.indexOf(this)
                     //VBS grows
                     if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
+
                         NitrogenCyclePop.splice(ind, 1)
+
+                        for(let i=0; i<vbsToPlant.length; i++){
+                            vbsToPlant[i].size += 10
+                        }
                     }else{
                         this.direction.x *= -1;
                         this.direction.y *= -1;
@@ -115,6 +121,9 @@ class NitrogenCycleComponents {
                     //VBS grows
                     if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
                         NitrogenCyclePop.splice(ind, 1)
+                        for(let i=0; i<vbsToPlant.length; i++){
+                            vbsToPlant[i].size += 10
+                        }
                     }else{
                         this.direction.x *= -1;
                         this.direction.y *= -1;

@@ -53,8 +53,9 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor(name, pos, rootLen, pic) {
+    constructor(name, pos, rootLen, pic, rootPic) {
         super(name, pos, rootLen, pic);
+        this.rootPic = rootPic
         this.size = 60
     }
 
@@ -90,6 +91,14 @@ class VbsPlant extends Plant {
                 this.pic,
                 xValues[i]-3*this.size/4,
                 yValues[i]-3*this.size/4,
+                this.size,
+                this.size
+            );
+
+            image(
+                this.rootPic,
+                xValues[i]- this.size/3,
+                yValues[i]- this.size/3,
                 this.size,
                 this.size
             );

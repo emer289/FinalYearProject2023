@@ -92,6 +92,9 @@ let isRaining = false;
 
 let addFer = false;
 
+let timer = 61
+let infoSubmitted = false
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -152,7 +155,7 @@ function setup() {
 
     //init Vbs plant dictionary
     for(let i=0; i<totNumOfVbsPlants; i++){
-        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, shrubImage)
+        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, shrubImage, rootPic)
         VbsPlants[i] = weed;
     }
 
@@ -165,6 +168,7 @@ function setup() {
 
 
 function draw() {
+
 
     updateText()
 
@@ -188,10 +192,7 @@ function draw() {
     stroke(1)
     drawCrops();
 
-
-    createSun()
-    makeItRain()
-
+    drawWeather()
 
 
 
@@ -202,6 +203,35 @@ function draw() {
 
 }
 
+function drawWeather(){
+    if(timer%5 == 0 ){
+        growSun()
+    }
+
+    if(timer%7 == 0){
+        isRaining = true;
+        toggleRain()
+    }else if(timer%8 == 0){
+        isRaining = false;
+    }
+    createSun()
+    makeItRain()
+
+
+
+    if(infoSubmitted){
+        textSize(32);
+
+        text(timer, 4*width/5, height/6);
+        if (frameCount % 60 == 0 && timer > 0) {
+            timer --;
+        }
+        if(timer == 0){
+            infoSubmitted = false;
+            timer = 12
+        }
+    }
+}
 
 function makeItRain(){
     for (let i = 0; i < rain.length; i++) {
@@ -219,14 +249,14 @@ function makeItRain(){
 function createRegions(){
 
     //index 0
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2, farmHeight/2 - spacing, [0,50,100], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, [0,50,100], "Water")
     regions[0] = water;
 
     //index 1
     VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
     regions[1] = VBS;
 
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
     regions[0] = water;
 
     //index 2
@@ -291,6 +321,8 @@ function enterPressed(){
     }else{
         addFer = false
     }
+
+    infoSubmitted = true;
 
 }
 
@@ -496,7 +528,7 @@ function checkRootNutrientCollision(nutrient, index){
 
 function toggleRain() {
 
-    isRaining = !isRaining;
+    //isRaining = !isRaining;
     if (isRaining) {
         for (let i = 0; i < 500; i++) {
             rain[i] = new Raindrop();
@@ -524,7 +556,7 @@ function createSun(){
 }
 
 function growSun() {
-    sunSize += 10;
+    sunSize += .25;
 }
 
 
