@@ -1,10 +1,11 @@
 class Plant {
-    constructor(name, pos, rootLen, pic, price, x, w, y) {
+    constructor(name, pos, rootLen, pic, price, x, w, y, rootPic) {
 
         this.name = name
         this.pos = pos
         this.rootLen = rootLen *2
         this.pic = pic
+        this.rootPic = rootPic
         this.price = price
         this.size = 60
         this.regionX = x
@@ -15,7 +16,7 @@ class Plant {
         //root position - 1/14
         // 1/14 because it's half way between the root position and the previous root position
         this.rootTopLeft = new Coordinate( this.regionX + ( (this.regionWidth/7) ) - (this.regionWidth/14), this.regionY)
-        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + this.regionWidth, this.regionY + this.rootLen*4)
+        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + this.regionWidth, this.regionY + this.regionWidth/2)
 
 
 
@@ -35,8 +36,16 @@ class Plant {
             this.size,
             this.size
         );
-        branch(this.rootLen);
-        translate(0,-this.rootLen)
+
+        image(
+            this.rootPic,
+            0-this.size/2,
+            0-this.size/4,
+            this.size,
+            this.size
+        );
+        // branch(this.rootLen);
+        // translate(0,-this.rootLen)
         translate(-(x + (w/7)*(this.pos)), -(y))
     }
 
@@ -46,7 +55,7 @@ class Plant {
 class VbsPlant extends Plant {
     constructor(name, pos, rootLen, pic) {
         super(name, pos, rootLen, pic);
-        this.size = 60*2
+        this.size = 60
     }
 
     render() {
@@ -77,7 +86,13 @@ class VbsPlant extends Plant {
         //draw lines where plants will go
 
         for(let i=1; i<yValues.length; i++){
-            line(xValues[i], yValues[i], xValues[i], yValues[i]-40)
+            image(
+                this.pic,
+                xValues[i]-3*this.size/4,
+                yValues[i]-3*this.size/4,
+                this.size,
+                this.size
+            );
         }
 
     }

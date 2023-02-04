@@ -69,6 +69,8 @@ let cichoriumIntybusImage;
 //Plantago Lanceolata
 let plantagoLanceolataImage;
 
+let rootPic;
+
 let bankBalance;
 
 
@@ -111,6 +113,9 @@ function preload(){
    //VBS Images
     shrubImage = loadImage("../Pictures/shrub.png");
 
+    //root pics
+    rootPic = loadImage("../Pictures/plantRoots.png")
+
 }
 
 function setup() {
@@ -137,12 +142,12 @@ function setup() {
 
     //init crop dictionary
 
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50, farm.x, farm.width, farm.y);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59, farm.x, farm.width, farm.y);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25, farm.x, farm.width, farm.y);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57, farm.x, farm.width, farm.y);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90, farm.x, farm.width, farm.y);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40, farm.x, farm.width, farm.y);
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50, farm.x, farm.width, farm.y, rootPic);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59, farm.x, farm.width, farm.y, rootPic);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25, farm.x, farm.width, farm.y, rootPic);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57, farm.x, farm.width, farm.y, rootPic);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90, farm.x, farm.width, farm.y, rootPic);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40, farm.x, farm.width, farm.y, rootPic);
 
 
     //init Vbs plant dictionary
@@ -225,7 +230,7 @@ function createRegions(){
     regions[0] = water;
 
     //index 2
-    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth,farmHeight - spacing, [175,100,0], "Farm")
+    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [175,100,0], "Farm")
     regions[2] = farm;
 
 
