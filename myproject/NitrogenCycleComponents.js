@@ -112,6 +112,8 @@ class NitrogenCycleComponents {
             //         this.direction.y *= -1;
             //     }
             // }else{
+
+            
                 //to far right
                 if (this.pos.x + this.size + this.size >= farm.x + farm.width) {
                     this.direction.x *= -1;

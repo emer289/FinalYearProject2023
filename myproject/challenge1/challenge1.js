@@ -129,7 +129,7 @@ function setup() {
     createFishes();
 
 
-    vbsSlider = createSlider(0, 100, 0, 10);
+    vbsSlider = createSlider(0, 300, 0, 40);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
@@ -159,8 +159,6 @@ function setup() {
 
 function draw() {
 
-
-
     updateText()
 
 
@@ -182,13 +180,12 @@ function draw() {
     //plants
     stroke(1)
     drawCrops();
-    drawVbsPlants();
+
 
     createSun()
     makeItRain()
     water.colour = [0,50+NitrogenCycleWaterPop.length*5,100]
-
-
+    drawVbsPlants();
 
 
 
@@ -211,14 +208,14 @@ function makeItRain(){
 function createRegions(){
 
     //index 0
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth, farmHeight/2 - spacing, [0,50,100], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2, farmHeight/2 - spacing, [0,50,100], "Water")
     regions[0] = water;
 
     //index 1
     VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
     regions[1] = VBS;
 
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
     regions[0] = water;
 
     //index 2
@@ -261,11 +258,20 @@ function updateText(){
 function enterPressed(){
 
     vbsWidth = vbsSlider.value()
+
     createRegions()
+    if(vbsWidth>0){
+        VBS.text = "VBS"
+        organiseVbsPlants();
+    }
     organiseCropsToSow();
-    //organiseVbsPlants();
+
 
     createFishes()
+
+    for(const ncc of NitrogenCyclePop){
+        ncc.topLeft = new Coordinate(VBS.x, VBS.y)
+    }
 
 }
 
@@ -462,7 +468,6 @@ function checkRootNutrientCollision(nutrient, index){
             NitrogenCyclePop.splice(index, 1)
 
             for(let c=0; c < cropCount; c++){
-                console.log("growwinggggg")
                 cropsToSow[c].size += 10
             }
 
@@ -496,7 +501,8 @@ function createSun(){
     noStroke();
     fill(255, 255, 0);
     ellipse(width / 6, height / 6, sunSize, sunSize);
-    
+    stroke(2)
+
 
 }
 

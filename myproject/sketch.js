@@ -1,31 +1,25 @@
-let sunSize = 50;
+let triangleHeight, triangleBase, increment;
 
 function setup() {
     createCanvas(400, 400);
+    triangleHeight = 200;
+    triangleBase = 300;
+    increment = triangleBase / 7;
 }
 
 function draw() {
-    background(255, 255, 255);
-    noStroke();
-    fill(255, 255, 0);
-    ellipse(width / 2, height / 2, sunSize, sunSize);
+    background(255);
 
-    // Add some rays to the sun
-    for (let i = 0; i < 12; i++) {
-        push();
-        translate(width / 2, height / 2);
-        rotate(30 * i);
-        stroke(255, 255, 0);
-        strokeWeight(sunSize / 20);
-        line(0, 0, sunSize / 2, 0);
-        pop();
+    // // Draw the triangle
+    let x1 = width / 2 - triangleBase / 2;
+    let x2 = width / 2 + triangleBase / 2;
+    let y2 = height / 2 + triangleHeight / 2;
+     let y1 = height / 2;
+    // triangle(x1, y1, x2, y1, x2, y2);
+
+    // Draw the vertical lines
+    strokeWeight(2);
+    for (let i = y1; i < y2; i += increment) {
+        line(x2, i, x2, y1);
     }
 }
-
-function growSun() {
-    sunSize += 10;
-}
-
-
-
-

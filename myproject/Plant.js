@@ -51,50 +51,35 @@ class VbsPlant extends Plant {
 
     render() {
 
-        //VBS numbers hard coded in need to be changed
-        let mp = midpoint(VBS.x, VBS.topRightx, VBS.y, VBS.topRighty)
+        stroke(2)
 
 
-
-            image(
-                this.pic,
-                VBS.x + this.size/10,
-                VBS.y - this.size -10,
-                this.size,
-                this.size
-            );
+        let div = VBS.width/40 +1
 
 
-            image(
-                this.pic,
-                mp.x - 60,
-                mp.y - 100,
-                this.size,
-                this.size
-            );
+        let triangleSide = farm.height/2;
+        let increment = triangleSide / div;
+        let yValues = []
 
-            image(
-                this.pic,
-                VBS.topRightx - 120,
-                VBS.topRighty - 60,
-                this.size,
-                this.size
-            );
+        let triangleBase = VBS.width
+        let increment2 = triangleBase / div
+        let xValues = []
 
-            let zx = VBS.x
-            let zy = VBS.y
+        for (let i = VBS.topRighty; i < VBS.y; i += increment) {
+            yValues.push(i)
+           // line(100, i, 500, i)
+        }
+        for(let i = VBS.topRightx; i>VBS.x; i -= increment2){
+            xValues.push(i)
+           // line(i, 100, i, 500)
+        }
 
+        //draw lines where plants will go
 
-            for(let i=2; i<8; i++){
-                translate(zx + (30*i), zy - (17*i))
-                branch(this.rootLen);
-                translate(0,-this.rootLen)
-                translate(-(zx + (30*i)), -(zy - (17*i)))
-
-            }
-
-
-
+        for(let i=1; i<yValues.length; i++){
+            console.log("in herererer")
+            line(xValues[i], yValues[i], xValues[i], yValues[i]-40)
+        }
 
     }
 
@@ -116,7 +101,3 @@ function branch(len){
     }
 }
 
-function midpoint(x1, x2, y1, y2)
-{
-    return(new Coordinate(((x1+x2)/2), ((y1+y2)/2)))
-}
