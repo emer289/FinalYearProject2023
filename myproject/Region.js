@@ -40,7 +40,7 @@ class Region {
 
 
         fill(255)
-        textSize(12);
+        textSize(36);
         text(this.text, this.x+this.width/3, this.y+this.height -10);
     }
 }
@@ -58,8 +58,19 @@ class Vbs extends Region {
         rect(this.x, this.y, this.width, this.height);
         triangle(this.x, this.y, this.x+this.width, this.y, this.topRightx, this.topRighty);
 
-        fill(255)
-        textSize(10);
-        text(this.text, this.x, this.y+this.height -10);
+        if(this.width == 40){
+            textSize(18);
+            fill(255)
+            text(this.text, this.x, this.y+this.height -10);
+        }else if(this.width < 121){
+            textSize(36);
+            fill(255)
+            text(this.text, this.x, this.y+this.height -10);
+        }else{
+            textSize(36);
+            fill(255)
+            text(this.text, this.x + this.width/3, this.y+this.height -10);
+        }
+
     }
 }

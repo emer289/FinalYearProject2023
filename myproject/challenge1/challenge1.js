@@ -41,7 +41,7 @@ let fishImage;
 //Nitrogen cycle components
 let bacteriaPopulationSize = 3;
 let bacteriaSize = width/65;
-let bacteria1Image;
+let bacteria1Image
 let bacteria2Image;
 let bacteria3Image;
 
@@ -94,6 +94,8 @@ let addFer = false;
 
 let timer = 61
 let infoSubmitted = false
+
+let yearOver = false
 
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
@@ -160,7 +162,7 @@ function setup() {
     }
 
 
-    bankBalance = 1000;
+    bankBalance = 100;
 
 
 
@@ -195,12 +197,45 @@ function draw() {
     drawWeather()
 
 
-
-
     drawVbsPlants();
+    checkYearStatus()
+    if (yearOver) {
+        let popup = document.getElementById("popup");
+        popup.style.display = "block";
+    }
 
 
 
+
+}
+
+
+ function nextYear() {
+    yearOver = false;
+    let popup = document.getElementById("popup");
+    popup.style.display = "none";
+
+    cropCount = 0;
+    cropsToSow = []
+    vbsToPlant = []
+    vbsWidth = 0;
+    NitrogenCyclePop = [];
+    NitrogenCycleWaterPop = []
+    createRegions();
+    initSoilHealth();
+    sunSize = 50;
+
+}
+
+function checkYearStatus(){
+    if(NitrogenCyclePop.length < 15 && timer < 2){
+        yearOver = true
+        isRaining = false
+        textSize(10)
+
+
+
+    }
 }
 
 function drawWeather(){
@@ -214,6 +249,9 @@ function drawWeather(){
     }else if(timer%8 == 0){
         isRaining = false;
     }
+    if(timer == 0){
+        isRaining = false
+    }
     createSun()
     makeItRain()
 
@@ -224,6 +262,8 @@ function drawWeather(){
 
         text(timer, 4*width/5, height/6);
         if (frameCount % 60 == 0 && timer > 0) {
+            console.log(NitrogenCyclePop.length)
+            console.log(timer)
             timer --;
         }
         if(timer == 0){
