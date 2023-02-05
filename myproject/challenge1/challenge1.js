@@ -1,6 +1,10 @@
 const width = window.innerWidth * 0.73;
 const height = window.innerHeight * 0.8;
-
+const EXCELLENT_SOIL = 6
+const GOOD_SOIL = 5
+const FINE_SOIL = 3
+const BAD_SOIL = 1
+const DEAD_SOIL = 0
 
 const spacing = 0;
 const regionWidth = (width / 4);
@@ -93,7 +97,7 @@ let bankBalance;
 
 //vbs Images
 let shrubImage;
-
+let treeImage;
 
 let sunSize = 50;
 
@@ -118,6 +122,12 @@ let cropIndex = 0
 let yield;
 let profit = 0;
 
+let soilHealth = FINE_SOIL
+
+let fertiliserCost = 200
+let waterQuality = 100
+
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -138,6 +148,7 @@ function preload(){
 
    //VBS Images
     shrubImage = loadImage("../Pictures/shrub.png");
+    treeImage = loadImage("../Pictures/tree.png")
 
     //root pics
     rootPic = loadImage("../Pictures/plantRoots.png")
@@ -153,10 +164,10 @@ function setup() {
 
 
     createRegions();
-
     createWorms(calculateWormPop())
 
     initSoilHealth()
+
 
     // resetSketch()
 
@@ -178,10 +189,14 @@ function setup() {
 
 
     //init Vbs plant dictionary
-    for(let i=0; i<totNumOfVbsPlants; i++){
-        let weed = new VbsPlant("crop" + (i+1).toString(),  i, 10+i*2, shrubImage, rootPic)
-        VbsPlants[i] = weed;
-    }
+
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0, 10+0*2, shrubImage, rootPic)
+    VbsPlants[0] = shrub;
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1, 10+1*2, treeImage, rootPic)
+    VbsPlants[1] = tree;
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2, 10+2*2, loliumPerenneImage, rootPic)
+    VbsPlants[2] = grass;
+
 
 
     bankBalance = 1000;
@@ -250,6 +265,8 @@ function calcYield(){
     let popup = document.getElementById("popup");
     popup.style.display = "none";
 
+    worms = [];
+
     yield = 0;
     profit = 0
     resetControls();
@@ -261,17 +278,22 @@ function calcYield(){
     vbsToPlant = []
     vbsWidth = 0;
     NitrogenCyclePop = [];
-    NitrogenCycleWaterPop = []
+    NitrogenCycleWaterPop = [];
+
+    //keeping the water colour from last year
+    let waterColour = water.waterColour
     createRegions();
+    water.colour = waterColour;
+    createWorms(calculateWormPop())
     initSoilHealth();
     sunSize = 50;
     year++;
     document.getElementById("enterButton").style.display = "block";
     for(let i=0; i<crops.length; i++){
-        console.log("crop is ", crops[i])
-        console.log("crop.size is ", crops[i].size)
         crops[i].size = 60
-        console.log("crop.size is ", crops[i].size)
+    }
+    for(let i=0; i<VbsPlants.length; i++){
+        VbsPlants[i].size = 60
     }
 
 }
@@ -344,9 +366,7 @@ function drawWeather(){
         textSize(32);
 
         text(timer, 4*width/5, height/6);
-        if (frameCount % 10 == 0 && timer > 0) {
-            console.log(NitrogenCyclePop.length)
-            console.log(timer)
+        if (frameCount % 60 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -413,7 +433,7 @@ function drawVbsPlants(){
 }
 function updateText(){
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
-    select("#wormText").html(`${calculateWormPop()}`);
+
     select("#bankText").html(`€ ${calculateBankBalance()}`);
     select("#waterQualityText").html(`${calculateWaterQuality()}`)
 
@@ -423,43 +443,66 @@ function updateText(){
     select("#trCostText").html(`${trCostPrice}`)
     select("#ciCostText").html(`${ciCostPrice}`)
     select("#plCostText").html(`${plCostPrice}`)
+    select("#ferCostText").html(`${fertiliserCost}`)
 
     select("#yearText").html(`${year}`)
     select("#profitText").html(`€ ${profit}`)
     select("#yieldText").html(`${yield} kg`)
 
+
+    if(soilHealth == EXCELLENT_SOIL){
+        select("#wormText").html("Excellent");
+    }else if(soilHealth == GOOD_SOIL){
+        select("#wormText").html("Good");
+    }else if(soilHealth == FINE_SOIL){
+        select("#wormText").html("Average");
+    }else if(soilHealth == BAD_SOIL){
+        select("#wormText").html("Bad");
+    }else if(soilHealth == DEAD_SOIL){
+        select("#wormText").html("Dead");
+    }
 }
 
 
 
 function enterPressed(){
 
-    document.getElementById("enterButton").style.display = "none";
-    vbsWidth = vbsSlider.value()
+    if (validateCheckboxes()) {
+        document.getElementById("enterButton").style.display = "none";
+        vbsWidth = vbsSlider.value()
 
-    createRegions()
-    if(vbsWidth>0){
-        VBS.text = "VBS"
-        organiseVbsPlants();
+        console.log("1 water.colour is ", water.colour)
+        let waterColour = water.colour
+        createRegions();
+        console.log("2 water.colour is ", water.colour)
+        water.colour = waterColour
+        console.log("3 water.colour is ", water.colour)
+
+        if(vbsWidth>0){
+            VBS.text = "VBS"
+            organiseVbsPlants();
+        }
+        organiseCropsToSow();
+
+
+        createFishes()
+
+        for(const ncc of NitrogenCyclePop){
+            ncc.topLeft = new Coordinate(VBS.x, VBS.y)
+        }
+
+        let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
+        if(checkBoxGroup[0].checked){
+            addFer = true
+
+            addFertilisers()
+        }else{
+            addFer = false
+        }
+
+        infoSubmitted = true;
     }
-    organiseCropsToSow();
 
-
-    createFishes()
-
-    for(const ncc of NitrogenCyclePop){
-        ncc.topLeft = new Coordinate(VBS.x, VBS.y)
-    }
-
-    let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
-    if(checkBoxGroup[0].checked){
-        addFer = true
-        addFertilisers()
-    }else{
-        addFer = false
-    }
-
-    infoSubmitted = true;
 
 }
 
@@ -468,6 +511,11 @@ function organiseCropsToSow(){
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
 
+            if(checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens"){
+                if(soilHealth < EXCELLENT_SOIL){
+                    soilHealth++;
+                }
+            }
             cropCount += 1
             cropsToSow.push(crops[i]);
             bankBalance -= crops[i].costPrice
@@ -517,6 +565,7 @@ function organiseVbsPlants(){
 }
 
 function createWorms(quantity){
+    console.log()
     for(let i=0; i<quantity; i++){
         let s = new EarthWorm(regions[1], regions[2])
         worms.push(s)
@@ -539,10 +588,22 @@ function drawWorms(){
 }
 
 function calculateWormPop(){
-    return 3;
+
+    if(soilHealth == EXCELLENT_SOIL){
+        return(5)
+    }else if(soilHealth == GOOD_SOIL){
+        return(4)
+    }else if(soilHealth == FINE_SOIL){
+        return(3)
+    }else if(soilHealth == BAD_SOIL){
+        return(2)
+    }else if(soilHealth == DEAD_SOIL){
+        return(0)
+    }
 }
 function calculateWaterQuality(){
-    return 100 - (3*NitrogenCycleWaterPop.length)
+
+    return waterQuality
 }
 
 function calculateBankBalance(){
@@ -565,6 +626,28 @@ function checkBoxLimit(form_name, check, limit) {
             }
         }
     }
+}
+function validateCheckboxes() {
+    const forms = document.querySelectorAll("form");
+    let isValid = true;
+
+    forms.forEach(form => {
+        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+        let checkedCount = 0;
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                checkedCount += 1;
+            }
+        });
+
+        if (checkedCount === 0) {
+            alert(`Please select at least one checkbox in the ${form.id} form`);
+            isValid = false;
+        }
+    });
+
+    return isValid;
 }
 
 
@@ -590,6 +673,18 @@ function moveFish(){
 
 
 function initSoilHealth(){
+
+    if(soilHealth == EXCELLENT_SOIL){
+        bacteriaPopulationSize = 5
+    }else if(soilHealth == GOOD_SOIL){
+        bacteriaPopulationSize = 4
+    }else if(soilHealth == FINE_SOIL){
+        bacteriaPopulationSize = 3
+    }else if(soilHealth == BAD_SOIL){
+        bacteriaPopulationSize = 2
+    }else if(soilHealth == DEAD_SOIL){
+        bacteriaPopulationSize = 0
+    }
     createBacteria(false);
     createN2(false);
 }
@@ -711,6 +806,11 @@ function growSun() {
 
 
 function addFertilisers(){
+    bankBalance -= fertiliserCost
+    if(soilHealth > DEAD_SOIL){
+        soilHealth--;
+    }
+
     createN2(true);
 }
 

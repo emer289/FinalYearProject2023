@@ -12,6 +12,7 @@ class Region {
             Math.floor(this.y + this.height / 2)
         );
         this.colour = colour
+        this.waterColour = this.colour
     }
 
     render() {
@@ -27,6 +28,7 @@ class Region {
                 rect(this.x, this.y, this.width, this.height);
                 for (let i = 0; i <= this.height; i++) {
                     let inter = map(i, 0, this.height, this.colour[1]+ 25*NitrogenCycleWaterPop.length, 100);
+                    this.waterColour = [0,inter,this.colour[2] - 25*NitrogenCycleWaterPop.length]
                     stroke(0,inter,this.colour[2] - 25*NitrogenCycleWaterPop.length);
                     line(0, this.y + i, this.width, this.y + i);
                 }

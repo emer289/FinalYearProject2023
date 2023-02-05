@@ -16,19 +16,7 @@
     padding: 20px;
 }
 
-#box2 {
-    width: auto;
-    height: auto;
-    font-family: "Bahnschrift Condensed";
-    color: white;
 
-    font-weight: 10;
-    line-height: 0px;
-
-    top: 250px;
-    left: 50px;
-    overflow: hidden;
-}
 
 #sketch-container {
     position: absolute;
