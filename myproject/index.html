@@ -1,53 +1,9 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-    <style>
-        .popup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #f2f2f2;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 2px 2px 8px #888888;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.0.0/lib/p5.js"></script>
+    <script src="sketch.js"></script>
 </head>
 <body>
-<div id="popup" class="popup" style="display:none;">
-    <p id="message">Your yield for the year is 100, this is worth $400</p>
-    <button id="continueBtn">Continue</button>
-</div>
-<script>
-    let yearOver = true;
-
-    function setup() {
-        noCanvas();
-    }
-
-    function draw() {
-        if (yearOver) {
-            let popup = document.getElementById("popup");
-            popup.style.display = "block";
-        }
-    }
-
-    document.getElementById("continueBtn").addEventListener("click", function() {
-        yearOver = false;
-        let popup = document.getElementById("popup");
-        popup.style.display = "none";
-    });
-</script>
+<div id="length"></div>
 </body>
 </html>

@@ -58,16 +58,33 @@ let no3Image;
 //crop Images
 //Lolium Perenne
 let loliumPerenneImage;
+let lpCostPrice = 58
+let lpSellPrice = 68
+
 //Phleum Pratense
 let phleumPratenseImage;
+let ppCostPrice = 45
+let ppSellPrice = 50
+
 //Trifolium Pratense
 let trifoliumPratenseImage;
+let tpCostPrice = 60
+let tpSellPrice = 61
+
 //Trifolium Repens
 let trifoliumRepensImage;
+let trCostPrice = 34
+let trSellPrice = 46
+
 //Cichorium Intybus
 let cichoriumIntybusImage;
+let ciCostPrice = 30
+let ciSellPrice = 34
+
 //Plantago Lanceolata
 let plantagoLanceolataImage;
+let plCostPrice = 35
+let plSellPrice = 36
 
 let rootPic;
 
@@ -96,6 +113,10 @@ let timer = 61
 let infoSubmitted = false
 
 let yearOver = false
+let year = 1
+let cropIndex = 0
+let yield;
+let profit = 0;
 
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
@@ -128,6 +149,7 @@ function setup() {
         width,
         height
     );
+    canvas.parent("sketch-container");
 
 
     createRegions();
@@ -147,12 +169,12 @@ function setup() {
 
     //init crop dictionary
 
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage, 50, farm.x, farm.width, farm.y, rootPic);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage, 59, farm.x, farm.width, farm.y, rootPic);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage, 25, farm.x, farm.width, farm.y, rootPic);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage, 57, farm.x, farm.width, farm.y, rootPic);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage, 90, farm.x, farm.width, farm.y, rootPic);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage, 40, farm.x, farm.width, farm.y, rootPic);
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice);
 
 
     //init Vbs plant dictionary
@@ -162,7 +184,7 @@ function setup() {
     }
 
 
-    bankBalance = 100;
+    bankBalance = 1000;
 
 
 
@@ -200,8 +222,10 @@ function draw() {
     drawVbsPlants();
     checkYearStatus()
     if (yearOver) {
+        calcYield()
         let popup = document.getElementById("popup");
         popup.style.display = "block";
+        yearOver = false
     }
 
 
@@ -209,14 +233,31 @@ function draw() {
 
 }
 
+function calcYield(){
+    yield = (cropsToSow[0].size - cropsToSow[0].initSize)/10
+
+    for(; cropIndex<cropsToSow.length; cropIndex++){
+        bankBalance += cropsToSow[cropIndex].sellPrice * yield;
+        profit += cropsToSow[cropIndex].sellPrice * yield;
+    }
+
+}
+
 
  function nextYear() {
     yearOver = false;
+    cropIndex = 0
     let popup = document.getElementById("popup");
     popup.style.display = "none";
 
+    yield = 0;
+    profit = 0
+    resetControls();
+    timer = 61
     cropCount = 0;
-    cropsToSow = []
+
+    cropsToSow = [];
+
     vbsToPlant = []
     vbsWidth = 0;
     NitrogenCyclePop = [];
@@ -224,11 +265,53 @@ function draw() {
     createRegions();
     initSoilHealth();
     sunSize = 50;
+    year++;
+    document.getElementById("enterButton").style.display = "block";
+    for(let i=0; i<crops.length; i++){
+        console.log("crop is ", crops[i])
+        console.log("crop.size is ", crops[i].size)
+        crops[i].size = 60
+        console.log("crop.size is ", crops[i].size)
+    }
 
 }
 
+function resetControls(){
+    vbsSlider.value(0);
+
+    //crops
+    let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        if(checkBoxGroup[i].checked){
+           checkBoxGroup[i].checked = false;
+        }
+    }
+
+    //fertilisers
+    let checkBoxGroup1 = document.forms['fer_form']['checkfer[]'];
+    for (let i = 0; i < checkBoxGroup1.length; i++) {
+        if(checkBoxGroup1[i].checked){
+            checkBoxGroup1[i].checked = false;
+        }
+    }
+
+    //vbs plants
+    let checkBoxGroup2 = document.forms['Vbs_form']['checkVbs[]'];
+    for (let i = 0; i < checkBoxGroup2.length; i++) {
+        if(checkBoxGroup2[i].checked){
+            checkBoxGroup2[i].checked = false;
+        }
+    }
+
+    addFer = false;
+
+
+
+    infoSubmitted = false;
+}
+
 function checkYearStatus(){
-    if(NitrogenCyclePop.length < 15 && timer < 2){
+    if( timer < 2){
         yearOver = true
         isRaining = false
         textSize(10)
@@ -261,7 +344,7 @@ function drawWeather(){
         textSize(32);
 
         text(timer, 4*width/5, height/6);
-        if (frameCount % 60 == 0 && timer > 0) {
+        if (frameCount % 10 == 0 && timer > 0) {
             console.log(NitrogenCyclePop.length)
             console.log(timer)
             timer --;
@@ -334,10 +417,24 @@ function updateText(){
     select("#bankText").html(`€ ${calculateBankBalance()}`);
     select("#waterQualityText").html(`${calculateWaterQuality()}`)
 
+    select("#lpCostText").html(`${lpCostPrice}`)
+    select("#ppCostText").html(`${ppCostPrice}`)
+    select("#tpCostText").html(`${tpCostPrice}`)
+    select("#trCostText").html(`${trCostPrice}`)
+    select("#ciCostText").html(`${ciCostPrice}`)
+    select("#plCostText").html(`${plCostPrice}`)
+
+    select("#yearText").html(`${year}`)
+    select("#profitText").html(`€ ${profit}`)
+    select("#yieldText").html(`${yield} kg`)
+
 }
+
+
 
 function enterPressed(){
 
+    document.getElementById("enterButton").style.display = "none";
     vbsWidth = vbsSlider.value()
 
     createRegions()
@@ -370,30 +467,43 @@ function organiseCropsToSow(){
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
+
             cropCount += 1
             cropsToSow.push(crops[i]);
-            bankBalance -= crops[i].price
+            bankBalance -= crops[i].costPrice
+
         }
     }
 
 
 
     if(cropCount == 1){
+
         for(let i=1; i<totNumOfCrops; i++){
             //name, pos, rootLen, pic, price
             cropsToSow[i] = cropsToSow[0]
+            bankBalance -= crops[i].costPrice
         }
+
     }else if(cropCount == 2){
 
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
+            bankBalance -= cropsToSow[i].costPrice
             cropsToSow[i+1] = cropsToSow[1]
+            bankBalance -= cropsToSow[i+1].costPrice
         }
+
     }else{
+
         //cropCount == 3
         cropsToSow[3] = cropsToSow[0]
+        bankBalance -= cropsToSow[3].costPrice
         cropsToSow[4] = cropsToSow[1]
+        bankBalance -= cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[2]
+        bankBalance -= cropsToSow[5].costPrice
+
     }
 }
 
@@ -487,7 +597,7 @@ function initSoilHealth(){
 function createBacteria(isFer){
 
     for(let i=0; i<=bacteriaPopulationSize; i++){
-        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer);
+        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer );
         NitrogenCyclePop.push(bacterium1)
         if(i < bacteriaPopulationSize/2){
             bacterium1.direction.x *= -1
@@ -530,7 +640,7 @@ function moveNCP(){
         nc.move()
         nc.render(5)
         //if it's nitrite, check if it collides with the plant roots
-        if(nc.type == "no3"){
+        if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
             checkRootNutrientCollision(nc, i)
         }
         for(const nc2 of NitrogenCyclePop){

@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -16,9 +16,39 @@
     padding: 20px;
 }
 
+#box2 {
+    width: auto;
+    height: auto;
+    font-family: "Bahnschrift Condensed";
+    color: white;
+
+    font-weight: 10;
+    line-height: 0px;
+
+    top: 250px;
+    left: 50px;
+    overflow: hidden;
+}
+
+#sketch-container {
+    position: absolute;
+
+    top: 30%;
+    left: 1%;
+}
+
 #dashboard {
     /* display: none; */
-
+    position: absolute;
+    top: 5%;
+    left: 1%;
+    right: 5%;
+    font-size: 85%;
+    color: white;
+    float: right;
+    background-color: #1e242a;
+    border-radius: 25px;
+    border: 5px solid white;
     padding: 20px;
 }
 button {

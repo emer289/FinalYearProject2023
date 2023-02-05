@@ -19,10 +19,10 @@
 
     <a href="../index.html" class="btn">home &rarr;</a>
     <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
-
+    <div id="sketch-container"></div>
     <!--  start of controls -->
     <div id="controls">
-        <h1>Year 1</h1>
+        <h1>Year <span id="yearText"></span></h1>
 
         <h3>Choose the VBS Length</h3>
         <h3 id="length"><span id="vbsText"></span></h3>
@@ -32,17 +32,17 @@
         <h3>Choose your crops to sow</h3>
         <form method="post" name="crops_form" id="crops_form">
 
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 1"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €50</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 1"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
             <br>
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 2"/><span class="emphasized">Phleum pratense</span> (Timothy) €57</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 2"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
             <br>
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 3"/><span class="emphasized">Trifolium pratense</span> (Red clover) €59</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 3"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
             <br>
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 4"/><span class="emphasized">Trifolium repens</span>  (White clover) €90</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 4"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
             <br>
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 5"/><span class="emphasized">Cichorium intybus</span> (Chicory) €25</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 5"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
             <br>
-            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 6"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €40</label>
+            <label><input type="checkbox" name="checkCrops[]" value="CheckBox 6"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
         </form>
         <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
 
@@ -65,7 +65,8 @@
         </form>
         <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
 
-        <button onclick="enterPressed()">Enter</button>
+        <button id="enterButton" onclick="enterPressed()">Enter</button>
+
     </div>
     <!--  end of controls -->
 
@@ -73,8 +74,10 @@
     <!--  start of dashboard -->
     <div id="dashboard">
 
-        <h3>Number of Worms</h3>
+        <div id="box2">
+        <h3>Soil Quality</h3>
         <h3 id="quantity"><span id="wormText"></span></h3>
+        </div>
 
         <h3>Water quality</h3>
         <h3 id="quantity"><span id="waterQualityText"></span></h3>
@@ -87,7 +90,7 @@
     <!--  end of dashboard -->
 
     <div id="popup" class="popup" style="display:none;">
-        <p id="message">Your yield for the year is 100, this is worth $400</p>
+        <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
         <button id="continueBtn" onclick="nextYear()">Continue</button>
     </div>
 

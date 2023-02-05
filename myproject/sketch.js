@@ -1,12 +1,13 @@
+let vbsSlider;
+
 function setup() {
-    createCanvas(400, 400);
+    vbsSlider = createSlider(0, 300, 0, 40);
+    vbsSlider.style("width", "100px");
+    vbsSlider.parent("length");
+    createButton("Reset").mousePressed(resetSlider);
 }
 
-function draw() {
-    for (let i = 0; i <= height; i++) {
-        let inter = map(i, 0, height, 255, 100);
-        stroke(0,inter,100);
-        line(0, i, width, i);
-    }
+function resetSlider() {
+    vbsSlider.value(0);
 }
 

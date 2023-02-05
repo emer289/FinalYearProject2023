@@ -1,16 +1,19 @@
 class Plant {
-    constructor(name, pos, rootLen, pic, price, x, w, y, rootPic) {
+    constructor(name, pos, rootLen, pic, x, w, y, rootPic, costPrice, sellPrice) {
 
         this.name = name
         this.pos = pos
         this.rootLen = rootLen *2
         this.pic = pic
         this.rootPic = rootPic
-        this.price = price
-        this.size = 60
+
+        this.initSize = 60
+        this.size = this.initSize
         this.regionX = x
         this.regionWidth = w
         this.regionY = y
+        this.costPrice = costPrice
+        this.sellPrice = sellPrice
 
 
         //root position - 1/14
@@ -56,7 +59,8 @@ class VbsPlant extends Plant {
     constructor(name, pos, rootLen, pic, rootPic) {
         super(name, pos, rootLen, pic);
         this.rootPic = rootPic
-        this.size = 60
+        this.initSize = 60
+        this.size = this.initSize
     }
 
     render() {
