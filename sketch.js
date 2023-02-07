@@ -1,13 +1,7 @@
-let vbsSlider;
-
 function setup() {
-    vbsSlider = createSlider(0, 300, 0, 40);
-    vbsSlider.style("width", "100px");
-    vbsSlider.parent("length");
-    createButton("Reset").mousePressed(resetSlider);
+    createCanvas(400, 400);
 }
 
-function resetSlider() {
-    vbsSlider.value(0);
+function draw() {
+    background(220);
 }
-
