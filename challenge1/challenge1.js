@@ -2,7 +2,7 @@ const width = window.innerWidth * 0.73;
 const height = window.innerHeight * 0.8;
 const EXCELLENT_SOIL = 6
 const GOOD_SOIL = 5
-const FINE_SOIL = 3
+const AVERAGE_SOIL = 3
 const BAD_SOIL = 1
 const DEAD_SOIL = 0
 
@@ -122,7 +122,7 @@ let cropIndex = 0
 let yield;
 let profit = 0;
 
-let soilHealth = FINE_SOIL
+let soilHealth = AVERAGE_SOIL
 
 let fertiliserCost = 200
 let waterQuality = 10
@@ -192,7 +192,7 @@ function draw() {
 
     displayVbsQuestion()
 
-    updateText()
+
 
     background(100);
     noStroke()
@@ -215,6 +215,7 @@ function draw() {
 
     checkYearStatus()
     displayYield();
+    updateText()
 
 }
 
@@ -428,11 +429,12 @@ function updateText(){
     select("#yieldText").html(`${yield} kg`)
 
 
+    console.log("soil Health is ", soilHealth)
     if(soilHealth == EXCELLENT_SOIL){
         select("#wormText").html("Excellent");
     }else if(soilHealth == GOOD_SOIL){
         select("#wormText").html("Good");
-    }else if(soilHealth == FINE_SOIL){
+    }else if(soilHealth == AVERAGE_SOIL){
         select("#wormText").html("Average");
     }else if(soilHealth == BAD_SOIL){
         select("#wormText").html("Bad");
@@ -445,22 +447,23 @@ function updateText(){
 
 function enterPressed(){
 
-    lock=true;
-    lockSlider();
-
-    const forms = document.querySelectorAll("form");
-    forms.forEach(form => {
-        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-
-        checkboxes.forEach(checkbox => {
-            checkbox.disabled = true;
-        });
-    })
 
 
 
 
     if (validateCheckboxes()) {
+        lock=true;
+        lockSlider();
+
+        const forms = document.querySelectorAll("form");
+        forms.forEach(form => {
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = true;
+            });
+        })
+
         document.getElementById("enterButton").style.display = "none";
         vbsWidth = vbsSlider.value()
         createRegions();
@@ -503,13 +506,18 @@ function lockSlider() {
 }
 
 function organiseCropsToSow(){
+    console.log("1 in here")
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
-
+            console.log("2 in here")
             if(checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens"){
+                console.log("3 in here")
                 if(soilHealth < EXCELLENT_SOIL){
+                    console.log("4i soil Health is ", soilHealth)
+                    console.log("4 in here")
                     soilHealth++;
+                    console.log("4ii soil Health is ", soilHealth)
                 }
             }
             cropCount += 1
@@ -561,7 +569,6 @@ function organiseVbsPlants(){
 }
 
 function createWorms(quantity){
-    console.log()
     for(let i=0; i<quantity; i++){
         let s = new EarthWorm(regions[1], regions[2])
         worms.push(s)
@@ -589,7 +596,7 @@ function calculateWormPop(){
         return(5)
     }else if(soilHealth == GOOD_SOIL){
         return(4)
-    }else if(soilHealth == FINE_SOIL){
+    }else if(soilHealth == AVERAGE_SOIL){
         return(3)
     }else if(soilHealth == BAD_SOIL){
         return(2)
@@ -682,7 +689,7 @@ function initSoilHealth(){
         bacteriaPopulationSize = 5
     }else if(soilHealth == GOOD_SOIL){
         bacteriaPopulationSize = 4
-    }else if(soilHealth == FINE_SOIL){
+    }else if(soilHealth == AVERAGE_SOIL){
         bacteriaPopulationSize = 3
     }else if(soilHealth == BAD_SOIL){
         bacteriaPopulationSize = 2
