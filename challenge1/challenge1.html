@@ -17,6 +17,7 @@
 
 
 
+
     <a href="../index.html" class="btn">home &rarr;</a>
     <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
     <div id="sketch-container"></div>
@@ -27,6 +28,15 @@
         <h3>Choose the VBS Length</h3>
         <h3 id="length"><span id="vbsText"></span></h3>
 
+        <h3 id="Vbs_Question">Choose your VBS plants</h3>
+        <form method="post" name="Vbs_form" id="Vbs_form">
+            <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
+            <br>
+            <label><input type="checkbox" name="checkVbs[]" value="Woody vegetation"/>Woody vegetation</label>
+            <br>
+            <label><input type="checkbox" name="checkVbs[]" value="Grasses"/>Grasses</label>
+
+        </form>
 
 
         <h3>Choose your crops to sow</h3>
@@ -46,15 +56,7 @@
         </form>
         <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
 
-        <h3>Choose your VBS plants</h3>
-        <form method="post" name="Vbs_form" id="Vbs_form">
-            <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
-            <br>
-            <label><input type="checkbox" name="checkVbs[]" value="Woody vegetation"/>Woody vegetation</label>
-            <br>
-            <label><input type="checkbox" name="checkVbs[]" value="Grasses"/>Grasses</label>
 
-        </form>
         <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
 
         <h3>Add fertiliser €<span id="ferCostText"></span></h3>

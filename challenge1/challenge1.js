@@ -126,6 +126,8 @@ let soilHealth = FINE_SOIL
 
 let fertiliserCost = 200
 let waterQuality = 10
+let wColour = [0,50,100];
+
 
 
 
@@ -164,14 +166,10 @@ function setup() {
     canvas.parent("sketch-container");
 
 
+
     createRegions();
     createWorms(calculateWormPop())
-
     initSoilHealth()
-
-
-    // resetSketch()
-
     createFishes();
 
 
@@ -179,26 +177,8 @@ function setup() {
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
-    //init crop dictionary
-
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice);
-
-
-    //init Vbs plant dictionary
-
-    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0, 10+0*2, shrubImage, rootPic)
-    VbsPlants[0] = shrub;
-    let tree = new VbsPlant("tree" + (1+1).toString(),  1, 10+1*2, treeImage, rootPic)
-    VbsPlants[1] = tree;
-    let grass = new VbsPlant("grass" + (2+1).toString(),  2, 10+2*2, loliumPerenneImage, rootPic)
-    VbsPlants[2] = grass;
-
-
+    initCrops();
+    initVBSPlants();
 
     bankBalance = 1000;
 
@@ -209,22 +189,16 @@ function setup() {
 
 function draw() {
 
+    displayVbsQuestion()
 
     updateText()
 
-
     background(100);
-
     noStroke()
     drawRegions();
     frameRate(60);
-
-
     moveFish();
     moveNCP();
-    // moveChemicals(chemicalReaction1);
-    // moveChemicals(chemicalReaction2);
-    // moveChemicals(chemicalReaction3);
 
     drawWorms();
 
@@ -234,18 +208,12 @@ function draw() {
 
     drawWeather()
 
-
-    drawVbsPlants();
-    checkYearStatus()
-    if (yearOver) {
-        calcYield()
-        let popup = document.getElementById("popup");
-        popup.style.display = "block";
-        yearOver = false
+    if(vbsSlider.value() > 0){
+        drawVbsPlants();
     }
 
-
-
+    checkYearStatus()
+    displayYield();
 
 }
 
@@ -281,10 +249,7 @@ function calcYield(){
     NitrogenCyclePop = [];
     NitrogenCycleWaterPop = [];
 
-    //keeping the water colour from last year
-    let waterColour = water.waterColour
     createRegions();
-    water.colour = waterColour;
     createWorms(calculateWormPop())
     initSoilHealth();
 
@@ -318,12 +283,12 @@ function resetControls(){
     }
 
     //vbs plants
-    let checkBoxGroup2 = document.forms['Vbs_form']['checkVbs[]'];
-    for (let i = 0; i < checkBoxGroup2.length; i++) {
-        if(checkBoxGroup2[i].checked){
-            checkBoxGroup2[i].checked = false;
-        }
-    }
+    // let checkBoxGroup2 = document.forms['Vbs_form']['checkVbs[]'];
+    // for (let i = 0; i < checkBoxGroup2.length; i++) {
+    //     if(checkBoxGroup2[i].checked){
+    //         checkBoxGroup2[i].checked = false;
+    //     }
+    // }
 
     addFer = false;
 
@@ -392,7 +357,7 @@ function makeItRain(){
 function createRegions(){
 
     //index 0
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, [0,50,100], "Water")
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, wColour, "Water")
     regions[0] = water;
 
     //index 1
@@ -472,10 +437,10 @@ function enterPressed(){
         vbsWidth = vbsSlider.value()
 
         console.log("1 water.colour is ", water.colour)
-        let waterColour = water.colour
+       // wColour = water.colour
         createRegions();
         console.log("2 water.colour is ", water.colour)
-        water.colour = waterColour
+       // water.colour = wColour
         console.log("3 water.colour is ", water.colour)
 
         if(vbsWidth>0){
@@ -612,40 +577,48 @@ function calculateBankBalance(){
 
 
 function checkBoxLimit(form_name, check, limit) {
-    let checkBoxGroup = document.forms[form_name][check];
-    for (let i = 0; i < checkBoxGroup.length; i++) {
-        checkBoxGroup[i].onclick = function() {
-            let checkedcount = 0;
-            for (let i = 0; i < checkBoxGroup.length; i++) {
-                checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
-            }
-            if (checkedcount > limit) {
-                console.log("You can select maximum of " + limit + " checkboxes.");
-                alert("You can select maximum of " + limit + " checkboxes.");
-                this.checked = false;
+
+        let checkBoxGroup = document.forms[form_name][check];
+        for (let i = 0; i < checkBoxGroup.length; i++) {
+            checkBoxGroup[i].onclick = function() {
+                let checkedcount = 0;
+                for (let i = 0; i < checkBoxGroup.length; i++) {
+                    checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
+                }
+                if (checkedcount > limit) {
+                    console.log("You can select maximum of " + limit + " checkboxes.");
+                    alert("You can select maximum of " + limit + " checkboxes.");
+                    this.checked = false;
+                }
             }
         }
-    }
+
+
 }
 function validateCheckboxes() {
+
+
     const forms = document.querySelectorAll("form");
     let isValid = true;
+        forms.forEach(form => {
+            if(form.name == "Vbs_form" && vbsSlider.value() == 0){
 
-    forms.forEach(form => {
-        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-        let checkedCount = 0;
+            }else {
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+                let checkedCount = 0;
 
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                checkedCount += 1;
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        checkedCount += 1;
+                    }
+                });
+
+                if (checkedCount === 0) {
+                    alert(`Please select at least one checkbox in the ${form.id} form`);
+                    isValid = false;
+                }
             }
         });
-
-        if (checkedCount === 0) {
-            alert(`Please select at least one checkbox in the ${form.id} form`);
-            isValid = false;
-        }
-    });
 
     return isValid;
 }
@@ -717,8 +690,33 @@ function createBacteria(isFer){
 
 function createN2(isFer){
 
-    for(let i=0; i<=n2PopulationSize; i++){
+    for(let i=0; i<=n2PopulationSize/3; i++){
         let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+    for(let i=0; i<=n2PopulationSize/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "nh4", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+    for(let i=0; i<=n2PopulationSize/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no2", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+
+    for(let i=0; i<=n2PopulationSize/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no3", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
             n2.direction.x *= -1
@@ -732,9 +730,10 @@ function moveNCP(){
     let i=0;
     for(const nc of NitrogenCyclePop){
 
-        nc.move()
+
         nc.render(5)
         if(infoSubmitted){
+            nc.move()
             //if it's nitrite, check if it collides with the plant roots
             if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
                 checkRootNutrientCollision(nc, i)
@@ -817,3 +816,42 @@ function addFertilisers(){
     createN2(true);
 }
 
+
+function initCrops(){
+    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice);
+    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice);
+    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice);
+    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice);
+    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice);
+    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice);
+}
+
+function initVBSPlants(){
+    //init Vbs plant dictionary
+
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0, 10+0*2, shrubImage, rootPic)
+    VbsPlants[0] = shrub;
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1, 10+1*2, treeImage, rootPic)
+    VbsPlants[1] = tree;
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2, 10+2*2, loliumPerenneImage, rootPic)
+    VbsPlants[2] = grass;
+}
+
+function displayYield(){
+    if (yearOver) {
+        calcYield()
+        let popup = document.getElementById("popup");
+        popup.style.display = "block";
+        yearOver = false
+    }
+}
+
+function displayVbsQuestion(){
+    if (vbsSlider.value() > 0) {
+        document.getElementById("Vbs_form").style.display = "block";
+        document.getElementById("Vbs_Question").style.display = "block";
+    } else {
+        document.getElementById("Vbs_form").style.display = "none";
+        document.getElementById("Vbs_Question").style.display = "none";
+    }
+}
