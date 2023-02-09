@@ -128,6 +128,7 @@ let fertiliserCost = 200
 let waterQuality = 10
 
 
+
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
@@ -260,6 +261,7 @@ function calcYield(){
 
 
  function nextYear() {
+
     yearOver = false;
     cropIndex = 0
     let popup = document.getElementById("popup");
@@ -732,14 +734,17 @@ function moveNCP(){
 
         nc.move()
         nc.render(5)
-        //if it's nitrite, check if it collides with the plant roots
-        if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
-            checkRootNutrientCollision(nc, i)
+        if(infoSubmitted){
+            //if it's nitrite, check if it collides with the plant roots
+            if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
+                checkRootNutrientCollision(nc, i)
+            }
+            for(const nc2 of NitrogenCyclePop){
+                nc.checkCollision(nc2)
+            }
+            i++;
         }
-        for(const nc2 of NitrogenCyclePop){
-            nc.checkCollision(nc2)
-        }
-        i++;
+
     }
 }
 
