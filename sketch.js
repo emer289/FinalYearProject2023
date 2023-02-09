@@ -1,7 +1,23 @@
+let vbsSlider;
+let lock = false;
+
 function setup() {
-    createCanvas(400, 400);
+    vbsSlider = createSlider(0, 300, 0, 40);
+    vbsSlider.style("width", "100px");
+    vbsSlider.parent(`length`);
+
+    document.getElementById("lockButton").addEventListener("click", lockSlider);
+}
+
+function lockSlider() {
+    lock = !lock;
+    if (lock) {
+        vbsSlider.attribute("disabled", "");
+    } else {
+        vbsSlider.removeAttribute("disabled");
+    }
 }
 
 function draw() {
-    background(220);
+    document.getElementById("vbsText").innerHTML = `VBS Length: ${vbsSlider.value()}`;
 }

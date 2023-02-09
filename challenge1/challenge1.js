@@ -18,7 +18,7 @@ let water;
 //VBS
 let vbsWidth = 0;
 let vbsSlider;
-
+let lock = false;
 //Worms
 let scl = 8;
 let worms = []
@@ -127,6 +127,7 @@ let soilHealth = FINE_SOIL
 let fertiliserCost = 200
 let waterQuality = 10
 let wColour = [0,50,100];
+
 
 
 
@@ -261,6 +262,18 @@ function calcYield(){
     // for(let i=0; i<VbsPlants.length; i++){
     //     VbsPlants[i].size = 60
     // }
+
+     const forms = document.querySelectorAll("form");
+     forms.forEach(form => {
+         if(form.name != "Vbs_form"){
+             const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+             checkboxes.forEach(checkbox => {
+                 checkbox.disabled = false;
+             });
+         }
+
+     })
 
 }
 
@@ -432,16 +445,25 @@ function updateText(){
 
 function enterPressed(){
 
+    lock=true;
+    lockSlider();
+
+    const forms = document.querySelectorAll("form");
+    forms.forEach(form => {
+        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true;
+        });
+    })
+
+
+
+
     if (validateCheckboxes()) {
         document.getElementById("enterButton").style.display = "none";
         vbsWidth = vbsSlider.value()
-
-        console.log("1 water.colour is ", water.colour)
-       // wColour = water.colour
         createRegions();
-        console.log("2 water.colour is ", water.colour)
-       // water.colour = wColour
-        console.log("3 water.colour is ", water.colour)
 
         if(vbsWidth>0){
             VBS.text = "VBS"
@@ -469,6 +491,15 @@ function enterPressed(){
     }
 
 
+}
+
+function lockSlider() {
+
+    if (lock) {
+        vbsSlider.attribute("disabled", "");
+    } else {
+        vbsSlider.removeAttribute("disabled");
+    }
 }
 
 function organiseCropsToSow(){
