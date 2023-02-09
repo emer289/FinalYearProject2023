@@ -195,7 +195,9 @@ function draw() {
 
 
     background(100);
+
     noStroke()
+    checkLegend()
     drawRegions();
     frameRate(60);
     moveFish();
@@ -892,4 +894,20 @@ function displayVbsQuestion(){
         document.getElementById("Vbs_form").style.display = "none";
         document.getElementById("Vbs_Question").style.display = "none";
     }
+}
+
+
+function checkLegend(){
+    const images = document.querySelectorAll(".image");
+    const popups = document.querySelectorAll(".popup1");
+
+    images.forEach(function(image, index) {
+        image.addEventListener("mouseover", function() {
+            popups[index].style.display = "block";
+        });
+
+        image.addEventListener("mouseout", function() {
+            popups[index].style.display = "none";
+        });
+    });
 }

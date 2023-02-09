@@ -18,88 +18,150 @@
 
 
 
-    <a href="../index.html" class="btn">home &rarr;</a>
-    <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
-    <div id="sketch-container"></div>
-    <!--  start of controls -->
-    <div id="controls">
-        <h1>Year <span id="yearText"></span></h1>
-
-        <h3>Choose the VBS Length</h3>
-        <h3 id="length"><span id="vbsText"></span></h3>
-
-        <h3 id="Vbs_Question">Choose your VBS plants</h3>
-        <form method="post" name="Vbs_form" id="Vbs_form">
-            <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
-            <br>
-            <label><input type="checkbox" name="checkVbs[]" value="Woody vegetation"/>Woody vegetation</label>
-            <br>
-            <label><input type="checkbox" name="checkVbs[]" value="Grasses"/>Grasses</label>
-
-        </form>
-
-
-        <h3>Choose your crops to sow</h3>
-        <form method="post" name="crops_form" id="crops_form">
-
-            <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
-            <br>
-            <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
-            <br>
-            <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
-            <br>
-            <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
-            <br>
-            <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
-            <br>
-            <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
-        </form>
-        <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
-
-
-        <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
-
-        <h3>Add fertiliser €<span id="ferCostText"></span></h3>
-        <form method="post" name="fer_form" id="fer_form">
-            <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>
-            <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>
-
-        </form>
-        <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
-
-        <button id="enterButton" onclick="enterPressed()">Enter</button>
-
-    </div>
-    <!--  end of controls -->
-
-
-    <!--  start of dashboard -->
-    <div id="dashboard">
-
-        <div id="box2">
-        <h3>Soil Quality</h3>
-        <h3 id="quantity"><span id="wormText"></span></h3>
-        </div>
-
-        <h3>Water quality</h3>
-        <h3 id="quantity"><span id="waterQualityText"></span></h3>
-
-        <h3>Bank Balance</h3>
-        <h3 id="euro"><span id="bankText"></span></h3>
-
-
-    </div>
-    <!--  end of dashboard -->
-
-    <div id="popup" class="popup" style="display:none;">
-        <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
-        <button id="continueBtn" onclick="nextYear()">Continue</button>
-    </div>
 
 
 
 </head>
-<body>
+<body style="background-color: lightgray;">
+<a href="../index.html" class="btn">home &rarr;</a>
+<a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
+<div id="sketch-container"></div>
+<!--  start of controls -->
+<div id="controls">
+    <h1>Year <span id="yearText"></span></h1>
+
+    <h3>Choose the VBS Length</h3>
+    <h3 id="length"><span id="vbsText"></span></h3>
+
+    <h3 id="Vbs_Question">Choose your VBS plants</h3>
+    <form method="post" name="Vbs_form" id="Vbs_form">
+        <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
+        <br>
+        <label><input type="checkbox" name="checkVbs[]" value="Woody vegetation"/>Woody vegetation</label>
+        <br>
+        <label><input type="checkbox" name="checkVbs[]" value="Grasses"/>Grasses</label>
+
+    </form>
+
+
+    <h3>Choose your crops to sow</h3>
+    <form method="post" name="crops_form" id="crops_form">
+
+        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
+    </form>
+    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
+
+
+    <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
+
+    <h3>Add fertiliser €<span id="ferCostText"></span></h3>
+    <form method="post" name="fer_form" id="fer_form">
+        <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>
+        <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>
+
+    </form>
+    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
+
+    <button id="enterButton" onclick="enterPressed()">Enter</button>
+
+</div>
+<!--  end of controls -->
+
+
+<!--  start of dashboard -->
+<div id="dashboard">
+
+    <div class="section">
+        <h2 id="quantity" >Soil Quality: <span id="wormText"></span></h2>
+        <h3>Number of Worms:</h3>
+        <h3>Number of Bacteria:</h3>
+        <h3>Number of nutrients:</h3>
+    </div>
+
+    <div class="section">
+        <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
+        <h3 id="quantity">Number of Fish:</h3>
+        <h3 id="quantity">Amount of Oxygen:</h3>
+    </div>
+
+
+    <div class="section">
+        <h2 id="euro" >Bank Balance: <span id="bankText"></span></h2>
+        <h3 id="euro" >Amount made: </h3>
+        <h3 id="euro" >Amount spent: </h3>
+    </div>
+
+
+
+</div>
+<!--  end of dashboard -->
+
+
+<!--  start of Legend -->
+
+
+<div id="legend">
+    <div class="imageSection">
+        <img class="image" src="../Pictures/N2.png" alt="Image 1">
+        <div class="popup1">
+            <p>This is N2.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/bacteria.png" alt="Image 2">
+        <div class="popup1">
+            <p>This is bacteria.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/NH4.png" alt="Image 3">
+        <div class="popup1">
+            <p>This is NH4.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/bacteria2.png" alt="Image 1">
+        <div class="popup1">
+            <p>This is bacteria2.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/NO2.png" alt="Image 2">
+        <div class="popup1">
+            <p>This is NO2.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/bacteria3.png" alt="Image 3">
+        <div class="popup1">
+            <p>This is bacteria 3.</p>
+        </div>
+    </div>
+    <div class="imageSection">
+        <img class="image" src="../Pictures/no3.png" alt="Image 3">
+        <div class="popup1">
+            <p>This is no3.</p>
+        </div>
+    </div>
+</div>
+
+
+<!--  end of Legend -->
+
+<div id="popup" class="popup" style="display:none;">
+    <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
+    <button id="continueBtn" onclick="nextYear()">Continue</button>
+</div>
 
 </body>
 </html>

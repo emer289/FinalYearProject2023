@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -16,6 +16,10 @@
     padding: 20px;
 }
 
+h3 {
+    padding: 10px;
+}
+
 
 
 #sketch-container {
@@ -24,20 +28,29 @@
     top: 30%;
     left: 1%;
 }
-
 #dashboard {
-    /* display: none; */
     position: absolute;
-    top: 5%;
+    top: 10%;
     left: 1%;
-    right: 5%;
+    right: 50%;
     font-size: 85%;
     color: white;
     float: right;
     background-color: #1e242a;
     border-radius: 25px;
     border: 5px solid white;
-    padding: 20px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+p {
+    color: black;
+}
+
+.section {
+    width: 33.33%;
+    text-align: center;
 }
 button {
     margin: 10px;
@@ -72,3 +85,43 @@ button {
     box-shadow: 2px 2px 8px #888888;
 }
 
+#legend {
+    position: absolute;
+    top: 10%;
+    left: 52%;
+    right: 1%;
+    font-size: 85%;
+    color: white;
+    float: right;
+    background-color: #1e242a;
+    border-radius: 25px;
+    border: 5px solid white;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.image {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+}
+
+.popup1 {
+    height: 100px;
+    width: 400px;
+    display: none;
+    position: absolute;
+    top: 180%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    background-color: lightsteelblue;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.imageSection {
+    width: 14%;
+    text-align: center;
+}
