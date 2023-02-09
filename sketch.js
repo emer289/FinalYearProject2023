@@ -1,23 +1,10 @@
-let vbsSlider;
-let lock = false;
+const image = document.querySelector("#image");
+const popup = document.querySelector("#popup");
 
-function setup() {
-    vbsSlider = createSlider(0, 300, 0, 40);
-    vbsSlider.style("width", "100px");
-    vbsSlider.parent(`length`);
+image.addEventListener("mouseover", function() {
+    popup.style.display = "block";
+});
 
-    document.getElementById("lockButton").addEventListener("click", lockSlider);
-}
-
-function lockSlider() {
-    lock = !lock;
-    if (lock) {
-        vbsSlider.attribute("disabled", "");
-    } else {
-        vbsSlider.removeAttribute("disabled");
-    }
-}
-
-function draw() {
-    document.getElementById("vbsText").innerHTML = `VBS Length: ${vbsSlider.value()}`;
-}
+image.addEventListener("mouseout", function() {
+    popup.style.display = "none";
+});

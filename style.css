@@ -59,9 +59,11 @@ button {
 
 
 .popup {
+    height: 200px;
+    width: 400px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 70%;
+    left: 38%;
     transform: translate(-50%, -50%);
     background-color: #f2f2f2;
     padding: 20px;
@@ -69,3 +71,4 @@ button {
     text-align: center;
     box-shadow: 2px 2px 8px #888888;
 }
+
