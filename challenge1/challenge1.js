@@ -99,7 +99,7 @@ let bankBalance;
 let shrubImage;
 let treeImage;
 
-let sunSize = 50;
+let sunSize = 160;
 
 
 //chemical reactions
@@ -125,7 +125,7 @@ let profit = 0;
 let soilHealth = FINE_SOIL
 
 let fertiliserCost = 200
-let waterQuality = 100
+let waterQuality = 10
 
 
 function preload(){
@@ -275,8 +275,7 @@ function calcYield(){
 
     cropsToSow = [];
 
-    vbsToPlant = []
-    vbsWidth = 0;
+   // vbsToPlant = []
     NitrogenCyclePop = [];
     NitrogenCycleWaterPop = [];
 
@@ -286,20 +285,19 @@ function calcYield(){
     water.colour = waterColour;
     createWorms(calculateWormPop())
     initSoilHealth();
-    sunSize = 50;
+
     year++;
     document.getElementById("enterButton").style.display = "block";
     for(let i=0; i<crops.length; i++){
         crops[i].size = 60
     }
-    for(let i=0; i<VbsPlants.length; i++){
-        VbsPlants[i].size = 60
-    }
+    // for(let i=0; i<VbsPlants.length; i++){
+    //     VbsPlants[i].size = 60
+    // }
 
 }
 
 function resetControls(){
-    vbsSlider.value(0);
 
     //crops
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
@@ -344,9 +342,9 @@ function checkYearStatus(){
 }
 
 function drawWeather(){
-    if(timer%5 == 0 ){
-        growSun()
-    }
+    // if(timer%5 == 0 ){
+    //     growSun()
+    // }
 
     if(timer%7 == 0){
         isRaining = true;
@@ -366,7 +364,7 @@ function drawWeather(){
         textSize(32);
 
         text(timer, 4*width/5, height/6);
-        if (frameCount % 60 == 0 && timer > 0) {
+        if (frameCount % 30 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -794,15 +792,15 @@ function toggleRain() {
 function createSun(){
     noStroke();
     fill(255, 255, 0);
-    ellipse(width / 6, height / 6, sunSize, sunSize);
+    ellipse(width / 6, height / 5, sunSize, sunSize);
     stroke(2)
 
 
 }
-
-function growSun() {
-    sunSize += .25;
-}
+//
+// function growSun() {
+//     sunSize += .25;
+// }
 
 
 function addFertilisers(){

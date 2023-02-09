@@ -21,18 +21,19 @@ class Region {
             rect(this.x, this.y, this.width, this.height);
         }else{
 
-            if(NitrogenCycleWaterPop.length < 1){
-                fill(this.colour);
-                rect(this.x, this.y, this.width, this.height);
-            }else{
+            // if(NitrogenCycleWaterPop.length < 1){
+            //     fill(this.colour);
+            //     rect(this.x, this.y, this.width, this.height);
+            // }else{
+            console.log("water quality is ", waterQuality)
                 rect(this.x, this.y, this.width, this.height);
                 for (let i = 0; i <= this.height; i++) {
-                    let inter = map(i, 0, this.height, this.colour[1]+ 25*NitrogenCycleWaterPop.length, 100);
-                    this.waterColour = [0,inter,this.colour[2] - 25*NitrogenCycleWaterPop.length]
-                    stroke(0,inter,this.colour[2] - 25*NitrogenCycleWaterPop.length);
+                    let inter = map(i, 0, this.height, this.colour[1]+ 25*(10-waterQuality), 100);
+                    this.waterColour = [0,inter,this.colour[2] - 25*(10-waterQuality)]
+                    stroke(0,inter,this.colour[2] - 25*(10-waterQuality));
                     line(0, this.y + i, this.width, this.y + i);
                 }
-            }
+           // }
 
 
         }
