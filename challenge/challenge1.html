@@ -27,6 +27,11 @@
 <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
 <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
 <div id="sketch-container"></div>
+<h1 >Challenge 1</h1>
+<p id="taskDescription">As a farmer, your goal is to enhance the soil quality over a period of three years, so
+ that the soil quality is Excellent by the end of the three-year span. The controls for this
+ task can be found on the bottom right of your screen, while the dashboard which displays your
+ progress is located to the left</p>
 <!--  start of controls -->
 <div id="controls">
     <h2>Year <span id="yearText"></span></h2>
@@ -73,7 +78,7 @@
     </form>
     <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
 
-    <button class="enterButton" onclick="enterPressed()">Start</button>
+    <button class="enterButton" id="enterButton" onclick="enterPressed()">Start</button>
 
 </div>
 <!--  end of controls -->
@@ -123,8 +128,7 @@
                     organisms is facilitated by bacteria. The bacterium responsible for converting N<sub>2</sub>
                     to ammonia (NH<sub>4</sub><sup>+</sup>) is called Nitrogen-Fixing bacteria. The most well-known
                     Nitrogen-Fixing bacteria is Rhizobia. Rhizobia live in nodules on the roots of legumes, where they convert N <sub>2</sub> into
-                    NH<sub>4</sub><sup>+</sup>. The ammonia produced by the rhizobia is then used by the platnt as a source
-                    of nitrogen</p>
+                    NH<sub>4</sub><sup>+</sup>.</p>
 
                 <div class="popup2">
                     <img class="popUpImage" src="../Pictures/N2.png" alt="Image 1">
@@ -239,6 +243,12 @@
 <div id="popup" class="popup" style="display:none;">
     <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
     <button id="continueBtn" onclick="nextYear()">Continue</button>
+</div>
+
+<div id="popup3" class="popup3" style="display:none;">
+    <p id="message"><span id="challenge1OverText"></span></p>
+    <button id="continueBtn" onclick="restartChallenge1()">Retry Challenge</button>
+    <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
 </div>
 
 </body>

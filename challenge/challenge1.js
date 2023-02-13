@@ -92,7 +92,7 @@ let plSellPrice = 36
 
 let rootPic;
 
-let bankBalance;
+let bankBalance = 1000;
 let amountMade = 0;
 let amountSpent = 0;
 
@@ -117,7 +117,7 @@ let isRaining = false;
 
 let addFer = false;
 
-let timer = 61
+let timer = 33
 let infoSubmitted = false
 
 let yearOver = false
@@ -136,6 +136,11 @@ let wColour = [0,50,100];
 let oxygenLevel = waterQuality;
 
 let fishPoped = false;
+let currentMonth = "August";
+
+let challengeOver = false;
+
+let challenge1OverText = "well done! The soil quality is excellent!"
 
 
 
@@ -188,7 +193,7 @@ function setup() {
     initCrops();
     initVBSPlants();
 
-    bankBalance = 1000;
+
 
 
 
@@ -247,17 +252,23 @@ function calcYield(){
 
  function nextYear() {
 
+
     yearOver = false;
     cropIndex = 0
-    let popup = document.getElementById("popup");
-    popup.style.display = "none";
+
+
+     let popup = document.getElementById("popup");
+     popup.style.display = "none";
+
+     let popup3 = document.getElementById("popup3");
+     popup3.style.display = "none";
 
     worms = [];
 
     yield = 0;
     profit = 0
     resetControls();
-    timer = 61
+    timer = 33
     cropCount = 0;
 
     cropsToSow = [];
@@ -281,7 +292,7 @@ function calcYield(){
 
      const forms = document.querySelectorAll("form");
      forms.forEach(form => {
-         if(form.name != "Vbs_form"){
+         if( form.name != "Vbs_form" || (form.name == "Vbs_form" && year == 4)){
              const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
              checkboxes.forEach(checkbox => {
@@ -312,12 +323,15 @@ function resetControls(){
     }
 
     //vbs plants
-    // let checkBoxGroup2 = document.forms['Vbs_form']['checkVbs[]'];
-    // for (let i = 0; i < checkBoxGroup2.length; i++) {
-    //     if(checkBoxGroup2[i].checked){
-    //         checkBoxGroup2[i].checked = false;
-    //     }
-    // }
+    if(year == 3){
+        let checkBoxGroup2 = document.forms['Vbs_form']['checkVbs[]'];
+        for (let i = 0; i < checkBoxGroup2.length; i++) {
+            if(checkBoxGroup2[i].checked){
+                checkBoxGroup2[i].checked = false;
+            }
+        }
+    }
+
 
     addFer = false;
 
@@ -342,10 +356,10 @@ function drawWeather(){
     //     growSun()
     // }
 
-    if(timer%7 == 0){
+    if(currentMonth == "September" || currentMonth == "December"){
         isRaining = true;
         toggleRain()
-    }else if(timer%8 == 0){
+    }else if(currentMonth == "December" || currentMonth == "March"){
         isRaining = false;
     }
     if(timer == 0){
@@ -359,8 +373,42 @@ function drawWeather(){
     if(infoSubmitted){
         textSize(32);
 
-        text(timer, 4*width/5, height/6);
-        if (frameCount % 30 == 0 && timer > 0) {
+        switch (timer) {
+            case 30:
+                currentMonth = "September";
+                break;
+            case 27:
+                currentMonth = "October";
+                break;
+            case 24:
+                currentMonth = "November";
+                break;
+            case 21:
+                currentMonth = "December";
+                break;
+            case 18:
+                currentMonth = "January";
+                break;
+            case 15:
+                currentMonth = "February";
+                break;
+            case 12:
+                currentMonth = "March";
+                break;
+            case 9:
+                currentMonth = "April";
+                break;
+            case 6:
+                currentMonth = "May";
+                break;
+            case 3:
+                currentMonth = "June";
+                break;
+        }
+
+        text(currentMonth, 4*width/5, height/6);
+
+        if (frameCount % 10 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -450,6 +498,7 @@ function updateText(){
     select("#oxygenText").html(`${oxygenLevel}`)
     select("#amountMadeText").html(`${amountMade}`)
     select("#amountSpentText").html(`${amountSpent}`)
+    select("#challenge1OverText").html(`${challenge1OverText}`)
 
 
     if(soilHealth == EXCELLENT_SOIL){
@@ -919,11 +968,25 @@ function initVBSPlants(){
 }
 
 function displayYield(){
-    if (yearOver) {
+
+
+    if(year == 3){
+        challengeOver = true;
+    }
+
+    if (yearOver && !challengeOver) {
+
         calcYield()
         let popup = document.getElementById("popup");
         popup.style.display = "block";
         yearOver = false
+    }else if(yearOver && challengeOver){
+        if(soilHealth != EXCELLENT_SOIL){
+            challenge1OverText = "You have failed the challenge because the soil is not excellent :("
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
     }
 }
 
@@ -951,4 +1014,38 @@ function checkLegend(){
             popups[index].style.display = "none";
         });
     });
+}
+
+function restartChallenge1() {
+
+    challengeOver = false
+    nextYear()
+
+
+    NitrogenCyclePop = []
+    NitrogenCycleWaterPop = []
+    fishPopulation = []
+    worms = []
+    cropsToSow = []
+    vbsToPlant = []
+
+
+    year = 1;
+    bankBalance = 1000;
+    amountMade = 0;
+    amountSpent = 0;
+    soilHealth = AVERAGE_SOIL
+
+    vbsSlider.value(0);
+    vbsWidth = 0;
+    lock = false;
+    lockSlider();
+    createRegions()
+
+    fishPopulationSize = 5;
+    createWorms(calculateWormPop())
+
+    initSoilHealth()
+    createFishes();
+
 }

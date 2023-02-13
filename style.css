@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 35%;
+    top: 135%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -32,12 +32,12 @@ h1 {
 #sketch-container {
     position: absolute;
 
-    top: 30%;
+    top: 130%;
     left: 1%;
 }
 #dashboard {
     position: absolute;
-    top: 10%;
+    top: 110%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -53,8 +53,14 @@ h1 {
 
 p {
     color: black;
+    font-size: 20px;
+
 }
 
+#taskDescription {
+    text-align: center;
+    font-size: 36px;
+}
 .section {
     width: 33.33%;
     text-align: center;
@@ -73,20 +79,23 @@ button {
 }
 
 .btn {
-    margin: 10px;
-    padding: 5px 10px;
-    background-color: lightblue;
+    background-color: #4CAF50;
     border: none;
-    border-radius: 5px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
     cursor: pointer;
 }
-
 
 .popup {
     height: 200px;
     width: 400px;
     position: absolute;
-    top: 70%;
+    top: 170%;
     left: 38%;
     transform: translate(-50%, -50%);
     background-color: #f2f2f2;
@@ -98,7 +107,7 @@ button {
 
 #legend {
     position: absolute;
-    top: 11%;
+    top: 111%;
     left: 52%;
     right: 1%;
     font-size: 85%;
@@ -125,11 +134,11 @@ button {
 }
 
 .popup1 {
-    height: 200px;
+    height: 280px;
     width: 700px;
     display: none;
     position: absolute;
-    top: 180%;
+    top: 210%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: lightsteelblue;
@@ -161,3 +170,16 @@ button {
     flex-direction: row;
 }
 
+.popup3 {
+    height: 200px;
+    width: 400px;
+    position: absolute;
+    top: 170%;
+    left: 38%;
+    transform: translate(-50%, -50%);
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 8px #888888;
+}
