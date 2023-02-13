@@ -1,14 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.min.js"></script>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .bar {
+            fill: steelblue;
+        }
+        .bar:hover {
+            fill: brown;
+        }
+        .axis--x path {
+            display: none;
+        }
+        .label {
+            font: 10px sans-serif;
+            text-anchor: middle;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-<a href="challenge1/challenge1.html" class="btn">Challenge 1</a>
-<img id="image" src="yourImage.jpg">
-<div id="popup">
-    <p id="info">This is some information about the image.</p>
-</div>
-<script src="sketch.js"></script>
+<div id="chart"></div>
+<script>
+    var data = [      { soil: "Dead", quality: 1 },      { soil: "Poor", quality: 2 },      { soil: "Fair", quality: 3 },      { soil: "Good", quality: 4 },      { soil: "Excellent", quality: 5 }    ];
+
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+        width = 400 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
+
+    var x = d3.scaleBand()
+        .rangeRound([0, width])
+        .padding(0.1);
+
+    var y = d3.scaleLinear()
+        .rangeRound([height, 0]);
+
+    var svg = d3.select("#chart").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    x.domain(data.map(function(d) { return d.soil; }));
+    y.domain([0, d3.max(data, function(d) { return d.quality; })]);
+
+    svg.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    svg.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y).ticks(5))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .text("Quality");
+
+    svg.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.soil); })
+        .attr("y", function(d) { return y(d.quality); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.quality); });
+
+    svg.selectAll(".label")
+        .data(data)
+        .enter().append("text")
+        .attr("class", "label")
+        .attr("x", function(d) { return x(d.soil) + x.bandwidth() / 2; })
+        .attr("y", function(d) { return y(d.quality) - 5; })
+        .text(function(d) { return d.quality; });
+</script>
 </body>
 </html>

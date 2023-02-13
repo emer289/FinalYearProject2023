@@ -1,8 +1,8 @@
 const width = window.innerWidth * 0.73;
 const height = window.innerHeight * 0.8;
-const EXCELLENT_SOIL = 6
-const GOOD_SOIL = 5
-const AVERAGE_SOIL = 3
+const EXCELLENT_SOIL = 4
+const GOOD_SOIL = 3
+const AVERAGE_SOIL = 2
 const BAD_SOIL = 1
 const DEAD_SOIL = 0
 
@@ -93,6 +93,8 @@ let plSellPrice = 36
 let rootPic;
 
 let bankBalance;
+let amountMade = 0;
+let amountSpent = 0;
 
 
 //vbs Images
@@ -100,6 +102,8 @@ let shrubImage;
 let treeImage;
 
 let sunSize = 160;
+
+
 
 
 //chemical reactions
@@ -125,10 +129,13 @@ let profit = 0;
 let soilHealth = AVERAGE_SOIL
 
 let fertiliserCost = 200
-let waterQuality = 10
+let perfectWaterQuality = 20
+let waterQuality = perfectWaterQuality
 let wColour = [0,50,100];
 
+let oxygenLevel = waterQuality;
 
+let fishPoped = false;
 
 
 
@@ -227,6 +234,7 @@ function calcYield(){
     for(; cropIndex<cropsToSow.length; cropIndex++){
         bankBalance += cropsToSow[cropIndex].sellPrice * yield;
         profit += cropsToSow[cropIndex].sellPrice * yield;
+        amountMade += profit;
     }
 
 }
@@ -347,7 +355,7 @@ function drawWeather(){
         textSize(32);
 
         text(timer, 4*width/5, height/6);
-        if (frameCount % 30 == 0 && timer > 0) {
+        if (frameCount % 60 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -430,18 +438,25 @@ function updateText(){
     select("#profitText").html(`€ ${profit}`)
     select("#yieldText").html(`${yield} kg`)
 
+    select("#wormText").html(`${calculateWormPop()}`)
+    select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
+    select("#nutrientsText").html(`${n2PopulationSize}`)
+    select("#fishText").html(`${fishPopulationSize}`)
+    select("#oxygenText").html(`${oxygenLevel}`)
+    select("#amountMadeText").html(`${amountMade}`)
+    select("#amountSpentText").html(`${amountSpent}`)
 
-    console.log("soil Health is ", soilHealth)
+
     if(soilHealth == EXCELLENT_SOIL){
-        select("#wormText").html("Excellent");
+        select("#soilQualityText").html("Excellent");
     }else if(soilHealth == GOOD_SOIL){
-        select("#wormText").html("Good");
+        select("#soilQualityText").html("Good");
     }else if(soilHealth == AVERAGE_SOIL){
-        select("#wormText").html("Average");
+        select("#soilQualityText").html("Average");
     }else if(soilHealth == BAD_SOIL){
-        select("#wormText").html("Bad");
+        select("#soilQualityText").html("Bad");
     }else if(soilHealth == DEAD_SOIL){
-        select("#wormText").html("Dead");
+        select("#soilQualityText").html("Dead");
     }
 }
 
@@ -525,7 +540,7 @@ function organiseCropsToSow(){
             cropCount += 1
             cropsToSow.push(crops[i]);
             bankBalance -= crops[i].costPrice
-
+            amountSpent += crops[i].costPrice
         }
     }
 
@@ -537,6 +552,7 @@ function organiseCropsToSow(){
             //name, pos, rootLen, pic, price
             cropsToSow[i] = cropsToSow[0]
             bankBalance -= crops[i].costPrice
+            amountSpent += crops[i].costPrice
         }
 
     }else if(cropCount == 2){
@@ -544,8 +560,10 @@ function organiseCropsToSow(){
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
             bankBalance -= cropsToSow[i].costPrice
+            amountSpent += cropsToSow[i].costPrice
             cropsToSow[i+1] = cropsToSow[1]
             bankBalance -= cropsToSow[i+1].costPrice
+            amountSpent += cropsToSow[i+1].costPrice
         }
 
     }else{
@@ -553,10 +571,13 @@ function organiseCropsToSow(){
         //cropCount == 3
         cropsToSow[3] = cropsToSow[0]
         bankBalance -= cropsToSow[3].costPrice
+        amountSpent += cropsToSow[3].costPrice
         cropsToSow[4] = cropsToSow[1]
         bankBalance -= cropsToSow[4].costPrice
+        amountSpent += cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[2]
         bankBalance -= cropsToSow[5].costPrice
+        amountSpent += cropsToSow[5].costPrice
 
     }
 }
@@ -667,7 +688,7 @@ function validateCheckboxes() {
 //fish
 function createFishes(){
     let water = regions[0];
-    for(let i=0; i<=fishPopulationSize; i++){
+    for(let i=0; i<fishPopulationSize; i++){
         let fish = new Fish(fishSize, "healthy", water);
         fishPopulation[i]=fish
         if(i < fishPopulationSize/2){
@@ -678,10 +699,24 @@ function createFishes(){
 }
 
 function moveFish(){
+
+
     for(const fish of fishPopulation){
         fish.move()
         fish.render(5)
     }
+
+
+    if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%3 == 0 && !fishPoped){
+
+        fishPopulation.pop();
+        fishPopulationSize = fishPopulation.length
+        fishPoped = true;
+
+    }else if(NitrogenCycleWaterPop.length%3 != 0 && NitrogenCycleWaterPop.length != 0){
+        fishPoped = false;
+    }
+
 }
 
 
@@ -849,6 +884,7 @@ function createSun(){
 
 function addFertilisers(){
     bankBalance -= fertiliserCost
+    amountSpent += fertiliserCost
     if(soilHealth > DEAD_SOIL){
         soilHealth--;
     }

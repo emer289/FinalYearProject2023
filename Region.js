@@ -24,8 +24,8 @@ class Region {
 
                 rect(this.x, this.y, this.width, this.height);
                 for (let i = 0; i <= this.height; i++) {
-                    let inter = map(i, 0, this.height, this.colour[1]+ 25*(10-waterQuality), 100);
-                    this.waterColour = [0,inter,this.colour[2] - 25*(10-waterQuality)]
+                    let inter = map(i, 0, this.height, this.colour[1]+ 15*(perfectWaterQuality-waterQuality), 100);
+                    this.waterColour = [0,inter,this.colour[2] - 15*(perfectWaterQuality-waterQuality)]
                     wColour = this.waterColour
                     stroke(0,inter,this.colour[2] - 25*(10-waterQuality));
                     line(0, this.y + i, this.width, this.y + i);

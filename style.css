@@ -97,6 +97,11 @@ button {
     border-radius: 25px;
     border: 5px solid white;
     padding: 5px;
+
+
+}
+
+#legend1 {
     display: flex;
     flex-direction: row;
 }
@@ -109,12 +114,12 @@ button {
 }
 
 .popup1 {
-    height: 100px;
-    width: 400px;
+    height: 200px;
+    width: 700px;
     display: none;
     position: absolute;
     top: 180%;
-    left: 45%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background-color: lightsteelblue;
     padding: 20px;
@@ -124,4 +129,23 @@ button {
 .imageSection {
     width: 14%;
     text-align: center;
+}
+
+.popup2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.operator {
+    font-size: 40px;
+    margin: 0 20px;
+}
+
+.popUpImage {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
 }
