@@ -197,6 +197,7 @@ function setup() {
 
 function draw() {
 
+
     displayVbsQuestion()
 
 
@@ -225,6 +226,10 @@ function draw() {
     checkYearStatus()
     displayYield();
     updateText()
+
+    fill(255)
+    textSize(60);
+    text("Year " + year, 2*width/5, height/5);
 
 }
 
@@ -355,7 +360,7 @@ function drawWeather(){
         textSize(32);
 
         text(timer, 4*width/5, height/6);
-        if (frameCount % 60 == 0 && timer > 0) {
+        if (frameCount % 30 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){

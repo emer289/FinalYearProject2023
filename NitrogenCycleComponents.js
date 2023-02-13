@@ -17,11 +17,9 @@ class NitrogenCycleComponents {
             this.Region2.y + this.Region2.height
         );
 
-        if(this.ifFer){
-            this.pos = startLocation(farm, new Coordinate(farm.x + farm.width, farm.y + farm.height/5));
-        }else{
+
             this.pos = startLocation(this.topLeft, this.bottomRight);
-        }
+
 
         this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
 

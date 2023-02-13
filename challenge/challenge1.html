@@ -1,0 +1,245 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>myproject</title>
+    <script src="../libraries/p5.js"></script>
+    <script src="challenge1.js"></script>
+    <script src ="../Coordinate.js"></script>
+    <script src="../Region.js"></script>
+    <script src="../EarthWorm.js"></script>
+    <script src="../Plant.js"></script>
+    <script src="../Fish.js"></script>
+    <script src="../NitrogenCycleComponents.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="../Raindrop.js"></script>
+    <link rel="stylesheet" href="../style.css">
+
+
+
+
+
+
+
+</head>
+<body style="background-color: lightgray;">
+<a href="../index.html" class="btn">home &rarr;</a>
+<a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
+<a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
+<div id="sketch-container"></div>
+<!--  start of controls -->
+<div id="controls">
+    <h2>Year <span id="yearText"></span></h2>
+
+    <h3>Choose the VBS Length</h3>
+    <h3 id="length"><span id="vbsText"></span></h3>
+
+    <h3 id="Vbs_Question">Choose your VBS plants</h3>
+    <form method="post" name="Vbs_form" id="Vbs_form">
+        <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
+        <br>
+        <label><input type="checkbox" name="checkVbs[]" value="Woody vegetation"/>Woody vegetation</label>
+        <br>
+        <label><input type="checkbox" name="checkVbs[]" value="Grasses"/>Grasses</label>
+
+    </form>
+
+
+    <h3>Choose your crops to sow</h3>
+    <form method="post" name="crops_form" id="crops_form">
+
+        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
+        <br>
+        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
+    </form>
+    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
+
+
+    <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
+
+    <h3>Add fertiliser €<span id="ferCostText"></span></h3>
+    <form method="post" name="fer_form" id="fer_form">
+        <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>
+        <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>
+
+    </form>
+    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
+
+    <button id="enterButton" onclick="enterPressed()">Enter</button>
+
+</div>
+<!--  end of controls -->
+
+
+<!--  start of dashboard -->
+<div id="dashboard">
+
+    <div class="section">
+        <h2 id="quantity" >Soil Quality: <span id="soilQualityText"></span></h2>
+        <h3>Number of Worms: <span id="wormText"></span></h3>
+        <h3>Number of Bacteria: <span id="bacteriaText"></span></h3>
+        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>
+    </div>
+
+    <div class="section">
+        <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
+        <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
+        <h3 id="quantity">Amount of Oxygen: <span id="oxygenText"></span></h3>
+    </div>
+
+
+    <div class="section">
+        <h2 id="euro" >Bank Balance: <span id="bankText"></span></h2>
+        <h3 id="euro" >Amount made: <span id="amountMadeText"></span></h3>
+        <h3 id="euro" >Amount spent: <span id="amountSpentText"></span></h3>
+    </div>
+
+
+
+</div>
+<!--  end of dashboard -->
+
+
+<!--  start of Legend -->
+
+
+<div id="legend">
+    <h3>Tap the images to learn about the nutrients and bacteria</h3>
+    <div id="legend1">
+        <div class="imageSection">
+            <img class="image" src="../Pictures/N2.png" alt="Image 1">
+            <div class="popup1">
+                <p>This is nitrogen gas (N<sub>2</sub>). N<sub>2</sub> is abundant in the atmosphere but
+                    is not readily available to plants and other organisms as it exists in a form that they
+                    cannot use. The conversion of N<sub>2</sub> to a form that is usable by plants and other
+                    organisms is facilitated by bacteria. The bacterium responsible for converting N<sub>2</sub>
+                    to ammonia (NH<sub>4</sub><sup>+</sup>) is called Nitrogen-Fixing bacteria. The most well-known
+                    Nitrogen-Fixing bacteria is Rhizobia. Rhizobia live in nodules on the roots of legumes, where they convert N <sub>2</sub> into
+                    NH<sub>4</sub><sup>+</sup>. The ammonia produced by the rhizobia is then used by the platnt as a source
+                    of nitrogen</p>
+
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/N2.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/NH4.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/bacteria.png" alt="Image 2">
+            <div class="popup1">
+                <p> This is the Nitrogen-Fixing bacterium Rhizobia. Rhizobia live in nodules on the roots of legumes, where they convert N<sub>2</sub> into
+                    NH<sub>4</sub><sup>+</sup>. The ammonia produced by the Rhizobia is then used by the platnt as a source
+                    of nitrogen</p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/N2.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/NH4.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/NH4.png" alt="Image 3">
+            <div class="popup1">
+                <p> This is ammonia (NH<sub>4</sub><sup>+</sup>). NH<sub>4</sub><sup>+</sup> is transformed into nitrite
+                    (NO<sub>2</sub><sup>-</sup>) by bacteria belonging to the genus Nitrosomonas. </p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/NH4.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria2.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/NO2.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/bacteria2.png" alt="Image 1">
+            <div class="popup1">
+                <p> This is the bacteria belonging to the genus Nitrosomonas which converts NH<sub>4</sub><sup>+</sup> into nitrite
+                    (NO<sub>2</sub><sup>-</sup>)</p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/NH4.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria2.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/NO2.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/NO2.png" alt="Image 2">
+            <div class="popup1">
+                <p> This is nitrite (NO<sub>2</sub><sup>-</sup>). NO<sub>2</sub><sup>-</sup> is transformed into nitrate (NO<sub>3</sub><sup>-</sup>)
+                 by bacteria belonging to the genus Nitrobacter. NO<sub>3</sub><sup>-</sup> is a form of nitrogen that is readily available to plants,
+                and is a key nutrient for plant growth and development.</p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/NO2.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria3.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/no3.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/bacteria3.png" alt="Image 3">
+            <div class="popup1">
+                <p> This is the bacteria belonging to the genus Nitrobacter which converts NO<sub>2</sub><sup>-</sup> to NO<sub>3</sub><sup>-</sup>.
+                    NO<sub>3</sub><sup>-</sup> is a form of nitrogen that is readily available to plants,
+                    and is a key nutrient for plant growth and development.</p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/NO2.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria3.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/no3.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+        <div class="imageSection">
+            <img class="image" src="../Pictures/no3.png" alt="Image 3">
+            <div class="popup1">
+                <p> This is the nitrate (NO<sub>3</sub><sup>-</sup>) which is a form of nitrogen that is readily available to plants,
+                    and is a key nutrient for plant growth and development.</p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/NO2.png" alt="Image 1">
+                    <p class="operator">+</p>
+                    <img class="popUpImage" src="../Pictures/bacteria3.png" alt="Image 1">
+                    <p class="operator">=</p>
+                    <img class="popUpImage" src="../Pictures/no3.png" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--  end of Legend -->
+
+<div id="popup" class="popup" style="display:none;">
+    <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
+    <button id="continueBtn" onclick="nextYear()">Continue</button>
+</div>
+
+</body>
+</html>

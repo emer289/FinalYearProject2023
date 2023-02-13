@@ -20,6 +20,13 @@ h3 {
     padding: 10px;
 }
 
+h1 {
+    font-size: 50px;
+    color: black;
+    margin: 10px;
+    text-align: center;
+}
+
 
 
 #sketch-container {
@@ -87,7 +94,7 @@ button {
 
 #legend {
     position: absolute;
-    top: 10%;
+    top: 11%;
     left: 52%;
     right: 1%;
     font-size: 85%;
