@@ -487,7 +487,6 @@ function updateText(){
     select("#plCostText").html(`${plCostPrice}`)
     select("#ferCostText").html(`${fertiliserCost}`)
 
-    select("#yearText").html(`${year}`)
     select("#profitText").html(`€ ${profit}`)
     select("#yieldText").html(`${yield} kg`)
 
@@ -577,20 +576,18 @@ function lockSlider() {
 }
 
 function organiseCropsToSow(){
-    console.log("1 in here")
+
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
+    let soilHealthIncr = false;
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
-            console.log("2 in here")
-            if(checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens"){
-                console.log("3 in here")
+
+            if((checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens") && !soilHealthIncr){
                 if(soilHealth < EXCELLENT_SOIL){
-                    console.log("4i soil Health is ", soilHealth)
-                    console.log("4 in here")
                     soilHealth++;
-                    console.log("4ii soil Health is ", soilHealth)
                 }
             }
+            soilHealthIncr = true;
             cropCount += 1
             cropsToSow.push(crops[i]);
             bankBalance -= crops[i].costPrice
