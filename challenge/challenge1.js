@@ -27,6 +27,9 @@ let worms = []
 let cropCount = 0;
 let cropsToSow = []
 let vbsToPlant = []
+let shrubIndex = 0
+let woodIndex = 1
+let grassIndex = 2
 
 let crops = [];
 let VbsPlants = []
@@ -52,6 +55,7 @@ let bacteria3Image;
 let NitrogenCyclePop = []
 let NitrogenCycleWaterPop = []
 
+let fertiliserPopSize = 10
 let n2PopulationSize = 10;
 let n2Size = width/65;
 let n2Image;
@@ -142,6 +146,26 @@ let challengeOver = false;
 
 let challenge1OverText = "well done! The soil quality is excellent!"
 
+let nigtrogenFixingPlantPicked = false;
+
+let inTransitCounter = 0;
+
+
+//probabilities for VBS absorption
+//VBS 12m
+let g12prob = .2
+let s12prob = .4
+let w12prob = .65
+
+//VBS 36m
+let g36prob = .45
+let s36prob = .55
+let w36prob = .95
+
+//VBS 60m
+let g60prob = .60
+let s60prob = .8
+let w60prob = 1
 
 
 function preload(){
@@ -186,7 +210,7 @@ function setup() {
     createFishes();
 
 
-    vbsSlider = createSlider(0, 300, 0, 40);
+    vbsSlider = createSlider(0, 60, 0, 12);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
 
@@ -203,6 +227,13 @@ function setup() {
 function draw() {
 
 
+
+    if(vbsSlider.value() == 24){
+        vbsSlider.value(36)
+
+    }else if(vbsSlider.value() == 48){
+        vbsSlider.value(60)
+    }
     displayVbsQuestion()
 
 
@@ -238,6 +269,8 @@ function draw() {
 
 }
 
+
+
 function calcYield(){
     yield = (cropsToSow[0].size - cropsToSow[0].initSize)/10
 
@@ -252,6 +285,11 @@ function calcYield(){
 
  function nextYear() {
 
+     inTransitCounter = 0
+
+     if(soilHealth < EXCELLENT_SOIL && nigtrogenFixingPlantPicked){
+         soilHealth++;
+     }
 
     yearOver = false;
     cropIndex = 0
@@ -314,13 +352,13 @@ function resetControls(){
         }
     }
 
-    //fertilisers
-    let checkBoxGroup1 = document.forms['fer_form']['checkfer[]'];
-    for (let i = 0; i < checkBoxGroup1.length; i++) {
-        if(checkBoxGroup1[i].checked){
-            checkBoxGroup1[i].checked = false;
-        }
-    }
+    // //fertilisers
+    // let checkBoxGroup1 = document.forms['fer_form']['checkfer[]'];
+    // for (let i = 0; i < checkBoxGroup1.length; i++) {
+    //     if(checkBoxGroup1[i].checked){
+    //         checkBoxGroup1[i].checked = false;
+    //     }
+    // }
 
     //vbs plants
     if(year == 3){
@@ -356,10 +394,10 @@ function drawWeather(){
     //     growSun()
     // }
 
-    if(currentMonth == "September" || currentMonth == "December"){
+    if(currentMonth == "October"){
         isRaining = true;
         toggleRain()
-    }else if(currentMonth == "December" || currentMonth == "March"){
+    }else if( currentMonth == "March"){
         isRaining = false;
     }
     if(timer == 0){
@@ -408,7 +446,7 @@ function drawWeather(){
 
         text(currentMonth, 4*width/5, height/6);
 
-        if (frameCount % 10 == 0 && timer > 0) {
+        if (frameCount % 60 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -485,7 +523,7 @@ function updateText(){
     select("#trCostText").html(`${trCostPrice}`)
     select("#ciCostText").html(`${ciCostPrice}`)
     select("#plCostText").html(`${plCostPrice}`)
-    select("#ferCostText").html(`${fertiliserCost}`)
+    // select("#ferCostText").html(`${fertiliserCost}`)
 
     select("#profitText").html(`€ ${profit}`)
     select("#yieldText").html(`${yield} kg`)
@@ -535,7 +573,7 @@ function enterPressed(){
         })
 
         document.getElementById("enterButton").style.display = "none";
-        vbsWidth = vbsSlider.value()
+        vbsWidth = vbsSlider.value()*6
         createRegions();
 
         if(vbsWidth>0){
@@ -551,14 +589,19 @@ function enterPressed(){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
         }
 
-        let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
-        if(checkBoxGroup[0].checked){
-            addFer = true
+        addFer = true;
+        addFertilisers()
 
-            addFertilisers()
-        }else{
-            addFer = false
-        }
+        // let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
+        // if(checkBoxGroup[0].checked){
+        //     addFer = true
+        //
+        //     addFertilisers()
+        // }else{
+        //     addFer = false
+        // }
+
+
 
         infoSubmitted = true;
     }
@@ -578,16 +621,15 @@ function lockSlider() {
 function organiseCropsToSow(){
 
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
-    let soilHealthIncr = false;
+
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
 
-            if((checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens") && !soilHealthIncr){
-                if(soilHealth < EXCELLENT_SOIL){
-                    soilHealth++;
-                }
+            if((checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens") ){
+                    nigtrogenFixingPlantPicked = true;
+
             }
-            soilHealthIncr = true;
+
             cropCount += 1
             cropsToSow.push(crops[i]);
             bankBalance -= crops[i].costPrice
@@ -785,7 +827,7 @@ function initSoilHealth(){
         bacteriaPopulationSize = 0
     }
     createBacteria(false);
-    createN2(false);
+    createN2(false, n2PopulationSize);
 }
 
 function createBacteria(isFer){
@@ -814,9 +856,9 @@ function createBacteria(isFer){
     }
 }
 
-function createN2(isFer){
+function createN2(isFer, amount){
 
-    for(let i=0; i<=n2PopulationSize/3; i++){
+    for(let i=0; i<=amount/3; i++){
         let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
@@ -824,7 +866,7 @@ function createN2(isFer){
             n2.direction.y *= -1
         }
     }
-    for(let i=0; i<=n2PopulationSize/3; i++){
+    for(let i=0; i<=amount/3; i++){
         let n2 = new NitrogenCycleComponents(n2Size, "healthy", "nh4", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
@@ -832,7 +874,7 @@ function createN2(isFer){
             n2.direction.y *= -1
         }
     }
-    for(let i=0; i<=n2PopulationSize/3; i++){
+    for(let i=0; i<=amount/3; i++){
         let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no2", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
@@ -841,7 +883,7 @@ function createN2(isFer){
         }
     }
 
-    for(let i=0; i<=n2PopulationSize/3; i++){
+    for(let i=0; i<=amount/3; i++){
         let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no3", VBS, farm, isFer);
         NitrogenCyclePop.push(n2)
         if(i < n2PopulationSize/2){
@@ -908,8 +950,57 @@ function toggleRain() {
         }
 
         for(const ncc of  NitrogenCyclePop){
-            if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3") && ncc.inWater == false){
-                ncc.inTransit = true;
+            if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3" || ncc.type == "n2") && ncc.inWater == false){
+
+                //12m grass VBS
+
+                if(vbsToPlant[0] == VbsPlants[grassIndex]
+                    && vbsSlider.value() == 12
+                    && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                    && vbsSlider.value() == 12
+                    && inTransitCounter/NitrogenCyclePop.length < (1-s12prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                    && vbsSlider.value() == 12
+                    && inTransitCounter/NitrogenCyclePop.length < (1-w12prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[grassIndex]
+                    && vbsSlider.value() == 36
+                    && inTransitCounter/NitrogenCyclePop.length < (1-g36prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                    && vbsSlider.value() == 36
+                    && inTransitCounter/NitrogenCyclePop.length < (1-s36prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                    && vbsSlider.value() == 36
+                    && inTransitCounter/NitrogenCyclePop.length < (1-w36prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[grassIndex]
+                    && vbsSlider.value() == 60
+                    && inTransitCounter/NitrogenCyclePop.length < (1-g60prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                    && vbsSlider.value() == 60
+                    && inTransitCounter/NitrogenCyclePop.length < (1-s60prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                    && vbsSlider.value() == 60
+                    && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
+                    ncc.inTransit = true;
+                    inTransitCounter++
+                }
+
             }
         }
 
@@ -936,11 +1027,11 @@ function createSun(){
 function addFertilisers(){
     bankBalance -= fertiliserCost
     amountSpent += fertiliserCost
-    if(soilHealth > DEAD_SOIL){
-        soilHealth--;
-    }
+    // if(soilHealth > DEAD_SOIL){
+    //     soilHealth--;
+    // }
 
-    createN2(true);
+    createN2(true, fertiliserPopSize);
 }
 
 
@@ -1014,6 +1105,8 @@ function checkLegend(){
 }
 
 function restartChallenge1() {
+
+
 
     challengeOver = false
     nextYear()
