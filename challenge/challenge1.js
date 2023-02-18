@@ -167,6 +167,25 @@ let g60prob = .60
 let s60prob = .8
 let w60prob = 1
 
+//Species identity
+let lpSpeciesIdentity = 9.2
+let ppSpeciesIdentity = 10.7
+let tpSpeciesIdentity = 10.0
+let trSpeciesIdentity = 10.0
+let ciSpeciesIdentity = 8.5
+let plSpeciesIdentity = 10.6
+
+//FG interaction
+let grassGrass = 1.4
+let legumeLegume = 2.9
+let herbHerb = -1.0
+let grassLegume = 6.4
+let grassHerb = 3.7
+let legumeHerb = 7.3
+
+
+
+
 
 function preload(){
    fishImage = loadImage('../Pictures/fish.png');
@@ -272,7 +291,8 @@ function draw() {
 
 
 function calcYield(){
-    yield = (cropsToSow[0].size - cropsToSow[0].initSize)/10
+    yield = parseFloat(yield.toFixed(2))
+
 
     for(; cropIndex<cropsToSow.length; cropIndex++){
         bankBalance += cropsToSow[cropIndex].sellPrice * yield;
@@ -621,6 +641,8 @@ function lockSlider() {
 function organiseCropsToSow(){
 
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
+    let proportion;
+    let fgInteraction = [];
 
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
@@ -632,14 +654,16 @@ function organiseCropsToSow(){
 
             cropCount += 1
             cropsToSow.push(crops[i]);
-            bankBalance -= crops[i].costPrice
-            amountSpent += crops[i].costPrice
+           // bankBalance -= crops[i].costPrice
+           // amountSpent += crops[i].costPrice
         }
     }
 
 
 
     if(cropCount == 1){
+
+        proportion = 1;
 
         for(let i=1; i<totNumOfCrops; i++){
             //name, pos, rootLen, pic, price
@@ -648,7 +672,14 @@ function organiseCropsToSow(){
             amountSpent += crops[i].costPrice
         }
 
+        yield = cropsToSow[0].speciesIdentity
+
+
+
+
     }else if(cropCount == 2){
+
+        proportion = .5;
 
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
@@ -659,8 +690,29 @@ function organiseCropsToSow(){
             amountSpent += cropsToSow[i+1].costPrice
         }
 
-    }else{
 
+        if(cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass"){
+            fgInteraction.push(grassGrass)
+        }else if(cropsToSow[0].type == "legume" && cropsToSow[1].type == "legume"){
+            fgInteraction.push(legumeLegume)
+        }else if(cropsToSow[0].type == "herb" && cropsToSow[1].type == "herb"){
+            fgInteraction.push(herbHerb)
+        }else if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume")
+        || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass")){
+            fgInteraction.push(grassLegume)
+        }else if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass")){
+            fgInteraction.push(grassHerb)
+        }else if((cropsToSow[0].type == "legume" && cropsToSow[1].type == "herb")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "legume")){
+            fgInteraction.push(legumeHerb)
+        }
+
+        yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (fgInteraction[0] * proportion * proportion)
+
+    }else if(cropCount == 3){
+
+        proportion = 1/3;
         //cropCount == 3
         cropsToSow[3] = cropsToSow[0]
         bankBalance -= cropsToSow[3].costPrice
@@ -672,7 +724,217 @@ function organiseCropsToSow(){
         bankBalance -= cropsToSow[5].costPrice
         amountSpent += cropsToSow[5].costPrice
 
+        if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
+        || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "grass")){
+            fgInteraction.push(grassGrass)
+            fgInteraction.push(grassLegume)
+
+
+        }else if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "grass")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "grass")){
+            fgInteraction.push(grassGrass)
+            fgInteraction.push(grassHerb)
+        }else if((cropsToSow[0].type == "legume" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
+        || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
+        || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "legume")){
+            fgInteraction.push(legumeLegume)
+            fgInteraction.push(grassLegume)
+        }else if((cropsToSow[0].type == "legume" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "legume")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "legume")){
+            fgInteraction.push(legumeLegume)
+            fgInteraction.push(legumeHerb)
+        }else if((cropsToSow[0].type == "herb" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "grass")
+        || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "herb")){
+            fgInteraction.push(herbHerb)
+            fgInteraction.push(grassHerb)
+        }
+
+        yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+            + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion * proportion)
+
+        if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "legume")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "grass")
+
+        ){
+            fgInteraction.push(grassLegume)
+            fgInteraction.push(grassHerb)
+            fgInteraction.push(legumeHerb)
+
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+                + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion ) + (fgInteraction[2] * proportion * proportion )
+        }
+
+
+
+    }else if(cropCount == 4){
+
+        proportion = 1/4;
+        cropsToSow[4] = cropsToSow[0]
+        bankBalance -= cropsToSow[4].costPrice
+        amountSpent += cropsToSow[4].costPrice
+        cropsToSow[5] = cropsToSow[1]
+        bankBalance -= cropsToSow[5].costPrice
+        amountSpent += cropsToSow[5].costPrice
+
+        let isPicked = 0;
+
+        //check if a grass is picked
+        for(let i=0; i<cropCount; i++){
+           if(cropsToSow[i].type == "grass" ) {
+               isPicked++;
+           }
+        }
+        //if grass has not been picked
+        if(isPicked == 0){
+            //legumes and herbs are picked
+            fgInteraction.push(legumeLegume)
+            fgInteraction.push(legumeHerb)
+            fgInteraction.push(herbHerb)
+
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion) + (cropsToSow[3].speciesIdentity * proportion)
+                + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion * proportion * proportion) + (fgInteraction[2] * proportion * proportion )
+        }else if(isPicked == 1){
+            //a grass has been picked
+
+            //find out the other plants
+            isPicked = 0;
+
+            //check if a legume is picked
+            for(let i=0; i<cropCount; i++){
+                if(cropsToSow[i].type == "legume" ) {
+                    isPicked++;
+                }
+            }
+            //if legume has not been picked
+            if(isPicked == 1){
+                fgInteraction.push(herbHerb)
+                fgInteraction.push(grassHerb)
+                fgInteraction.push(grassLegume)
+                fgInteraction.push(legumeHerb)
+
+            }else if(isPicked == 2){
+                fgInteraction.push(legumeLegume)
+                fgInteraction.push(grassHerb)
+                fgInteraction.push(grassLegume)
+                fgInteraction.push(legumeHerb)
+            }
+
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion) + (cropsToSow[3].speciesIdentity * proportion)
+                + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion * proportion) + (fgInteraction[2] * proportion * proportion ) + (fgInteraction[3] * proportion * proportion * proportion)
+
+        }else if(isPicked == 2){
+
+
+            //find out the other plants
+            isPicked = 0;
+
+            //check if a legume is picked
+            for(let i=0; i<cropCount; i++){
+                if(cropsToSow[i].type == "legume" ) {
+                    isPicked++;
+                }
+            }
+            //if legume has not been picked
+            if(isPicked == 0){
+                //grass and herbs are picked
+                //2 grasses have been picked
+                //2 herbs have been picked
+                fgInteraction.push(herbHerb)
+                fgInteraction.push(grassGrass)
+                fgInteraction.push(grassHerb)
+
+                yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion) + (cropsToSow[3].speciesIdentity * proportion)
+                    + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion ) + (fgInteraction[2] * proportion * proportion * proportion * proportion)
+            }else if(isPicked == 1){
+                fgInteraction.push(grassGrass)
+                fgInteraction.push(grassHerb)
+                fgInteraction.push(grassLegume)
+                fgInteraction.push(legumeHerb)
+                yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion) + (cropsToSow[3].speciesIdentity * proportion)
+                    + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion * proportion  ) + (fgInteraction[2] * proportion * proportion * proportion ) + (fgInteraction[2] * proportion * proportion )
+            }else if(isPicked == 2){
+                fgInteraction.push(legumeLegume)
+                fgInteraction.push(grassGrass)
+                fgInteraction.push(grassLegume)
+
+                yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion) + (cropsToSow[3].speciesIdentity * proportion)
+                    + (fgInteraction[0] * proportion * proportion) + (fgInteraction[1] * proportion * proportion ) + (fgInteraction[2] * proportion * proportion * proportion * proportion)
+            }
+        }
+
+
+
+
+    }else if(cropCount == 5){
+        proportion = 1/5;
+
+        cropsToSow[5] = cropsToSow[0]
+        let tempCrops = crops
+
+        for(let i=0; i<cropCount; i++){
+            if(cropsToSow[i].name == "Lolium Perenne"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }else if(cropsToSow[i].name == "Phleum Pratense"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }else if(cropsToSow[i].name == "Trifolium Pratense"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }else if(cropsToSow[i].name == "Trifolium Repens"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }else if(cropsToSow[i].name == "Cichorium Intybus"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }else if(cropsToSow[i].name == "Plantago Lanceolata"){
+                tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+            }
+        }
+
+        //the crop that's not used should be left
+        if(tempCrops[0].type == "grass"){
+
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+                + (cropsToSow[3].speciesIdentity * proportion) + (cropsToSow[4].speciesIdentity * proportion)
+                + (legumeLegume * proportion * proportion ) + (herbHerb * proportion * proportion )
+                + (grassLegume * proportion * proportion * proportion) + (grassHerb * proportion * proportion * proportion)
+                + (legumeHerb * proportion * proportion * proportion * proportion)
+
+        }else if(tempCrops[0].type == "legume"){
+
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+                + (cropsToSow[3].speciesIdentity * proportion) + (cropsToSow[4].speciesIdentity * proportion)
+                + (grassGrass * proportion * proportion) + (herbHerb * proportion * proportion )
+                + (grassLegume * proportion * proportion * proportion ) + (grassHerb * proportion * proportion * proportion * proportion)
+                + (legumeHerb * proportion * proportion * proportion)
+
+        }else if(tempCrops[0].type == "herb"){
+            yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+                + (cropsToSow[3].speciesIdentity * proportion) + (cropsToSow[4].speciesIdentity * proportion)
+                + (grassGrass * proportion * proportion) + (legumeLegume * proportion * proportion )
+                + (grassLegume * proportion * proportion * proportion * proportion) + (grassHerb * proportion * proportion * proportion )
+                + (legumeHerb * proportion * proportion * proportion)
+        }
+
+    }else if(cropCount == 6){
+        proportion = 1/6;
+        yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
+            + (cropsToSow[3].speciesIdentity * proportion) + (cropsToSow[4].speciesIdentity * proportion) + (cropsToSow[5].speciesIdentity * proportion)
+            + (grassGrass * proportion * proportion) + (legumeLegume * proportion * proportion ) + (herbHerb * proportion * proportion )
+            + (grassLegume * proportion * proportion * proportion * proportion) + (grassHerb * proportion * proportion * proportion * proportion)
+            + (legumeHerb * proportion * proportion * proportion * proportion)
+
     }
+
+
+
+    calcYield(yield)
+
+
 }
 
 function organiseVbsPlants(){
@@ -1036,22 +1298,22 @@ function addFertilisers(){
 
 
 function initCrops(){
-    crops[0] = new Plant("Lolium Perenne",  0, 10+0*2, loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice);
-    crops[1] = new Plant("Phleum Pratense",  1, 10+1*2, phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice);
-    crops[2] = new Plant("Trifolium Pratense",  2, 10+2*2, trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice);
-    crops[3] = new Plant("Trifolium Repens",  3, 10+3*2, trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice);
-    crops[4] = new Plant("Cichorium Intybus",  4, 10+4*2, cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice);
-    crops[5] = new Plant("Plantago Lanceolata",  5, 10+5*2, plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice);
+    crops[0] = new Plant("Lolium Perenne",  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass");
+    crops[1] = new Plant("Phleum Pratense",  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass");
+    crops[2] = new Plant("Trifolium Pratense",  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume");
+    crops[3] = new Plant("Trifolium Repens",  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume");
+    crops[4] = new Plant("Cichorium Intybus",  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb");
+    crops[5] = new Plant("Plantago Lanceolata",  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb");
 }
 
 function initVBSPlants(){
     //init Vbs plant dictionary
 
-    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0, 10+0*2, shrubImage, rootPic)
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic)
     VbsPlants[0] = shrub;
-    let tree = new VbsPlant("tree" + (1+1).toString(),  1, 10+1*2, treeImage, rootPic)
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic)
     VbsPlants[1] = tree;
-    let grass = new VbsPlant("grass" + (2+1).toString(),  2, 10+2*2, loliumPerenneImage, rootPic)
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic)
     VbsPlants[2] = grass;
 }
 
@@ -1064,7 +1326,7 @@ function displayYield(){
 
     if (yearOver && !challengeOver) {
 
-        calcYield()
+
         let popup = document.getElementById("popup");
         popup.style.display = "block";
         yearOver = false

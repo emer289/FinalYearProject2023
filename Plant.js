@@ -1,9 +1,9 @@
 class Plant {
-    constructor(name, pos, rootLen, pic, x, w, y, rootPic, costPrice, sellPrice) {
+    constructor(name, pos, pic, x, w, y, rootPic, costPrice, sellPrice, speciesIdentity, type) {
 
         this.name = name
         this.pos = pos
-        this.rootLen = rootLen *2
+
         this.pic = pic
         this.rootPic = rootPic
 
@@ -14,6 +14,8 @@ class Plant {
         this.regionY = y
         this.costPrice = costPrice
         this.sellPrice = sellPrice
+        this.speciesIdentity = speciesIdentity
+        this.type = type
 
 
         //root position - 1/14
@@ -29,7 +31,7 @@ class Plant {
         //root position - 1/14
         // 1/14 because it's half way between the root position and the previous root position
         this.rootTopLeft = new Coordinate(x + ( (w/7) ) - (w/14), y)
-        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + w, y + this.rootLen*4)
+        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + w, y + height/5)
 
         translate(x + (w/7)*(this.pos), y)
         image(
@@ -56,8 +58,8 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor(name, pos, rootLen, pic, rootPic) {
-        super(name, pos, rootLen, pic);
+    constructor(name, pos, pic, rootPic) {
+        super(name, pos,  pic);
         this.rootPic = rootPic
         this.initSize = 60
         this.size = this.initSize
