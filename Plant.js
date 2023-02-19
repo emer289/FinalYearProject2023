@@ -44,7 +44,7 @@ class Plant {
 
         image(
             this.rootPic,
-            0-this.size/2,
+            0-this.size/2+12,
             0-this.size/4,
             this.size,
             this.size

@@ -557,7 +557,7 @@ function updateText(){
     select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
     select("#nutrientsText").html(`${n2PopulationSize}`)
     select("#fishText").html(`${fishPopulationSize}`)
-    select("#oxygenText").html(`${oxygenLevel}`)
+    // select("#oxygenText").html(`${oxygenLevel}`)
     select("#amountMadeText").html(`${amountMade}`)
     select("#amountSpentText").html(`${amountSpent}`)
     select("#challenge1OverText").html(`${challenge1OverText}`)
@@ -1033,7 +1033,7 @@ function drawWorms(){
 
 
     for(const worm of worms){
-        if(worm.count<100){
+        if(worm.count<170){
             worm.grow()
             worm.count++
         }
