@@ -66,32 +66,32 @@ let no3Image;
 //crop Images
 //Lolium Perenne
 let loliumPerenneImage;
-let lpCostPrice = 58
+let lpCostPrice = 7
 let lpSellPrice = 68
 
 //Phleum Pratense
 let phleumPratenseImage;
-let ppCostPrice = 45
+let ppCostPrice = 8
 let ppSellPrice = 50
 
 //Trifolium Pratense
 let trifoliumPratenseImage;
-let tpCostPrice = 60
+let tpCostPrice = 14
 let tpSellPrice = 61
 
 //Trifolium Repens
 let trifoliumRepensImage;
-let trCostPrice = 34
+let trCostPrice = 14
 let trSellPrice = 46
 
 //Cichorium Intybus
 let cichoriumIntybusImage;
-let ciCostPrice = 30
+let ciCostPrice = 20
 let ciSellPrice = 34
 
 //Plantago Lanceolata
 let plantagoLanceolataImage;
-let plCostPrice = 35
+let plCostPrice = 20
 let plSellPrice = 36
 
 let rootPic;
@@ -106,6 +106,7 @@ let shrubImage;
 let treeImage;
 
 let sunSize = 160;
+let proportion;
 
 
 
@@ -183,7 +184,14 @@ let grassLegume = 6.4
 let grassHerb = 3.7
 let legumeHerb = 7.3
 
+let lpString = "Lolium Perenne";
+let ppString = "Phleum Pratense";
+let tpString = "Trifolium Pratense";
+let trString = "Trifolium Repens";
+let ciString = "Cichorium Intybus";
+let plString = "Plantago Lanceolata";
 
+let profitCount = 0;
 
 
 
@@ -294,16 +302,12 @@ function calcYield(){
     yield = parseFloat(yield.toFixed(2))
 
 
-    for(; cropIndex<cropsToSow.length; cropIndex++){
-        bankBalance += cropsToSow[cropIndex].sellPrice * yield;
-        profit += cropsToSow[cropIndex].sellPrice * yield;
-        amountMade += profit;
-    }
 
 }
 
 
  function nextYear() {
+
 
      inTransitCounter = 0
 
@@ -324,6 +328,7 @@ function calcYield(){
     worms = [];
 
     yield = 0;
+    profitCount = 0
     profit = 0
     resetControls();
     timer = 33
@@ -466,7 +471,7 @@ function drawWeather(){
 
         text(currentMonth, 4*width/5, height/6);
 
-        if (frameCount % 60 == 0 && timer > 0) {
+        if (frameCount % 30 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -641,8 +646,10 @@ function lockSlider() {
 function organiseCropsToSow(){
 
     let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
-    let proportion;
+
     let fgInteraction = [];
+
+
 
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
@@ -654,22 +661,95 @@ function organiseCropsToSow(){
 
             cropCount += 1
             cropsToSow.push(crops[i]);
-           // bankBalance -= crops[i].costPrice
-           // amountSpent += crops[i].costPrice
+        }
+    }
+
+    proportion = 1/cropCount
+
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        if(checkBoxGroup[i].checked){
+            bankBalance -= (crops[i].costPrice*proportion)
+            amountSpent += (crops[i].costPrice*proportion)
         }
     }
 
 
+    //calculates the profit
+    if(checkBoxGroup.length == 1){
+        if(checkBoxGroup[0].value == lpString ){
+            profit += 148
+        }else if(checkBoxGroup[0].value == ppString ){
+            profit += 482
+        }else if(checkBoxGroup[0].value == tpString ){
+            profit += 453
+        }else if(checkBoxGroup[0].value == trString ){
+            profit += 291
+        }else if(checkBoxGroup[0].value == ciString ){
+            profit += 71
+        }else if(checkBoxGroup[0].value == plString ){
+            profit += 366
+        }
+    }else if(checkBoxGroup.length == 2){
+        if(checkBoxGroup[0].value == lpString && checkBoxGroup[1].value == ppString){
+            profit += 308
+        }else if(checkBoxGroup[0].value == tpString && checkBoxGroup[1].value == trString ){
+            profit += 488
+        }else if(checkBoxGroup[0].value == ciString && checkBoxGroup[1].value == plString){
+            profit += 36
+        }else if(checkBoxGroup[0].value == trString || checkBoxGroup[1].value == trString ){
+            profit += 529
+        }else{
+            profit += 482
+        }
+    }else if(checkBoxGroup.length == 3){
+        if(((checkBoxGroup[0].value == lpString || checkBoxGroup[1].value == lpString)
+                && (checkBoxGroup[1].value == ppString || checkBoxGroup[2].value == ppString))
+            || (checkBoxGroup[1].value == ciString || checkBoxGroup[2].value == plString) ){
+
+            profit += 398;
+        }else if((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString)
+            && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString)) {
+            profit += 578
+        }else{
+            profit += 600
+        }
+    }else if(checkBoxGroup.length == 4){
+
+        if(((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString
+                || checkBoxGroup[2].value == tpString)
+            && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString))
+        || ((checkBoxGroup[0].value == lpString || checkBoxGroup[1].value == lpString
+                    || checkBoxGroup[2].value == lpString)
+                && (checkBoxGroup[1].value == ppString || checkBoxGroup[2].value == ppString
+                    || checkBoxGroup[3].value == ppString ))) {
+
+
+
+            profit += 578
+        }
+
+    }else if(checkBoxGroup.length == 5){
+
+        if((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString
+                    || checkBoxGroup[2].value == tpString || checkBoxGroup[3].value == tpString)
+                && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString
+                    || checkBoxGroup[3].value == trString || checkBoxGroup[4].value == trString)) {
+                profit += 578
+        }else{
+            profit += 488
+        }
+
+    }else if(checkBoxGroup.length == 6){
+        profit += 578
+    }
+
 
     if(cropCount == 1){
 
-        proportion = 1;
-
         for(let i=1; i<totNumOfCrops; i++){
-            //name, pos, rootLen, pic, price
+
             cropsToSow[i] = cropsToSow[0]
-            bankBalance -= crops[i].costPrice
-            amountSpent += crops[i].costPrice
+
         }
 
         yield = cropsToSow[0].speciesIdentity
@@ -679,15 +759,13 @@ function organiseCropsToSow(){
 
     }else if(cropCount == 2){
 
-        proportion = .5;
-
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
-            bankBalance -= cropsToSow[i].costPrice
-            amountSpent += cropsToSow[i].costPrice
+         //   bankBalance -= cropsToSow[i].costPrice
+            //amountSpent += cropsToSow[i].costPrice
             cropsToSow[i+1] = cropsToSow[1]
-            bankBalance -= cropsToSow[i+1].costPrice
-            amountSpent += cropsToSow[i+1].costPrice
+         //   bankBalance -= cropsToSow[i+1].costPrice
+           // amountSpent += cropsToSow[i+1].costPrice
         }
 
 
@@ -712,17 +790,16 @@ function organiseCropsToSow(){
 
     }else if(cropCount == 3){
 
-        proportion = 1/3;
         //cropCount == 3
         cropsToSow[3] = cropsToSow[0]
-        bankBalance -= cropsToSow[3].costPrice
-        amountSpent += cropsToSow[3].costPrice
+        // bankBalance -= cropsToSow[3].costPrice
+        // amountSpent += cropsToSow[3].costPrice
         cropsToSow[4] = cropsToSow[1]
-        bankBalance -= cropsToSow[4].costPrice
-        amountSpent += cropsToSow[4].costPrice
+        // bankBalance -= cropsToSow[4].costPrice
+        // amountSpent += cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[2]
-        bankBalance -= cropsToSow[5].costPrice
-        amountSpent += cropsToSow[5].costPrice
+        // bankBalance -= cropsToSow[5].costPrice
+        // amountSpent += cropsToSow[5].costPrice
 
         if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
         || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
@@ -776,13 +853,12 @@ function organiseCropsToSow(){
 
     }else if(cropCount == 4){
 
-        proportion = 1/4;
         cropsToSow[4] = cropsToSow[0]
-        bankBalance -= cropsToSow[4].costPrice
-        amountSpent += cropsToSow[4].costPrice
+        // bankBalance -= cropsToSow[4].costPrice
+        // amountSpent += cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[1]
-        bankBalance -= cropsToSow[5].costPrice
-        amountSpent += cropsToSow[5].costPrice
+        // bankBalance -= cropsToSow[5].costPrice
+        // amountSpent += cropsToSow[5].costPrice
 
         let isPicked = 0;
 
@@ -874,7 +950,7 @@ function organiseCropsToSow(){
 
 
     }else if(cropCount == 5){
-        proportion = 1/5;
+
 
         cropsToSow[5] = cropsToSow[0]
         let tempCrops = crops
@@ -1261,6 +1337,10 @@ function toggleRain() {
                     && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
                     ncc.inTransit = true;
                     inTransitCounter++
+                }else if(inTransitCounter/NitrogenCyclePop.length < 0.75){
+                    //vbs of length 0
+                    ncc.inTransit = true;
+                    inTransitCounter++
                 }
 
             }
@@ -1320,12 +1400,26 @@ function initVBSPlants(){
 function displayYield(){
 
 
+
     if(year == 3){
         challengeOver = true;
     }
 
     if (yearOver && !challengeOver) {
 
+        console.log("1 bankBalance is ", bankBalance)
+        console.log("1 profit is ", profit)
+
+        if(profitCount == 0){
+            bankBalance += profit;
+            amountMade += profit;
+            profitCount++
+        }
+
+
+
+        console.log("2 bankBalance is ", bankBalance)
+        console.log("2 profit is ", profit)
 
         let popup = document.getElementById("popup");
         popup.style.display = "block";
@@ -1382,6 +1476,7 @@ function restartChallenge1() {
     vbsToPlant = []
 
 
+    waterQuality = 20
     year = 1;
     bankBalance = 1000;
     amountMade = 0;
