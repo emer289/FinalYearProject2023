@@ -25,7 +25,7 @@ class NitrogenCycleComponents {
 
 
 
-        this.direction = new Coordinate(-random(0.75, 1.5), -random(0.75, 1.5));
+        this.direction = new Coordinate(random(-0.75, 1.5), random(-0.75, 1.5));
 
 
         this.size = size;

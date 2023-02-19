@@ -570,8 +570,8 @@ function updateText(){
     select("#nutrientsText").html(`${n2PopulationSize}`)
     select("#fishText").html(`${fishPopulationSize}`)
     // select("#oxygenText").html(`${oxygenLevel}`)
-    select("#amountMadeText").html(`${amountMade}`)
-    select("#amountSpentText").html(`${amountSpent}`)
+    select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
+    select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
     select("#challenge1OverText").html(`${challenge1OverText}`)
 
 
@@ -1081,7 +1081,7 @@ function calculateWaterQuality(){
 }
 
 function calculateBankBalance(){
-    return bankBalance;
+    return bankBalance.toFixed(2);
 }
 
 
