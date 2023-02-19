@@ -57,7 +57,7 @@ p {
 
 }
 
-#taskDescription {
+.taskDescription {
     text-align: center;
     font-size: 36px;
 }
@@ -105,7 +105,7 @@ button {
     box-shadow: 2px 2px 8px #888888;
 }
 
-#legend {
+.legend {
     position: absolute;
     top: 111%;
     left: 52%;
@@ -121,9 +121,34 @@ button {
 
 }
 
-#legend1 {
+.legend1 {
     display: flex;
     flex-direction: row;
+}
+
+.howItWorksLegend {
+    position: absolute;
+    top: 155%;
+    left: 30%;
+    right: 30%;
+    font-size: 85%;
+    color: white;
+    float: right;
+    background-color: #1e242a;
+    border-radius: 25px;
+    border: 5px solid white;
+    padding: 5px;
+
+}
+
+
+
+.dashboardImg {
+    width: 700px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .image {
@@ -131,6 +156,21 @@ button {
     height: 70px;
     display: flex;
     flex-direction: row;
+}
+.controlImg{
+
+    width: 400px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.gameImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
 }
 
 .popup1 {

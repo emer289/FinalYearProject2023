@@ -28,12 +28,12 @@
 <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
 <div id="sketch-container"></div>
 <h1 >Challenge 1</h1>
-<p id="taskDescription">As a farmer, your goal is to enhance the soil quality over a period of three years, so
+<p class="taskDescription">As a farmer, your goal is to enhance the soil quality over a period of three years, so
  that the soil quality is Excellent by the end of the three-year span. The controls for this
  task can be found on the bottom right of your screen, while the dashboard which displays your
- progress is located to the left. In year one you will pick the vegetative buffer strip (VBS) length, the VBS plant,
-    the crops you would like to sow and weather or not you'd like fertiliser or not. For the next two years the VBS strip
-length will remain constant. For year 2 and 3 you will pick the crops you'd like to sow and weather you'd like to use fertilisers or not.</p>
+ progress is located to the left. At the beginning of year one you will pick the vegetative buffer strip (VBS) length, the VBS plant, and
+    the crops you would like to sow. At the beginning of year 2 and 3 you will pick the crops you'd like to sow, the VBS strip
+    length will remain the same as year one.</p>
 <!--  start of controls -->
 <div id="controls">
     <h2>Controls</h2>
@@ -55,19 +55,19 @@ length will remain constant. For year 2 and 3 you will pick the crops you'd like
     <h3>Choose your crops to sow</h3>
     <form method="post" name="crops_form" id="crops_form">
 
-        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span> (€ per kg)</label>
     </form>
-    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
+    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 6)</script>
 
 
     <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
@@ -99,7 +99,7 @@ length will remain constant. For year 2 and 3 you will pick the crops you'd like
     <div class="section">
         <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
         <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
-        <h3 id="quantity">Amount of Oxygen: <span id="oxygenText"></span></h3>
+<!--        <h3 id="quantity">Level of Oxygen: <span id="water"></span></h3>-->
     </div>
 
 
@@ -118,9 +118,9 @@ length will remain constant. For year 2 and 3 you will pick the crops you'd like
 <!--  start of Legend -->
 
 
-<div id="legend">
+<div class="legend">
     <h3>Tap the images to learn about the nutrients and bacteria</h3>
-    <div id="legend1">
+    <div class="legend1">
         <div class="imageSection">
             <img class="image" src="../Pictures/N2.png" alt="Image 1">
             <div class="popup1">
