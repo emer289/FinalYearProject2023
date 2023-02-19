@@ -78,7 +78,7 @@ function setup() {
     cr4Region = new Region(cr1Region.x + cr1Region.width + spacing*6, cr1Region.y + cr1Region.height*2, regionWidth, regionWidth/2, [175,100,0], "")
     areas[3] = cr4Region;
 
-    loliumPerenne = new Plant("Lolium Perenne",  3.5, loliumPerenneImage, cr4Region.x, cr4Region.width, cr4Region.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass");
+    loliumPerenne = new Plant("Lolium Perenne",  3.5, loliumPerenneImage, cr4Region.x, cr4Region.width, cr4Region.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", 60);
 
     loliumPerenne.size = loliumPerenne.size*2
     background(100);

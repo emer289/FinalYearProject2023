@@ -95,7 +95,7 @@ button {
     height: 200px;
     width: 400px;
     position: absolute;
-    top: 130%;
+    top: 140%;
     left: 38%;
     transform: translate(-50%, -50%);
     background-color: #f2f2f2;
@@ -178,7 +178,7 @@ button {
     width: 700px;
     display: none;
     position: absolute;
-    top: 160%;
+    top: 200%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: lightsteelblue;

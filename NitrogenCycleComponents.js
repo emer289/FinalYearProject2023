@@ -1,3 +1,5 @@
+
+
 class NitrogenCycleComponents {
 
     constructor(size, state, type, currentRegion, Region2, ifFer) {
@@ -18,7 +20,9 @@ class NitrogenCycleComponents {
         );
 
 
-            this.pos = startLocation(this.topLeft, this.bottomRight);
+            this.pos = new Coordinate(random(this.Region2.x + 50, this.bottomRight.x - 50),
+                random(this.Region2.y + this.Region2.height/2, this.bottomRight.y - 50))
+
 
 
         this.direction = new Coordinate(-random(0.75, 1.5), -random(0.75, 1.5));

@@ -109,6 +109,9 @@ let sunSize = 160;
 let proportion;
 
 
+let plantSize = 60
+let shrubSize = 100
+let woodSize = 250
 
 
 //chemical reactions
@@ -471,7 +474,7 @@ function drawWeather(){
 
         text(currentMonth, 4*width/5, height/6);
 
-        if (frameCount % 30 == 0 && timer > 0) {
+        if (frameCount % 60 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -744,14 +747,19 @@ function organiseCropsToSow(){
     }
 
 
+    console.log("made it hereeeeeeee")
+    console.log("cropCount is ", cropCount)
+
     if(cropCount == 1){
 
+        console.log("made it hereeeeeeee")
         for(let i=1; i<totNumOfCrops; i++){
 
             cropsToSow[i] = cropsToSow[0]
 
         }
 
+        console.log("made it hereeeeeeee")
         yield = cropsToSow[0].speciesIdentity
 
 
@@ -1263,14 +1271,14 @@ function checkRootNutrientCollision(nutrient, index){
 
         if(Math.floor(nutrient.pos.x) <= Math.floor(cropsToSow[0].rootBottomRight.x)
             && Math.floor(nutrient.pos.x) >= Math.floor(cropsToSow[0].rootTopLeft.x)
-            && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)
+            && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)*.8
         )
         {
 
             NitrogenCyclePop.splice(index, 1)
 
             for(let c=0; c < cropCount; c++){
-                cropsToSow[c].size += 10
+                 cropsToSow[c].size += 5
             }
 
         }
@@ -1337,7 +1345,8 @@ function toggleRain() {
                     && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
                     ncc.inTransit = true;
                     inTransitCounter++
-                }else if(inTransitCounter/NitrogenCyclePop.length < 0.75){
+                    console.log("60 wood in herererere")
+                }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSlider.value() == 0){
                     //vbs of length 0
                     ncc.inTransit = true;
                     inTransitCounter++
@@ -1378,22 +1387,22 @@ function addFertilisers(){
 
 
 function initCrops(){
-    crops[0] = new Plant("Lolium Perenne",  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass");
-    crops[1] = new Plant("Phleum Pratense",  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass");
-    crops[2] = new Plant("Trifolium Pratense",  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume");
-    crops[3] = new Plant("Trifolium Repens",  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume");
-    crops[4] = new Plant("Cichorium Intybus",  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb");
-    crops[5] = new Plant("Plantago Lanceolata",  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb");
+    crops[0] = new Plant("Lolium Perenne",  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize);
+    crops[1] = new Plant("Phleum Pratense",  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize);
+    crops[2] = new Plant("Trifolium Pratense",  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize);
+    crops[3] = new Plant("Trifolium Repens",  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize);
+    crops[4] = new Plant("Cichorium Intybus",  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize);
+    crops[5] = new Plant("Plantago Lanceolata",  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize);
 }
 
 function initVBSPlants(){
     //init Vbs plant dictionary
 
-    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic)
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic, shrubSize)
     VbsPlants[0] = shrub;
-    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic)
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic, woodSize)
     VbsPlants[1] = tree;
-    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic)
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize)
     VbsPlants[2] = grass;
 }
 

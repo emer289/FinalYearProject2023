@@ -1,5 +1,5 @@
 class Plant {
-    constructor(name, pos, pic, x, w, y, rootPic, costPrice, sellPrice, speciesIdentity, type) {
+    constructor(name, pos, pic, x, w, y, rootPic, costPrice, sellPrice, speciesIdentity, type, size) {
 
         this.name = name
         this.pos = pos
@@ -7,8 +7,7 @@ class Plant {
         this.pic = pic
         this.rootPic = rootPic
 
-        this.initSize = 60
-        this.size = this.initSize
+        this.size = size
         this.regionX = x
         this.regionWidth = w
         this.regionY = y
@@ -21,7 +20,7 @@ class Plant {
         //root position - 1/14
         // 1/14 because it's half way between the root position and the previous root position
         this.rootTopLeft = new Coordinate( this.regionX + ( (this.regionWidth/7) ) - (this.regionWidth/14), this.regionY)
-        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + this.regionWidth, this.regionY + this.regionWidth/2)
+        this.rootBottomRight = new Coordinate(this.rootTopLeft.x + this.regionWidth, this.regionY + this.regionWidth/4)
 
 
 
@@ -58,11 +57,10 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor(name, pos, pic, rootPic) {
+    constructor(name, pos, pic, rootPic, size) {
         super(name, pos,  pic);
         this.rootPic = rootPic
-        this.initSize = 60
-        this.size = this.initSize
+        this.size = size
     }
 
     render() {
@@ -94,20 +92,21 @@ class VbsPlant extends Plant {
 
         for(let i=1; i<yValues.length; i++){
             image(
-                this.pic,
-                xValues[i]-3*this.size/4,
-                yValues[i]-3*this.size/4,
-                this.size,
-                this.size
-            );
-
-            image(
                 this.rootPic,
                 xValues[i]- this.size/3,
                 yValues[i]- this.size/3,
                 this.size,
                 this.size
             );
+            image(
+                this.pic,
+                (xValues[i]-3*this.size/4)+25,
+                (yValues[i]-3*this.size/4)-10,
+                this.size,
+                this.size
+            );
+
+
         }
 
     }
