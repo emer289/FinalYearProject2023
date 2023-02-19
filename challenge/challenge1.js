@@ -196,6 +196,7 @@ let plString = "Plantago Lanceolata";
 
 let profitCount = 0;
 
+let currentChallenge = 1
 
 
 function preload(){
@@ -255,6 +256,14 @@ function setup() {
 
 
 function draw() {
+
+    let url = window.location.href.toString()
+    if(url.includes("challenge2")){
+        currentChallenge = 2
+    }else{
+        currentChallenge = 1
+    }
+
 
 
 
@@ -1416,8 +1425,6 @@ function displayYield(){
 
     if (yearOver && !challengeOver) {
 
-        console.log("1 bankBalance is ", bankBalance)
-        console.log("1 profit is ", profit)
 
         if(profitCount == 0){
             bankBalance += profit;
@@ -1426,21 +1433,25 @@ function displayYield(){
         }
 
 
-
-        console.log("2 bankBalance is ", bankBalance)
-        console.log("2 profit is ", profit)
-
         let popup = document.getElementById("popup");
         popup.style.display = "block";
         yearOver = false
-    }else if(yearOver && challengeOver){
+    }else if(yearOver && challengeOver && currentChallenge == 1){
         if(soilHealth != EXCELLENT_SOIL){
             challenge1OverText = "You have failed the challenge because the soil is not excellent :("
         }
 
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
+    }else if(yearOver && challengeOver && currentChallenge == 2) {
+        if (bankBalance < 2000 || waterQuality < 17) {
+            challenge1OverText = "You have failed the challenge because you have not made enough money :("
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
     }
+
 }
 
 function displayVbsQuestion(){

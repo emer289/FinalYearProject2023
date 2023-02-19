@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>challenge 2</title>
+    <title>myproject</title>
     <script src="../libraries/p5.js"></script>
     <script src="challenge1.js"></script>
     <script src ="../Coordinate.js"></script>
@@ -28,9 +28,22 @@
 <a href="challenge1.html" class="btn">challenge 1 &rarr;</a>
 <div id="sketch-container"></div>
 <h1 >Challenge 2</h1>
+<p class="taskDescription">As a farmer, your goal is to make €1,000 by the end of the three-year span while keeping the river quality above the level of 17. The controls for this
+    task can be found on the bottom right of your screen, while the dashboard which displays your
+    progress is located to the left. At the beginning of year one you will pick the vegetative buffer strip (VBS) length, the VBS plant, and
+    the crops you would like to sow. At the beginning of year 2 and 3 you will pick the crops you'd like to sow, the VBS strip
+    length will remain unchanged from year one.</p>
+
+
+<h1 class="taskDescription" > Confused? </h1>
+
+<div class="center">
+    <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
+</div>
+
 <!--  start of controls -->
 <div id="controls">
-    <h2>Year <span id="yearText"></span></h2>
+    <h2>Controls</h2>
 
     <h3>Choose the VBS Length</h3>
     <h3 id="length"><span id="vbsText"></span></h3>
@@ -49,32 +62,32 @@
     <h3>Choose your crops to sow</h3>
     <form method="post" name="crops_form" id="crops_form">
 
-        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span> (€ per kg)</label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span></label>
+        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span> (€ per kg)</label>
     </form>
-    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 3)</script>
+    <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 6)</script>
 
 
-    <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 3)</script>
+    <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
 
-    <h3>Add fertiliser €<span id="ferCostText"></span></h3>
-    <form method="post" name="fer_form" id="fer_form">
-        <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>
-        <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>
+    <!--    <h3>Add fertiliser €<span id="ferCostText"></span></h3>-->
+    <!--    <form method="post" name="fer_form" id="fer_form">-->
+    <!--        <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>-->
+    <!--        <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>-->
 
-    </form>
-    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
+    <!--    </form>-->
+    <!--    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>-->
 
-    <button onclick="enterPressed()">Start</button>
+    <button class="enterButton" id="enterButton" onclick="enterPressed()">Start</button>
 
 </div>
 <!--  end of controls -->
@@ -93,7 +106,7 @@
     <div class="section">
         <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
         <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
-        <h3 id="quantity">Amount of Oxygen: <span id="oxygenText"></span></h3>
+        <!--        <h3 id="quantity">Level of Oxygen: <span id="water"></span></h3>-->
     </div>
 
 
@@ -112,9 +125,9 @@
 <!--  start of Legend -->
 
 
-<div id="legend">
+<div class="legend">
     <h3>Tap the images to learn about the nutrients and bacteria</h3>
-    <div id="legend1">
+    <div class="legend1">
         <div class="imageSection">
             <img class="image" src="../Pictures/N2.png" alt="Image 1">
             <div class="popup1">
@@ -124,8 +137,7 @@
                     organisms is facilitated by bacteria. The bacterium responsible for converting N<sub>2</sub>
                     to ammonia (NH<sub>4</sub><sup>+</sup>) is called Nitrogen-Fixing bacteria. The most well-known
                     Nitrogen-Fixing bacteria is Rhizobia. Rhizobia live in nodules on the roots of legumes, where they convert N <sub>2</sub> into
-                    NH<sub>4</sub><sup>+</sup>. The ammonia produced by the rhizobia is then used by the platnt as a source
-                    of nitrogen</p>
+                    NH<sub>4</sub><sup>+</sup>.</p>
 
                 <div class="popup2">
                     <img class="popUpImage" src="../Pictures/N2.png" alt="Image 1">
@@ -238,8 +250,14 @@
 <!--  end of Legend -->
 
 <div id="popup" class="popup" style="display:none;">
-    <p id="message">Your yield for the year is <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
+    <p id="message">The yield for the year was <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
     <button id="continueBtn" onclick="nextYear()">Continue</button>
+</div>
+
+<div id="popup3" class="popup3" style="display:none;">
+    <p id="message"><span id="challenge1OverText"></span></p>
+    <button id="continueBtn" onclick="restartChallenge1()">Retry Challenge</button>
+    <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
 </div>
 
 </body>
