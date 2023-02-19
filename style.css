@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 135%;
+    top: 95%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -32,12 +32,12 @@ h1 {
 #sketch-container {
     position: absolute;
 
-    top: 130%;
+    top: 90%;
     left: 1%;
 }
 #dashboard {
     position: absolute;
-    top: 110%;
+    top: 70%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -95,7 +95,7 @@ button {
     height: 200px;
     width: 400px;
     position: absolute;
-    top: 170%;
+    top: 130%;
     left: 38%;
     transform: translate(-50%, -50%);
     background-color: #f2f2f2;
@@ -107,7 +107,7 @@ button {
 
 .legend {
     position: absolute;
-    top: 111%;
+    top: 70%;
     left: 52%;
     right: 1%;
     font-size: 85%;
@@ -178,7 +178,7 @@ button {
     width: 700px;
     display: none;
     position: absolute;
-    top: 210%;
+    top: 160%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: lightsteelblue;
@@ -214,7 +214,7 @@ button {
     height: 200px;
     width: 400px;
     position: absolute;
-    top: 170%;
+    top: 130%;
     left: 38%;
     transform: translate(-50%, -50%);
     background-color: #f2f2f2;
@@ -222,4 +222,15 @@ button {
     border-radius: 10px;
     text-align: center;
     box-shadow: 2px 2px 8px #888888;
+}
+
+
+
+
+.center {
+    margin: 0;
+    position: absolute;
+    right: 50%;
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
 }
