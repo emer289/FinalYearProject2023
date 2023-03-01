@@ -148,7 +148,7 @@ let currentMonth = "August";
 
 let challengeOver = false;
 
-let challenge1OverText = "well done! The soil quality is excellent!"
+let challengeOverText = "well done! The soil quality is excellent!"
 
 
 let nigtrogenFixingPlantPicked = false;
@@ -265,6 +265,8 @@ function draw() {
     let url = window.location.href.toString()
     if(url.includes("challenge3")){
         currentChallenge = 3
+    }else if(url.includes("challenge2")){
+        currentChallenge = 2
     }else{
         currentChallenge = 1
     }
@@ -586,21 +588,47 @@ function updateText(){
             select("#soilText").html("Dead");
             select("#soilQualityText").html("Dead");
         }
-    }else{
+    }else if(currentChallenge === 3){
 
 
         select("#bankText").html(`€ ${calculateBankBalance()}`);
         select("#waterQualityText").html(`${calculateWaterQuality()}`)
-
+        select("#fishText").html(`${fishPopulationSize}`)
 
         select("#profitText").html(`€ ${profit}`)
         select("#yieldText").html(`${yield} kg`)
-
-
-        select("#fishText").html(`${fishPopulationSize}`)
-
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
+    }else{
+        //challenge 2
+
+        //soil
+        select("#wormText").html(`${calculateWormPop()}`)
+        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
+        select("#nutrientsText").html(`${n2PopulationSize}`)
+
+
+        if(soilHealth == EXCELLENT_SOIL){
+            select("#soilText").html("Excellent");
+            select('#soilQualityText').html('Excellent');
+        }else if(soilHealth == GOOD_SOIL){
+            select("#soilText").html("Good");
+            select("#soilQualityText").html("Good");
+        }else if(soilHealth == AVERAGE_SOIL){
+            select("#soilText").html("Average");
+            select("#soilQualityText").html("Average");
+        }else if(soilHealth == BAD_SOIL){
+            select("#soilText").html("Bad");
+            select("#soilQualityText").html("Bad");
+        }else if(soilHealth == DEAD_SOIL){
+            select("#soilText").html("Dead");
+            select("#soilQualityText").html("Dead");
+        }
+
+        //water
+        select("#bankText").html(`€ ${calculateBankBalance()}`);
+        select("#waterQualityText").html(`${calculateWaterQuality()}`)
+        select("#fishText").html(`${fishPopulationSize}`)
     }
 
     // select("#ferCostText").html(`${fertiliserCost}`)
@@ -613,7 +641,7 @@ function updateText(){
 
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
 
-    select("#challenge1OverText").html(`${challenge1OverText}`)
+    select("#challenge1OverText").html(`${challengeOverText}`)
 
 
 
@@ -1492,16 +1520,25 @@ function displayYield(){
         nigtrogenFixingPlantPicked = false;
 
         if(soilHealth != EXCELLENT_SOIL){
-            challenge1OverText = "You have failed the challenge because the soil is not excellent :("
+            challengeOverText = "You have failed the challenge because the soil is not excellent :("
         }
 
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
     }else if(yearOver && challengeOver && currentChallenge == 3) {
         if (bankBalance < 2000 || waterQuality < 17) {
-            challenge1OverText = "You have failed the challenge because you have not made enough money :("
+            challengeOverText = "You have failed the challenge because you have not made enough money :("
         }else{
-            challenge1OverText = "Well done you made over 1000 euro"
+            challengeOverText = "Well done you made over 1000 euro"
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
+    }else if(yearOver && challengeOver && currentChallenge == 3){
+        if (soilHealth != EXCELLENT_SOIL || waterQuality < 17) {
+            challengeOverText = "You have failed the challenge :("
+        }else{
+            challengeOverText = "Well done the soil quality is excellent and the water quality is above 16"
         }
 
         let popup = document.getElementById("popup3");

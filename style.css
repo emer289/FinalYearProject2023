@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 95%;
+    top: 115%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -32,7 +32,7 @@ h1 {
 #sketch-container {
     position: absolute;
 
-    top: 90%;
+    top: 110%;
     left: 1%;
 }
 #dashboardC1 {
@@ -40,7 +40,7 @@ h1 {
     width: 400px;
     text-align: center;
     position: absolute;
-    top: 70%;
+    top: 90%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -56,7 +56,7 @@ h1 {
 
 #dashboardC2 {
     position: absolute;
-    top: 70%;
+    top: 90%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -133,7 +133,7 @@ button {
 
 .legend {
     position: absolute;
-    top: 70%;
+    top: 90%;
     left: 52%;
     right: 1%;
     font-size: 85%;
