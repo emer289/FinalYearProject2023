@@ -137,7 +137,7 @@ let profit = 0;
 let soilHealth = AVERAGE_SOIL
 
 let fertiliserCost = 200
-let perfectWaterQuality = 20
+let perfectWaterQuality = 60
 let waterQuality = perfectWaterQuality
 let wColour = [0,50,100];
 
@@ -149,6 +149,7 @@ let currentMonth = "August";
 let challengeOver = false;
 
 let challenge1OverText = "well done! The soil quality is excellent!"
+
 
 let nigtrogenFixingPlantPicked = false;
 
@@ -187,16 +188,18 @@ let grassLegume = 6.4
 let grassHerb = 3.7
 let legumeHerb = 7.3
 
-let lpString = "Lolium Perenne";
-let ppString = "Phleum Pratense";
-let tpString = "Trifolium Pratense";
-let trString = "Trifolium Repens";
-let ciString = "Cichorium Intybus";
-let plString = "Plantago Lanceolata";
+let lpString = "Lolium perenne";
+let ppString = "Phleum pratense";
+let tpString = "Trifolium pratense";
+let trString = "Trifolium repens";
+let ciString = "Cichorium intybus";
+let plString = "Plantago lanceolata";
 
 let profitCount = 0;
 
 let currentChallenge = 1
+
+
 
 
 function preload(){
@@ -257,9 +260,11 @@ function setup() {
 
 function draw() {
 
+
+
     let url = window.location.href.toString()
-    if(url.includes("challenge2")){
-        currentChallenge = 2
+    if(url.includes("challenge3")){
+        currentChallenge = 3
     }else{
         currentChallenge = 1
     }
@@ -299,12 +304,15 @@ function draw() {
     }
 
     checkYearStatus()
-    displayYield();
     updateText()
+    displayYield();
+
 
     fill(255)
     textSize(60);
-    text("Year " + year, 2*width/5, height/5);
+    text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
+
+
 
 }
 
@@ -317,15 +325,18 @@ function calcYield(){
 
 }
 
+ function closePopup(id) {
+     let errorPopup = document.getElementById(id);
+     errorPopup.style.display = "none";
+ }
+
 
  function nextYear() {
 
 
-     inTransitCounter = 0
+    proportion = 1;
 
-     if(soilHealth < EXCELLENT_SOIL && nigtrogenFixingPlantPicked){
-         soilHealth++;
-     }
+     inTransitCounter = 0
 
     yearOver = false;
     cropIndex = 0
@@ -481,9 +492,9 @@ function drawWeather(){
                 break;
         }
 
-        text(currentMonth, 4*width/5, height/6);
 
-        if (frameCount % 60 == 0 && timer > 0) {
+
+        if (frameCount % 5 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -549,43 +560,65 @@ function drawVbsPlants(){
     }
 }
 function updateText(){
-    select("#vbsText").html(`${vbsSlider.value()} meters   `);
 
-    select("#bankText").html(`€ ${calculateBankBalance()}`);
-    select("#waterQualityText").html(`${calculateWaterQuality()}`)
 
+    if(currentChallenge === 1){
+
+
+        select("#wormText").html(`${calculateWormPop()}`)
+        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
+        select("#nutrientsText").html(`${n2PopulationSize}`)
+
+
+        if(soilHealth == EXCELLENT_SOIL){
+            select("#soilText").html("Excellent");
+            select('#soilQualityText').html('Excellent');
+        }else if(soilHealth == GOOD_SOIL){
+            select("#soilText").html("Good");
+            select("#soilQualityText").html("Good");
+        }else if(soilHealth == AVERAGE_SOIL){
+            select("#soilText").html("Average");
+            select("#soilQualityText").html("Average");
+        }else if(soilHealth == BAD_SOIL){
+            select("#soilText").html("Bad");
+            select("#soilQualityText").html("Bad");
+        }else if(soilHealth == DEAD_SOIL){
+            select("#soilText").html("Dead");
+            select("#soilQualityText").html("Dead");
+        }
+    }else{
+
+
+        select("#bankText").html(`€ ${calculateBankBalance()}`);
+        select("#waterQualityText").html(`${calculateWaterQuality()}`)
+
+
+        select("#profitText").html(`€ ${profit}`)
+        select("#yieldText").html(`${yield} kg`)
+
+
+        select("#fishText").html(`${fishPopulationSize}`)
+
+        select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
+        select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
+    }
+
+    // select("#ferCostText").html(`${fertiliserCost}`)
     select("#lpCostText").html(`${lpCostPrice}`)
     select("#ppCostText").html(`${ppCostPrice}`)
     select("#tpCostText").html(`${tpCostPrice}`)
     select("#trCostText").html(`${trCostPrice}`)
     select("#ciCostText").html(`${ciCostPrice}`)
     select("#plCostText").html(`${plCostPrice}`)
-    // select("#ferCostText").html(`${fertiliserCost}`)
 
-    select("#profitText").html(`€ ${profit}`)
-    select("#yieldText").html(`${yield} kg`)
+    select("#vbsText").html(`${vbsSlider.value()} meters   `);
 
-    select("#wormText").html(`${calculateWormPop()}`)
-    select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
-    select("#nutrientsText").html(`${n2PopulationSize}`)
-    select("#fishText").html(`${fishPopulationSize}`)
-    // select("#oxygenText").html(`${oxygenLevel}`)
-    select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
-    select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
     select("#challenge1OverText").html(`${challenge1OverText}`)
 
 
-    if(soilHealth == EXCELLENT_SOIL){
-        select("#soilQualityText").html("Excellent");
-    }else if(soilHealth == GOOD_SOIL){
-        select("#soilQualityText").html("Good");
-    }else if(soilHealth == AVERAGE_SOIL){
-        select("#soilQualityText").html("Average");
-    }else if(soilHealth == BAD_SOIL){
-        select("#soilQualityText").html("Bad");
-    }else if(soilHealth == DEAD_SOIL){
-        select("#soilQualityText").html("Dead");
-    }
+
+
+
 }
 
 
@@ -657,16 +690,17 @@ function lockSlider() {
 
 function organiseCropsToSow(){
 
-    let checkBoxGroup = document.forms['crops_form']['checkCrops[]'];
+    let checkBoxGroupAll = document.forms['crops_form']['checkCrops[]'];
+    let checkBoxGroup = Array.from(checkBoxGroupAll).filter(a => a.checked);
+
 
     let fgInteraction = [];
-
-
 
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
 
-            if((checkBoxGroup[i].value == "Trifolium pratense" || checkBoxGroup[i].value == "Trifolium repens") ){
+            if((checkBoxGroup[i].value == tpString || checkBoxGroup[i].value == trString) ){
+
                     nigtrogenFixingPlantPicked = true;
 
             }
@@ -678,18 +712,26 @@ function organiseCropsToSow(){
 
     proportion = 1/cropCount
 
-    for (let i = 0; i < checkBoxGroup.length; i++) {
-        if(checkBoxGroup[i].checked){
+    for (let i = 0; i < checkBoxGroupAll.length; i++) {
+
+
+        if(checkBoxGroupAll[i].checked){
+
             bankBalance -= (crops[i].costPrice*proportion)
             amountSpent += (crops[i].costPrice*proportion)
         }
+        console.log("1.1 amount spent is ", amountSpent);
+        // console.log("1.1.")
+        // console.log(bankBalance)
     }
 
 
     //calculates the profit
     if(checkBoxGroup.length == 1){
+
         if(checkBoxGroup[0].value == lpString ){
             profit += 148
+
         }else if(checkBoxGroup[0].value == ppString ){
             profit += 482
         }else if(checkBoxGroup[0].value == tpString ){
@@ -714,6 +756,7 @@ function organiseCropsToSow(){
             profit += 482
         }
     }else if(checkBoxGroup.length == 3){
+
         if(((checkBoxGroup[0].value == lpString || checkBoxGroup[1].value == lpString)
                 && (checkBoxGroup[1].value == ppString || checkBoxGroup[2].value == ppString))
             || (checkBoxGroup[1].value == ciString || checkBoxGroup[2].value == plString) ){
@@ -721,27 +764,27 @@ function organiseCropsToSow(){
             profit += 398;
         }else if((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString)
             && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString)) {
+
             profit += 578
+
         }else{
-            profit += 600
+
+            //profit += 600
+            profit += 578
+
         }
     }else if(checkBoxGroup.length == 4){
 
-        if(((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString
-                || checkBoxGroup[2].value == tpString)
-            && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString))
-        || ((checkBoxGroup[0].value == lpString || checkBoxGroup[1].value == lpString
-                    || checkBoxGroup[2].value == lpString)
-                && (checkBoxGroup[1].value == ppString || checkBoxGroup[2].value == ppString
-                    || checkBoxGroup[3].value == ppString ))) {
+        if(((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString || checkBoxGroup[2].value == tpString) && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString))
 
-
+            || ((checkBoxGroup[0].value == lpString || checkBoxGroup[1].value == lpString || checkBoxGroup[2].value == lpString) && (checkBoxGroup[1].value == ppString || checkBoxGroup[2].value == ppString || checkBoxGroup[3].value == ppString ))) {
 
             profit += 578
         }
 
     }else if(checkBoxGroup.length == 5){
 
+        //if they pick the two legumes
         if((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString
                     || checkBoxGroup[2].value == tpString || checkBoxGroup[3].value == tpString)
                 && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString
@@ -755,20 +798,14 @@ function organiseCropsToSow(){
         profit += 578
     }
 
-
-    console.log("made it hereeeeeeee")
-    console.log("cropCount is ", cropCount)
-
     if(cropCount == 1){
 
-        console.log("made it hereeeeeeee")
         for(let i=1; i<totNumOfCrops; i++){
 
             cropsToSow[i] = cropsToSow[0]
 
         }
 
-        console.log("made it hereeeeeeee")
         yield = cropsToSow[0].speciesIdentity
 
 
@@ -778,11 +815,9 @@ function organiseCropsToSow(){
 
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
-         //   bankBalance -= cropsToSow[i].costPrice
-            //amountSpent += cropsToSow[i].costPrice
+
             cropsToSow[i+1] = cropsToSow[1]
-         //   bankBalance -= cropsToSow[i+1].costPrice
-           // amountSpent += cropsToSow[i+1].costPrice
+
         }
 
 
@@ -807,16 +842,11 @@ function organiseCropsToSow(){
 
     }else if(cropCount == 3){
 
-        //cropCount == 3
+
         cropsToSow[3] = cropsToSow[0]
-        // bankBalance -= cropsToSow[3].costPrice
-        // amountSpent += cropsToSow[3].costPrice
         cropsToSow[4] = cropsToSow[1]
-        // bankBalance -= cropsToSow[4].costPrice
-        // amountSpent += cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[2]
-        // bankBalance -= cropsToSow[5].costPrice
-        // amountSpent += cropsToSow[5].costPrice
+
 
         if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
         || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
@@ -871,11 +901,8 @@ function organiseCropsToSow(){
     }else if(cropCount == 4){
 
         cropsToSow[4] = cropsToSow[0]
-        // bankBalance -= cropsToSow[4].costPrice
-        // amountSpent += cropsToSow[4].costPrice
         cropsToSow[5] = cropsToSow[1]
-        // bankBalance -= cropsToSow[5].costPrice
-        // amountSpent += cropsToSow[5].costPrice
+
 
         let isPicked = 0;
 
@@ -973,17 +1000,17 @@ function organiseCropsToSow(){
         let tempCrops = crops
 
         for(let i=0; i<cropCount; i++){
-            if(cropsToSow[i].name == "Lolium Perenne"){
+            if(cropsToSow[i].name == lpString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-            }else if(cropsToSow[i].name == "Phleum Pratense"){
+            }else if(cropsToSow[i].name == ppString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-            }else if(cropsToSow[i].name == "Trifolium Pratense"){
+            }else if(cropsToSow[i].name == tpString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-            }else if(cropsToSow[i].name == "Trifolium Repens"){
+            }else if(cropsToSow[i].name == trString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-            }else if(cropsToSow[i].name == "Cichorium Intybus"){
+            }else if(cropsToSow[i].name == ciString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-            }else if(cropsToSow[i].name == "Plantago Lanceolata"){
+            }else if(cropsToSow[i].name == plString){
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }
         }
@@ -1081,6 +1108,8 @@ function calculateWaterQuality(){
 }
 
 function calculateBankBalance(){
+    // console.log("2.")
+    // console.log(bankBalance)
     return bankBalance.toFixed(2);
 }
 
@@ -1095,8 +1124,10 @@ function checkBoxLimit(form_name, check, limit) {
                     checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
                 }
                 if (checkedcount > limit) {
-                    console.log("You can select maximum of " + limit + " checkboxes.");
-                    alert("You can select maximum of " + limit + " checkboxes.");
+
+                    //alert("You can select maximum of " + limit + " checkboxes.");
+                    let errorPopup = document.getElementById("errorPopup2");
+                    errorPopup.style.display = "block";
                     this.checked = false;
                 }
             }
@@ -1123,7 +1154,11 @@ function validateCheckboxes() {
                 });
 
                 if (checkedCount === 0) {
-                    alert(`Please select at least one checkbox in the ${form.id} form`);
+                    let errorPopup = document.getElementById("errorPopup1");
+                    errorPopup.style.display = "block";
+
+                    //alert(`Please select at least one checkbox for each control`);
+
                     isValid = false;
                 }
             }
@@ -1155,13 +1190,13 @@ function moveFish(){
     }
 
 
-    if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%3 == 0 && !fishPoped){
+    if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%11 == 0 && !fishPoped){
 
         fishPopulation.pop();
         fishPopulationSize = fishPopulation.length
         fishPoped = true;
 
-    }else if(NitrogenCycleWaterPop.length%3 != 0 && NitrogenCycleWaterPop.length != 0){
+    }else if(NitrogenCycleWaterPop.length%11 != 0 && NitrogenCycleWaterPop.length != 0){
         fishPoped = false;
     }
 
@@ -1354,7 +1389,7 @@ function toggleRain() {
                     && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
                     ncc.inTransit = true;
                     inTransitCounter++
-                    console.log("60 wood in herererere")
+
                 }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSlider.value() == 0){
                     //vbs of length 0
                     ncc.inTransit = true;
@@ -1385,8 +1420,8 @@ function createSun(){
 
 
 function addFertilisers(){
-    bankBalance -= fertiliserCost
-    amountSpent += fertiliserCost
+    //bankBalance -= fertiliserCost
+   // amountSpent += fertiliserCost
     // if(soilHealth > DEAD_SOIL){
     //     soilHealth--;
     // }
@@ -1396,12 +1431,12 @@ function addFertilisers(){
 
 
 function initCrops(){
-    crops[0] = new Plant("Lolium Perenne",  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize);
-    crops[1] = new Plant("Phleum Pratense",  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize);
-    crops[2] = new Plant("Trifolium Pratense",  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize);
-    crops[3] = new Plant("Trifolium Repens",  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize);
-    crops[4] = new Plant("Cichorium Intybus",  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize);
-    crops[5] = new Plant("Plantago Lanceolata",  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize);
+    crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize);
+    crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize);
+    crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize);
+    crops[3] = new Plant(trString,  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize);
+    crops[4] = new Plant(ciString,  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize);
+    crops[5] = new Plant(plString,  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize);
 }
 
 function initVBSPlants(){
@@ -1427,25 +1462,46 @@ function displayYield(){
 
 
         if(profitCount == 0){
+
             bankBalance += profit;
+
+
             amountMade += profit;
+
             profitCount++
         }
+        if(soilHealth < EXCELLENT_SOIL && nigtrogenFixingPlantPicked){
+            soilHealth++;
+        }
+        nigtrogenFixingPlantPicked = false;
+        updateText()
 
 
         let popup = document.getElementById("popup");
         popup.style.display = "block";
         yearOver = false
     }else if(yearOver && challengeOver && currentChallenge == 1){
+        if(profitCount == 0){
+            bankBalance += profit;
+            amountMade += profit;
+            profitCount++
+        }
+        if(soilHealth < EXCELLENT_SOIL && nigtrogenFixingPlantPicked){
+            soilHealth++;
+        }
+        nigtrogenFixingPlantPicked = false;
+
         if(soilHealth != EXCELLENT_SOIL){
             challenge1OverText = "You have failed the challenge because the soil is not excellent :("
         }
 
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
-    }else if(yearOver && challengeOver && currentChallenge == 2) {
+    }else if(yearOver && challengeOver && currentChallenge == 3) {
         if (bankBalance < 2000 || waterQuality < 17) {
             challenge1OverText = "You have failed the challenge because you have not made enough money :("
+        }else{
+            challenge1OverText = "Well done you made over 1000 euro"
         }
 
         let popup = document.getElementById("popup3");
@@ -1496,7 +1552,7 @@ function restartChallenge1() {
     vbsToPlant = []
 
 
-    waterQuality = 20
+    waterQuality = 60
     year = 1;
     bankBalance = 1000;
     amountMade = 0;

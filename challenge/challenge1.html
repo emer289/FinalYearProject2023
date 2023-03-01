@@ -25,7 +25,7 @@
 <body style="background-color: lightgray;">
 <a href="../index.html" class="btn">home &rarr;</a>
 <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
-<a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
+<a href="challenge3.html" class="btn">challenge 2 &rarr;</a>
 <div id="sketch-container"></div>
 <h1 >Challenge 1</h1>
 <p class="taskDescription">As a farmer, your goal is to enhance the soil quality over a period of three years, so
@@ -46,7 +46,7 @@
 <div id="controls">
     <h2>Controls</h2>
 
-    <h3>Choose the VBS Length</h3>
+    <h3>Choose the Vegetative Buffer Strip (VBS) Length</h3>
     <h3 id="length"><span id="vbsText"></span></h3>
 
     <h3 id="Vbs_Question">Choose your VBS plants</h3>
@@ -95,27 +95,17 @@
 
 
 <!--  start of dashboard -->
-<div id="dashboard">
 
-    <div class="section">
+<div id="dashboardC1">
+
+    <div class="sectionC1">
         <h2 id="quantity" >Soil Quality: <span id="soilQualityText"></span></h2>
         <h3>Number of Worms: <span id="wormText"></span></h3>
         <h3>Number of Bacteria: <span id="bacteriaText"></span></h3>
         <h3>Number of nutrients: <span id="nutrientsText"></span></h3>
     </div>
 
-    <div class="section">
-        <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
-        <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
-<!--        <h3 id="quantity">Level of Oxygen: <span id="water"></span></h3>-->
-    </div>
 
-
-    <div class="section">
-        <h2 id="euro" >Bank Balance: <span id="bankText"></span></h2>
-        <h3 id="euro" >Amount made: <span id="amountMadeText"></span></h3>
-        <h3 id="euro" >Amount spent: <span id="amountSpentText"></span></h3>
-    </div>
 
 
 
@@ -243,6 +233,18 @@
 
             </div>
         </div>
+
+        <div class="imageSection">
+            <img class="image" src="../Pictures/earthWorm.png" alt="Image 1">
+            <div class="popup1">
+                <p> This is an Earthworm. </p>
+                <div class="popup2">
+                    <img class="popUpImage" src="../Pictures/EarthWormImage.jpeg" alt="Image 1">
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -251,15 +253,27 @@
 <!--  end of Legend -->
 
 <div id="popup" class="popup" style="display:none;">
-    <p id="message">The yield for the year was <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
+    <p> The soil quality is <span id="soilText"></span></p>
     <button id="continueBtn" onclick="nextYear()">Continue</button>
 </div>
 
 <div id="popup3" class="popup3" style="display:none;">
     <p id="message"><span id="challenge1OverText"></span></p>
     <button id="continueBtn" onclick="restartChallenge1()">Retry Challenge</button>
-    <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
+    <a href="challenge3.html" class="btn">challenge 2 &rarr;</a>
 </div>
+
+
+<div id="errorPopup1" class="popup" style="display:none;">
+    <p> Please select at least one checkbox for each control. </p>
+    <button id="OKBtn" onclick="closePopup('errorPopup1')">OK</button>
+</div>
+
+<div id="errorPopup2" class="popup" style="display:none;">
+    <p> You can only select one VBS plant. </p>
+    <button id="OKBtn" onclick="closePopup('errorPopup2')">OK</button>
+</div>
+
 
 </body>
 </html>

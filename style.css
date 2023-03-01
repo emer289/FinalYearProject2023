@@ -35,7 +35,26 @@ h1 {
     top: 90%;
     left: 1%;
 }
-#dashboard {
+#dashboardC1 {
+    height: 200px;
+    width: 400px;
+    text-align: center;
+    position: absolute;
+    top: 70%;
+    left: 1%;
+    right: 50%;
+    font-size: 85%;
+    color: white;
+    float: right;
+    background-color: #1e242a;
+    border-radius: 25px;
+    border: 5px solid white;
+    padding: 5px;
+    display: flex;
+
+}
+
+#dashboardC2 {
     position: absolute;
     top: 70%;
     left: 1%;
@@ -62,8 +81,15 @@ p {
     font-size: 36px;
 }
 .section {
-    width: 33.33%;
+    width: 50%;
     text-align: center;
+
+}
+
+.sectionC1 {
+    width: 100%;
+    text-align: center;
+
 }
 button {
     background-color: #4CAF50;
@@ -234,3 +260,13 @@ button {
     -ms-transform: translateX(50%);
     transform: translateX(50%);
 }
+
+
+.myAlert {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+

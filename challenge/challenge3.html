@@ -27,7 +27,7 @@
 <a href="../howItWorksPage/howItWorks.html" class="btn">how it works &rarr;</a>
 <a href="challenge1.html" class="btn">challenge 1 &rarr;</a>
 <div id="sketch-container"></div>
-<h1 >Challenge 2</h1>
+<h1 >Challenge 3</h1>
 <p class="taskDescription">As a farmer, your goal is to make €1,000 by the end of the three-year span while keeping the river quality above the level of 17. The controls for this
     task can be found on the bottom right of your screen, while the dashboard which displays your
     progress is located to the left. At the beginning of year one you will pick the vegetative buffer strip (VBS) length, the VBS plant, and
@@ -45,7 +45,7 @@
 <div id="controls">
     <h2>Controls</h2>
 
-    <h3>Choose the VBS Length</h3>
+    <h3>Choose the Vegetative Buffer Strip (VBS) Length</h3>
     <h3 id="length"><span id="vbsText"></span></h3>
 
     <h3 id="Vbs_Question">Choose your VBS plants</h3>
@@ -94,18 +94,12 @@
 
 
 <!--  start of dashboard -->
-<div id="dashboard">
+<div id="dashboardC2">
 
-    <div class="section">
-        <h2 id="quantity" >Soil Quality: <span id="soilQualityText"></span></h2>
-        <h3>Number of Worms: <span id="wormText"></span></h3>
-        <h3>Number of Bacteria: <span id="bacteriaText"></span></h3>
-        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>
-    </div>
 
     <div class="section">
         <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
-        <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
+        <h3 id="quantity">Number of Fish: <span id="fishText"></span> <span id="soilQualityText"></span></h3>
         <!--        <h3 id="quantity">Level of Oxygen: <span id="water"></span></h3>-->
     </div>
 
@@ -250,14 +244,14 @@
 <!--  end of Legend -->
 
 <div id="popup" class="popup" style="display:none;">
-    <p id="message">The yield for the year was <span id="yieldText"></span>, this is worth <span id="profitText"></span></p>
+    <p id="message">The yield for the year was <span id="yieldText"></span>, this is worth <span id="profitText"></span> <span id="soilQualityText"></span></p>
     <button id="continueBtn" onclick="nextYear()">Continue</button>
 </div>
 
 <div id="popup3" class="popup3" style="display:none;">
     <p id="message"><span id="challenge1OverText"></span></p>
     <button id="continueBtn" onclick="restartChallenge1()">Retry Challenge</button>
-    <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
+    <a href="challenge3.html" class="btn">challenge 3 &rarr;</a>
 </div>
 
 </body>
