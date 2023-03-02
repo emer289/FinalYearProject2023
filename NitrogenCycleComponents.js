@@ -82,42 +82,23 @@ class NitrogenCycleComponents {
                 this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
             }else{
 
-                console.log("is this code used?");
-                if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
-                    console.log("is this code used? 1");
-                    let ind = NitrogenCyclePop.indexOf(this)
-                    //VBS grows
-                    if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
+                //to far right
+                if (this.pos.x + this.size >= farm.x + farm.width) {
+                    this.direction.x *= -1;
 
-                        NitrogenCyclePop.splice(ind, 1)
+                    // to far left and
+                } else if (this.pos.x <= this.topLeft.x ) {
+                    this.direction.x *= -1;
 
-                        for(let i=0; i<vbsToPlant.length; i++){
-                            vbsToPlant[i].size += 10
-                        }
-                    }else{
-                        this.direction.x *= -1;
-                        this.direction.y *= -1;
-                    }
+                    //to far down
+                } else if (this.pos.y + this.size >= farm.y + farm.height) {
+                    this.direction.y *= -1;
 
-                }else{
-                    console.log("is this code used? 2");
-                    //to far right
-                    if (this.pos.x + this.size >= farm.x + farm.width) {
-                        this.direction.x *= -1;
-
-                        // to far left and
-                    } else if (this.pos.x <= this.topLeft.x ) {
-                        this.direction.x *= -1;
-
-                        //to far down
-                    } else if (this.pos.y + this.size >= farm.y + farm.height) {
-                        this.direction.y *= -1;
-
-                        //to far up and
-                    } else if (this.pos.y <= farm.y ) {
-                        this.direction.y *= -1;
-                    }
+                    //to far up and
+                } else if (this.pos.y <= farm.y ) {
+                    this.direction.y *= -1;
                 }
+
             }
         }else if (!this.inTransit && !this.inWater){
 
