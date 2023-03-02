@@ -44,9 +44,9 @@ class Plant {
         image(
             this.rootPic,
             0-this.size/2+12,
-            0-this.size/4,
+            0-4*this.size/5,
             this.size,
-            this.size
+            this.size*3
         );
         // branch(this.rootLen);
         // translate(0,-this.rootLen)
@@ -93,10 +93,10 @@ class VbsPlant extends Plant {
         for(let i=1; i<yValues.length; i++){
             image(
                 this.rootPic,
-                xValues[i]- this.size/3,
-                yValues[i]- this.size/3,
-                this.size,
-                this.size
+                xValues[i]- this.size*1/3,
+                yValues[i]- this.size*4/5,
+                this.size*1,
+                this.size*3
             );
             image(
                 this.pic,

@@ -108,17 +108,9 @@ let treeImage;
 let sunSize = 160;
 let proportion;
 
-
 let plantSize = 60
 let shrubSize = 100
 let woodSize = 250
-
-
-//chemical reactions
-// let chemicalReaction1 = [];
-// let chemicalReaction2  = [];
-// let chemicalReaction3 = [];
-
 
 let rain = [];
 let isRaining = false;
@@ -752,9 +744,7 @@ function organiseCropsToSow(){
             bankBalance -= (crops[i].costPrice*proportion)
             amountSpent += (crops[i].costPrice*proportion)
         }
-        console.log("1.1 amount spent is ", amountSpent);
-        // console.log("1.1.")
-        // console.log(bankBalance)
+
     }
 
 
@@ -1325,9 +1315,10 @@ function moveNCP(){
         if(infoSubmitted){
             nc.move()
             //if it's nitrite, check if it collides with the plant roots
-            if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
-                checkRootNutrientCollision(nc, i)
-            }
+            //if it's nitrite, check if it collides with the plant roots
+            // if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
+            //    // checkRootNutrientCollision(nc, i)
+            // }
             for(const nc2 of NitrogenCyclePop){
                 nc.checkCollision(nc2)
             }
