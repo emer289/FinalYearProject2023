@@ -444,10 +444,10 @@ function drawWeather(){
     //     growSun()
     // }
 
-    if(currentMonth == "October"){
+    if(currentMonth == "December"){
         isRaining = true;
         toggleRain()
-    }else if( currentMonth == "March"){
+    }else if( currentMonth == "April"){
         isRaining = false;
     }
     if(timer == 0){
@@ -496,7 +496,7 @@ function drawWeather(){
 
 
 
-        if (frameCount % 5 == 0 && timer > 0) {
+        if (frameCount % 100 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -590,11 +590,10 @@ function updateText(){
         }
     }else if(currentChallenge === 3){
 
-
-        select("#bankText").html(`€ ${calculateBankBalance()}`);
         select("#waterQualityText").html(`${calculateWaterQuality()}`)
         select("#fishText").html(`${fishPopulationSize}`)
 
+        select("#bankText").html(`€ ${calculateBankBalance()}`);
         select("#profitText").html(`€ ${profit}`)
         select("#yieldText").html(`${yield} kg`)
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
@@ -610,23 +609,28 @@ function updateText(){
 
         if(soilHealth == EXCELLENT_SOIL){
             select("#soilText").html("Excellent");
-            select('#soilQualityText').html('Excellent');
+            select("#soilQualityText2").html("Excellent");
+
         }else if(soilHealth == GOOD_SOIL){
             select("#soilText").html("Good");
-            select("#soilQualityText").html("Good");
+            select("#soilQualityText2").html("Good");
+
         }else if(soilHealth == AVERAGE_SOIL){
             select("#soilText").html("Average");
-            select("#soilQualityText").html("Average");
+            select("#soilQualityText2").html("Average");
+
         }else if(soilHealth == BAD_SOIL){
             select("#soilText").html("Bad");
-            select("#soilQualityText").html("Bad");
+            select("#soilQualityText2").html("Bad");
+
         }else if(soilHealth == DEAD_SOIL){
             select("#soilText").html("Dead");
-            select("#soilQualityText").html("Dead");
+            select("#soilQualityText2").html("Dead");
+
         }
 
         //water
-        select("#bankText").html(`€ ${calculateBankBalance()}`);
+
         select("#waterQualityText").html(`${calculateWaterQuality()}`)
         select("#fishText").html(`${fishPopulationSize}`)
     }
@@ -1534,11 +1538,11 @@ function displayYield(){
 
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
-    }else if(yearOver && challengeOver && currentChallenge == 3){
+    }else if(yearOver && challengeOver && currentChallenge == 2){
         if (soilHealth != EXCELLENT_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
-            challengeOverText = "Well done the soil quality is excellent and the water quality is above 16"
+            challengeOverText = "Well done the soil quality is excellent and the water quality is above 17"
         }
 
         let popup = document.getElementById("popup3");

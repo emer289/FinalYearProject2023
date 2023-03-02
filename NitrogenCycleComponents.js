@@ -82,8 +82,9 @@ class NitrogenCycleComponents {
                 this.direction = new Coordinate(random(0.75, 1.5), random(0.75, 1.5));
             }else{
 
+                console.log("is this code used?");
                 if(isInside(VBS.x, VBS.y, VBS.x,VBS.topRighty, VBS.topRightx, VBS.topRighty, this.pos.x, this.pos.y)){
-
+                    console.log("is this code used? 1");
                     let ind = NitrogenCyclePop.indexOf(this)
                     //VBS grows
                     if(this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3"){
@@ -99,6 +100,7 @@ class NitrogenCycleComponents {
                     }
 
                 }else{
+                    console.log("is this code used? 2");
                     //to far right
                     if (this.pos.x + this.size >= farm.x + farm.width) {
                         this.direction.x *= -1;
