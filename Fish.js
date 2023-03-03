@@ -1,7 +1,8 @@
 class Fish {
-    constructor(size, state, currentRegion) {
+    constructor(size, state, currentRegion, pic) {
         this.currentRegion = currentRegion;
 
+        this.pic = pic;
         this.topLeft = new Coordinate(
             this.currentRegion.x,
             this.currentRegion.y
@@ -22,30 +23,65 @@ class Fish {
 
 
     move() {
-        //to far right
-        if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
-            this.direction.x *= -1;
 
-            //too far left
-        } else if (this.pos.x <= this.topLeft.x) {
-            this.direction.x *= -1;
+        if(this.state == "dead"){
 
-            //to far down
-        } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
-            this.direction.y *= -1;
+            if(this.pos.y < water.y + this.size/2){
+                this.direction.x = 0;
+                this.direction.y = 0;
 
-            //to far up
-        } else if (this.pos.y <= this.topLeft.y + this.size) {
-            this.direction.y *= -1;
+
+
+            }{
+                this.direction.x = 0;
+                this.direction.y -= 0.01;
+            }
+
+
+
+        }else {
+
+
+            if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%3 == 0 && !fishPoped && this.state == "healthy"){
+                // Flip the image horizontally by scaling it with -1 on the x-axis
+
+
+                this.pic = fishUpsideDownImage
+
+                this.state = "dead";
+                fishPoped = true;
+            } else if(NitrogenCycleWaterPop.length%3 != 0 && NitrogenCycleWaterPop.length != 0){
+
+                fishPoped = false;
+            }
+
+            //to far right
+            if (this.pos.x + this.size + this.size >= this.bottomRight.x) {
+                this.direction.x *= -1;
+
+                //too far left
+            } else if (this.pos.x <= this.topLeft.x) {
+                this.direction.x *= -1;
+
+                //to far down
+            } else if (this.pos.y + this.size + this.size >= this.bottomRight.y) {
+                this.direction.y *= -1;
+
+                //to far up
+            } else if (this.pos.y <= this.topLeft.y + this.size) {
+                this.direction.y *= -1;
+            }
+
         }
         this.pos = new Coordinate(
             this.pos.x + this.direction.x/2,
             this.pos.y + this.direction.y/2
         );
+
     }
     render() {
         image(
-            fishImage,
+            this.pic,
             this.pos.x,
             this.pos.y,
             this.size * 2,

@@ -41,9 +41,9 @@ const totNumOfVbsPlants = 3
 //fish
 let fishPopulationSize = 5;
 let fishPopulation = []
-let fishSize = 10;
+let fishSize = 20;
 let fishImage;
-
+let fishUpsideDownImage;
 
 //Nitrogen cycle components
 let bacteriaPopulationSize = 3;
@@ -195,7 +195,8 @@ let currentChallenge = 1
 
 
 function preload(){
-   fishImage = loadImage('../Pictures/fish.png');
+   fishImage = loadImage('../Pictures/freshWaterFish.png');
+   fishUpsideDownImage = loadImage('../Pictures/freshWaterFishUpsideDown.png');
    bacteria1Image = loadImage("../Pictures/bacteria.png");
    bacteria2Image = loadImage("../Pictures/bacteria2.png");
    bacteria3Image = loadImage("../Pictures/bacteria3.png");
@@ -251,8 +252,6 @@ function setup() {
 
 
 function draw() {
-
-
 
     let url = window.location.href.toString()
     if(url.includes("challenge3")){
@@ -355,7 +354,7 @@ function calcYield(){
 
    // vbsToPlant = []
     NitrogenCyclePop = [];
-    NitrogenCycleWaterPop = [];
+    //NitrogenCycleWaterPop = [];
 
     createRegions();
     createWorms(calculateWormPop())
@@ -677,7 +676,7 @@ function enterPressed(){
         organiseCropsToSow();
 
 
-        createFishes()
+       // createFishes()
 
         for(const ncc of NitrogenCyclePop){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
@@ -1194,7 +1193,7 @@ function validateCheckboxes() {
 function createFishes(){
     let water = regions[0];
     for(let i=0; i<fishPopulationSize; i++){
-        let fish = new Fish(fishSize, "healthy", water);
+        let fish = new Fish(fishSize, "healthy", water, fishImage);
         fishPopulation[i]=fish
         if(i < fishPopulationSize/2){
             fish.direction.x *= -1
@@ -1212,15 +1211,7 @@ function moveFish(){
     }
 
 
-    if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%11 == 0 && !fishPoped){
 
-        fishPopulation.pop();
-        fishPopulationSize = fishPopulation.length
-        fishPoped = true;
-
-    }else if(NitrogenCycleWaterPop.length%11 != 0 && NitrogenCycleWaterPop.length != 0){
-        fishPoped = false;
-    }
 
 }
 
