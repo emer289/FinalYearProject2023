@@ -39,7 +39,7 @@ const totNumOfVbsPlants = 3
 
 
 //fish
-let fishPopulationSize = 5;
+let fishPopulationSize = 20;
 let fishPopulation = []
 let fishSize = 20;
 let fishImage;
@@ -110,7 +110,7 @@ let proportion;
 
 let plantSize = 60
 let shrubSize = 100
-let woodSize = 250
+let woodSize = 200
 
 let rain = [];
 let isRaining = false;
@@ -431,11 +431,9 @@ function checkYearStatus(){
 }
 
 function drawWeather(){
-    // if(timer%5 == 0 ){
-    //     growSun()
-    // }
 
-    if(currentMonth == "December"){
+
+    if(currentMonth == "November"){
         isRaining = true;
         toggleRain()
     }else if( currentMonth == "April"){
@@ -487,7 +485,7 @@ function drawWeather(){
 
 
 
-        if (frameCount % 100 == 0 && timer > 0) {
+        if (frameCount % 60 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -676,7 +674,9 @@ function enterPressed(){
         organiseCropsToSow();
 
 
-       // createFishes()
+        if(year == 1){
+            createFishes()
+        }
 
         for(const ncc of NitrogenCyclePop){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
@@ -702,6 +702,7 @@ function enterPressed(){
 
 }
 
+
 function lockSlider() {
 
     if (lock) {
@@ -719,16 +720,17 @@ function organiseCropsToSow(){
 
     let fgInteraction = [];
 
-    for (let i = 0; i < checkBoxGroup.length; i++) {
-        if(checkBoxGroup[i].checked){
+    for (let i = 0; i < checkBoxGroupAll.length; i++) {
+        if(checkBoxGroupAll[i].checked){
 
-            if((checkBoxGroup[i].value == tpString || checkBoxGroup[i].value == trString) ){
+            if((checkBoxGroupAll[i].value == tpString || checkBoxGroupAll[i].value == trString) ){
 
                     nigtrogenFixingPlantPicked = true;
 
             }
 
             cropCount += 1
+
             cropsToSow.push(crops[i]);
         }
     }
@@ -1336,7 +1338,7 @@ function checkRootNutrientCollision(nutrient, index){
             NitrogenCyclePop.splice(index, 1)
 
             for(let c=0; c < cropCount; c++){
-                 cropsToSow[c].size += 5
+                 cropsToSow[c].size += 1
             }
 
         }
@@ -1445,22 +1447,25 @@ function addFertilisers(){
 
 
 function initCrops(){
-    crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize);
-    crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize);
-    crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize);
-    crops[3] = new Plant(trString,  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize);
-    crops[4] = new Plant(ciString,  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize);
-    crops[5] = new Plant(plString,  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize);
+    let posistions = [2, 10, 5, 4/5]
+    console.log(posistions)
+    crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize, [2, 10, 5, 4/5]);
+    crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize, [2, 5, 5, 4/5]);
+    crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize, [2, 5, 11, 4/5]);
+    crops[3] = new Plant(trString,  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize, posistions);
+    crops[4] = new Plant(ciString,  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize, posistions);
+    crops[5] = new Plant(plString,  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize, posistions);
 }
 
 function initVBSPlants(){
     //init Vbs plant dictionary
 
-    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic, shrubSize)
+
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic, shrubSize, [shrubSize*1/3, shrubSize, 2*(shrubSize/4), 2*(shrubSize/2)])
     VbsPlants[0] = shrub;
-    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic, woodSize)
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic, woodSize, [woodSize*1/7, woodSize/2, 2*(woodSize/4), 2*(woodSize/2)])
     VbsPlants[1] = tree;
-    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize)
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize, [plantSize*1/3, plantSize, 2*(plantSize/4), 2*(plantSize/2)])
     VbsPlants[2] = grass;
 }
 
@@ -1588,7 +1593,7 @@ function restartChallenge1() {
     lockSlider();
     createRegions()
 
-    fishPopulationSize = 5;
+    fishPopulationSize = 20;
     createWorms(calculateWormPop())
 
     initSoilHealth()

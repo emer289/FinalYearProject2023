@@ -96,7 +96,7 @@ class NitrogenCycleComponents {
                         //VBS absorbs plant
                         NitrogenCyclePop.splice(ind, 1)
                         for (let i = 0; i < vbsToPlant.length; i++) {
-                            vbsToPlant[i].size += 10
+                            vbsToPlant[i].size += 1
                         }
                     } else {
                         this.direction.x *= -1;

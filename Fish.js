@@ -30,6 +30,7 @@ class Fish {
                 this.direction.x = 0;
                 this.direction.y = 0;
 
+                return;
 
 
             }{
@@ -42,7 +43,7 @@ class Fish {
         }else {
 
 
-            if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%3 == 0 && !fishPoped && this.state == "healthy"){
+            if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%6 == 0 && !fishPoped && this.state == "healthy"){
                 // Flip the image horizontally by scaling it with -1 on the x-axis
 
 
@@ -50,7 +51,7 @@ class Fish {
 
                 this.state = "dead";
                 fishPoped = true;
-            } else if(NitrogenCycleWaterPop.length%3 != 0 && NitrogenCycleWaterPop.length != 0){
+            } else if(NitrogenCycleWaterPop.length%6 != 0 && NitrogenCycleWaterPop.length != 0){
 
                 fishPoped = false;
             }
@@ -73,6 +74,8 @@ class Fish {
             }
 
         }
+
+
         this.pos = new Coordinate(
             this.pos.x + this.direction.x/2,
             this.pos.y + this.direction.y/2

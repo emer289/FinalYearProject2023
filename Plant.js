@@ -1,6 +1,13 @@
 class Plant {
-    constructor(name, pos, pic, x, w, y, rootPic, costPrice, sellPrice, speciesIdentity, type, size) {
+    constructor(name, pos, pic, x, w, y, rootPic, costPrice, sellPrice, speciesIdentity, type, size, position) {
 
+
+        this.position = position
+
+        console.log(position)
+        console.log(type)
+        console.log(name)
+        console.log(this.position)
         this.name = name
         this.pos = pos
 
@@ -34,20 +41,21 @@ class Plant {
 
         translate(x + (w/7)*(this.pos), y)
         image(
+            this.rootPic,
+            0 - this.size/2+this.position[2], //this.size/2+12
+            0 - this.size*this.position[3] - 8, //4*this.size/5
+            this.size,
+            this.size*3
+        );
+        image(
             this.pic,
-            0-this.size/2,
-            0-this.size + this.size/10,
+            (0- this.size/this.position[0]) , //this.size/2
+            0- this.size + this.size/this.position[1], //this.size + this.size/10
             this.size,
             this.size
         );
 
-        image(
-            this.rootPic,
-            0-this.size/2+12,
-            0-4*this.size/5,
-            this.size,
-            this.size*3
-        );
+
         // branch(this.rootLen);
         // translate(0,-this.rootLen)
         translate(-(x + (w/7)*(this.pos)), -(y))
@@ -57,10 +65,11 @@ class Plant {
 }
 
 class VbsPlant extends Plant {
-    constructor(name, pos, pic, rootPic, size) {
+    constructor(name, pos, pic, rootPic, size, position) {
         super(name, pos,  pic);
         this.rootPic = rootPic
         this.size = size
+        this.position = position
     }
 
     render() {
@@ -88,20 +97,31 @@ class VbsPlant extends Plant {
            // line(i, 100, i, 500)
         }
 
-        //draw lines where plants will go
 
         for(let i=1; i<yValues.length; i++){
-            image(
-                this.rootPic,
-                xValues[i]- this.size*1/3,
-                yValues[i]- this.size*4/5,
-                this.size*1,
-                this.size*3
-            );
+
+            if(this.name != 'tree2'){
+                image(
+                    this.rootPic,
+                    xValues[i] - this.position[0], //this.size*1/3
+                    yValues[i] - this.position[1], //this.size*4/5
+                    this.size*1,
+                    this.size*3
+                );
+            }else{
+                image(
+                    this.rootPic,
+                    xValues[i] - this.position[0], //this.size*1/3
+                    yValues[i] - this.position[1], //this.size*4/5
+                    this.size/2,
+                    3*this.size/2
+                );
+            }
+
             image(
                 this.pic,
-                (xValues[i]-3*this.size/4)+25,
-                (yValues[i]-3*this.size/4)-10,
+                xValues[i]- this.position[2], //3*(this.size/4) +25
+                yValues[i]- this.position[3], //3*(this.size/4) -10
                 this.size,
                 this.size
             );
