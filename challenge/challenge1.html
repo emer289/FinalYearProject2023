@@ -47,10 +47,26 @@
 <div id="controls">
     <h2>Controls</h2>
 
+
+    <!--    SoilQuality-->
+    <h3 id="SoilQuality_Question">Choose a starting soil quality</h3>
+    <form method="post" name="SoilQuality_form" id="SoilQuality_form">
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Dead"/>Dead</label>
+        <br>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Bad"/>Bad</label>
+        <br>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Average"/>Average</label>
+        <br>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Good"/>Good</label>
+        <br>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Excellent"/>Excellent</label>
+
+    </form>
+
     <h3>Choose the Vegetative Buffer Strip (VBS) Length</h3>
     <h3 id="length"><span id="vbsText"></span></h3>
 
-    <h3 id="Vbs_Question">Choose your VBS plants</h3>
+    <h3 id="Vbs_Question">Choose a VBS plant</h3>
     <form method="post" name="Vbs_form" id="Vbs_form">
         <label><input type="checkbox" name="checkVbs[]" value="Shrub"/>Shrub</label>
         <br>
@@ -80,6 +96,9 @@
 
 
     <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
+
+<!--    SoilQuality-->
+    <script type="text/javascript">checkBoxLimit('SoilQuality_form', 'checkSoilQuality[]', 1)</script>
 
 <!--    <h3>Add fertiliser €<span id="ferCostText"></span></h3>-->
 <!--    <form method="post" name="fer_form" id="fer_form">-->
@@ -271,7 +290,7 @@
 </div>
 
 <div id="errorPopup2" class="popup" style="display:none;">
-    <p> You can only select one VBS plant. </p>
+    <p> You can only select one checkbox. </p>
     <button id="OKBtn" onclick="closePopup('errorPopup2')">OK</button>
 </div>
 

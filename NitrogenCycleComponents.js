@@ -68,7 +68,7 @@ class NitrogenCycleComponents {
                     //VBS absorbs plant
                     NitrogenCyclePop.splice(ind, 1)
                     for (let i = 0; i < vbsToPlant.length; i++) {
-                        vbsToPlant[i].size += 10
+                        vbsToPlant[i].size += .01
                     }
                 } else {
                     this.direction.x *= -1;
@@ -109,7 +109,7 @@ class NitrogenCycleComponents {
                         NitrogenCyclePop.splice(NitrogenCyclePop.indexOf(this), 1)
 
                         for(let c=0; c < cropCount; c++){
-                            cropsToSow[c].size += 5
+                            cropsToSow[c].size += 2
                         }
                     }else if(this.pos.y < (farm.y + farm.height/5)){
                         if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3") {

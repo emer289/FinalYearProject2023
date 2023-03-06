@@ -43,15 +43,16 @@ class Fish {
         }else {
 
 
-            if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%6 == 0 && !fishPoped && this.state == "healthy"){
+            if( NitrogenCycleWaterPop.length != 0 && NitrogenCycleWaterPop.length%2 == 0 && !fishPoped && this.state == "healthy"){
                 // Flip the image horizontally by scaling it with -1 on the x-axis
 
 
                 this.pic = fishUpsideDownImage
 
                 this.state = "dead";
+                fishPopulationSize--;
                 fishPoped = true;
-            } else if(NitrogenCycleWaterPop.length%6 != 0 && NitrogenCycleWaterPop.length != 0){
+            } else if(NitrogenCycleWaterPop.length%2 != 0 && NitrogenCycleWaterPop.length != 0){
 
                 fishPoped = false;
             }

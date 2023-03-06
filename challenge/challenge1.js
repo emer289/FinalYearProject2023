@@ -46,7 +46,7 @@ let fishImage;
 let fishUpsideDownImage;
 
 //Nitrogen cycle components
-let bacteriaPopulationSize = 3;
+let bacteriaPopulationSize;
 let bacteriaSize = width/65;
 let bacteria1Image
 let bacteria2Image;
@@ -126,7 +126,7 @@ let cropIndex = 0
 let yield;
 let profit = 0;
 
-let soilHealth = AVERAGE_SOIL
+let soilHealth;
 
 let fertiliserCost = 200
 let perfectWaterQuality = 60
@@ -191,9 +191,6 @@ let profitCount = 0;
 
 let currentChallenge = 1
 
-
-
-
 function preload(){
    fishImage = loadImage('../Pictures/freshWaterFish.png');
    fishUpsideDownImage = loadImage('../Pictures/freshWaterFishUpsideDown.png');
@@ -228,25 +225,13 @@ function setup() {
         height
     );
     canvas.parent("sketch-container");
-
-
-
     createRegions();
-    createWorms(calculateWormPop())
-    initSoilHealth()
     createFishes();
-
-
     vbsSlider = createSlider(0, 60, 0, 12);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
-
     initCrops();
     initVBSPlants();
-
-
-
-
 
 }
 
@@ -262,9 +247,6 @@ function draw() {
         currentChallenge = 1
     }
 
-
-
-
     if(vbsSlider.value() == 24){
         vbsSlider.value(36)
 
@@ -273,10 +255,7 @@ function draw() {
     }
     displayVbsQuestion()
 
-
-
     background(100);
-
     noStroke()
     checkLegend()
     drawRegions();
@@ -328,8 +307,7 @@ function calcYield(){
 
 
     proportion = 1;
-
-     inTransitCounter = 0
+    inTransitCounter = 0
 
     yearOver = false;
     cropIndex = 0
@@ -357,8 +335,9 @@ function calcYield(){
     //NitrogenCycleWaterPop = [];
 
     createRegions();
+     initSoilHealth();
     createWorms(calculateWormPop())
-    initSoilHealth();
+
 
     year++;
     document.getElementById("enterButton").style.display = "block";
@@ -371,7 +350,7 @@ function calcYield(){
 
      const forms = document.querySelectorAll("form");
      forms.forEach(form => {
-         if( form.name != "Vbs_form" || (form.name == "Vbs_form" && year == 4)){
+         if( form.name == "crops_form" || ((form.name == "Vbs_form" || form.name == "SoilQuality_form") && year == 4)){
              const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
              checkboxes.forEach(checkbox => {
@@ -407,6 +386,15 @@ function resetControls(){
         for (let i = 0; i < checkBoxGroup2.length; i++) {
             if(checkBoxGroup2[i].checked){
                 checkBoxGroup2[i].checked = false;
+            }
+        }
+
+        let checkBoxGroup1 = document.forms['SoilQuality_form']['checkSoilQuality[]'];
+        for (let i = 0; i < checkBoxGroup1.length; i++) {
+            if(checkBoxGroup1[i].checked){
+                checkBoxGroup1[i].checked = false;
+
+
             }
         }
     }
@@ -651,6 +639,7 @@ function enterPressed(){
 
 
     if (validateCheckboxes()) {
+
         lock=true;
         lockSlider();
 
@@ -671,12 +660,19 @@ function enterPressed(){
             VBS.text = "VBS"
             organiseVbsPlants();
         }
+        //organiseSoilQuality();
+
+
         organiseCropsToSow();
 
 
         if(year == 1){
             createFishes()
+            getSoilHealth()
+            initSoilHealth()
+            createWorms(calculateWormPop())
         }
+
 
         for(const ncc of NitrogenCyclePop){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
@@ -1081,6 +1077,8 @@ function organiseCropsToSow(){
 }
 
 function organiseVbsPlants(){
+
+
     let checkBoxGroup = document.forms['Vbs_form']['checkVbs[]'];
     for (let i = 0; i < checkBoxGroup.length; i++) {
         if(checkBoxGroup[i].checked){
@@ -1088,6 +1086,10 @@ function organiseVbsPlants(){
         }
     }
 }
+
+
+
+
 
 function createWorms(quantity){
     for(let i=0; i<quantity; i++){
@@ -1137,58 +1139,7 @@ function calculateBankBalance(){
 }
 
 
-function checkBoxLimit(form_name, check, limit) {
 
-        let checkBoxGroup = document.forms[form_name][check];
-        for (let i = 0; i < checkBoxGroup.length; i++) {
-            checkBoxGroup[i].onclick = function() {
-                let checkedcount = 0;
-                for (let i = 0; i < checkBoxGroup.length; i++) {
-                    checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
-                }
-                if (checkedcount > limit) {
-
-                    //alert("You can select maximum of " + limit + " checkboxes.");
-                    let errorPopup = document.getElementById("errorPopup2");
-                    errorPopup.style.display = "block";
-                    this.checked = false;
-                }
-            }
-        }
-
-
-}
-function validateCheckboxes() {
-
-
-    const forms = document.querySelectorAll("form");
-    let isValid = true;
-        forms.forEach(form => {
-            if(form.name == "Vbs_form" && vbsSlider.value() == 0){
-
-            }else {
-                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-                let checkedCount = 0;
-
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        checkedCount += 1;
-                    }
-                });
-
-                if (checkedCount === 0) {
-                    let errorPopup = document.getElementById("errorPopup1");
-                    errorPopup.style.display = "block";
-
-                    //alert(`Please select at least one checkbox for each control`);
-
-                    isValid = false;
-                }
-            }
-        });
-
-    return isValid;
-}
 
 
 //fish
@@ -1206,19 +1157,39 @@ function createFishes(){
 
 function moveFish(){
 
-
     for(const fish of fishPopulation){
         fish.move()
         fish.render(5)
     }
 
-
-
-
 }
 
+function getSoilHealth() {
+
+    let checkBoxGroup1 = document.forms['SoilQuality_form']['checkSoilQuality[]'];
+    for (let i = 0; i < checkBoxGroup1.length; i++) {
+        if(checkBoxGroup1[i].checked){
+            let quality = checkBoxGroup1[i].value;
+
+                if(quality == 'Excellent'){
+                    soilHealth = EXCELLENT_SOIL
+                }else if(quality == 'Good'){
+                    soilHealth = GOOD_SOIL
+                }else if(quality == 'Average'){
+                    soilHealth = AVERAGE_SOIL
+                }else if(quality == 'Bad'){
+                    soilHealth = BAD_SOIL
+                }else if(quality == 'Dead'){
+                    soilHealth = DEAD_SOIL
+                }
+
+        }
+    }
+}
 
 function initSoilHealth(){
+
+
 
     if(soilHealth == EXCELLENT_SOIL){
         bacteriaPopulationSize = 5
@@ -1231,11 +1202,14 @@ function initSoilHealth(){
     }else if(soilHealth == DEAD_SOIL){
         bacteriaPopulationSize = 0
     }
+
     createBacteria(false);
     createN2(false, n2PopulationSize);
 }
 
 function createBacteria(isFer){
+
+    console.log("bacteriaPopulationSize is ", bacteriaPopulationSize)
 
     for(let i=0; i<=bacteriaPopulationSize; i++){
         let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer );
@@ -1307,11 +1281,6 @@ function moveNCP(){
         nc.render(5)
         if(infoSubmitted){
             nc.move()
-            //if it's nitrite, check if it collides with the plant roots
-            //if it's nitrite, check if it collides with the plant roots
-            // if(nc.type == "no3" || nc.type == "no2" || nc.type == "nh4"){
-            //    // checkRootNutrientCollision(nc, i)
-            // }
             for(const nc2 of NitrogenCyclePop){
                 nc.checkCollision(nc2)
             }
@@ -1324,28 +1293,6 @@ function moveNCP(){
 
 
 
-function checkRootNutrientCollision(nutrient, index){
-
-    //collision detection
-    if(cropsToSow.length > 0){
-
-        if(Math.floor(nutrient.pos.x) <= Math.floor(cropsToSow[0].rootBottomRight.x)
-            && Math.floor(nutrient.pos.x) >= Math.floor(cropsToSow[0].rootTopLeft.x)
-            && Math.floor(nutrient.pos.y) <= Math.floor(cropsToSow[0].rootBottomRight.y)*.8
-        )
-        {
-
-            NitrogenCyclePop.splice(index, 1)
-
-            for(let c=0; c < cropCount; c++){
-                 cropsToSow[c].size += 1
-            }
-
-        }
-    }
-
-
-}
 
 function toggleRain() {
 
@@ -1429,10 +1376,6 @@ function createSun(){
 
 
 }
-//
-// function growSun() {
-//     sunSize += .25;
-// }
 
 
 function addFertilisers(){
@@ -1448,7 +1391,6 @@ function addFertilisers(){
 
 function initCrops(){
     let posistions = [2, 10, 5, 4/5]
-    console.log(posistions)
     crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize, [2, 10, 5, 4/5]);
     crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize, [2, 5, 5, 4/5]);
     crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize, [2, 5, 11, 4/5]);
@@ -1468,6 +1410,10 @@ function initVBSPlants(){
     let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize, [plantSize*1/3, plantSize, 2*(plantSize/4), 2*(plantSize/2)])
     VbsPlants[2] = grass;
 }
+
+
+
+
 
 function displayYield(){
 
@@ -1538,36 +1484,11 @@ function displayYield(){
 
 }
 
-function displayVbsQuestion(){
-    if (vbsSlider.value() > 0) {
-        document.getElementById("Vbs_form").style.display = "block";
-        document.getElementById("Vbs_Question").style.display = "block";
-    } else {
-        document.getElementById("Vbs_form").style.display = "none";
-        document.getElementById("Vbs_Question").style.display = "none";
-    }
-}
-
-
-function checkLegend(){
-    const images = document.querySelectorAll(".image");
-    const popups = document.querySelectorAll(".popup1");
-
-    images.forEach(function(image, index) {
-        image.addEventListener("mouseover", function() {
-            popups[index].style.display = "block";
-        });
-
-        image.addEventListener("mouseout", function() {
-            popups[index].style.display = "none";
-        });
-    });
-}
-
 function restartChallenge1() {
 
 
 
+    initVBSPlants();
     challengeOver = false
     nextYear()
 
@@ -1599,4 +1520,86 @@ function restartChallenge1() {
     initSoilHealth()
     createFishes();
 
+
+}
+
+
+function displayVbsQuestion(){
+    if (vbsSlider.value() > 0) {
+        document.getElementById("Vbs_form").style.display = "block";
+        document.getElementById("Vbs_Question").style.display = "block";
+    } else {
+        document.getElementById("Vbs_form").style.display = "none";
+        document.getElementById("Vbs_Question").style.display = "none";
+    }
+}
+
+function checkBoxLimit(form_name, check, limit) {
+
+    let checkBoxGroup = document.forms[form_name][check];
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        checkBoxGroup[i].onclick = function() {
+            let checkedcount = 0;
+            for (let i = 0; i < checkBoxGroup.length; i++) {
+                checkedcount += (checkBoxGroup[i].checked) ? 1 : 0;
+            }
+            if (checkedcount > limit) {
+
+                //alert("You can select maximum of " + limit + " checkboxes.");
+                let errorPopup = document.getElementById("errorPopup2");
+                errorPopup.style.display = "block";
+                this.checked = false;
+            }
+        }
+    }
+
+
+}
+
+function checkLegend(){
+    const images = document.querySelectorAll(".image");
+    const popups = document.querySelectorAll(".popup1");
+
+    images.forEach(function(image, index) {
+        image.addEventListener("mouseover", function() {
+            popups[index].style.display = "block";
+        });
+
+        image.addEventListener("mouseout", function() {
+            popups[index].style.display = "none";
+        });
+    });
+}
+
+
+function validateCheckboxes() {
+
+
+    const forms = document.querySelectorAll("form");
+    let isValid = true;
+    forms.forEach(form => {
+        if(form.name == "Vbs_form" && vbsSlider.value() == 0){
+
+        }else {
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            let checkedCount = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedCount += 1;
+                }
+            });
+
+            if (checkedCount === 0) {
+                let errorPopup = document.getElementById("errorPopup1");
+                errorPopup.style.display = "block";
+
+                //alert(`Please select at least one checkbox for each control`);
+
+                isValid = false;
+            }
+        }
+    });
+
+    return isValid;
 }

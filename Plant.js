@@ -4,10 +4,7 @@ class Plant {
 
         this.position = position
 
-        console.log(position)
-        console.log(type)
-        console.log(name)
-        console.log(this.position)
+
         this.name = name
         this.pos = pos
 

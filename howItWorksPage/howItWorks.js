@@ -182,7 +182,7 @@ function checkCollision(nutrient, index){
             && Math.floor(nutrient.pos.y) <= Math.floor(loliumPerenne.rootBottomRight.y*(7/8))
         )
         {
-            console.log("collision detected")
+
             no3s.splice(index, 1)
             loliumPerenne.size += 10
 
