@@ -129,7 +129,7 @@ let profit = 0;
 let soilHealth;
 
 let fertiliserCost = 200
-let perfectWaterQuality = 60
+let perfectWaterQuality = 20
 let waterQuality = perfectWaterQuality
 let wColour = [0,50,100];
 
@@ -350,7 +350,7 @@ function calcYield(){
 
      const forms = document.querySelectorAll("form");
      forms.forEach(form => {
-         if( form.name == "crops_form" || ((form.name == "Vbs_form" || form.name == "SoilQuality_form") && year == 4)){
+         if( form.name == "crops_form" || form.name == "fer_form" || ((form.name == "Vbs_form" || form.name == "SoilQuality_form") && year == 4)){
              const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
              checkboxes.forEach(checkbox => {
@@ -373,12 +373,12 @@ function resetControls(){
     }
 
     // //fertilisers
-    // let checkBoxGroup1 = document.forms['fer_form']['checkfer[]'];
-    // for (let i = 0; i < checkBoxGroup1.length; i++) {
-    //     if(checkBoxGroup1[i].checked){
-    //         checkBoxGroup1[i].checked = false;
-    //     }
-    // }
+    let checkBoxGroup1 = document.forms['fer_form']['checkfer[]'];
+    for (let i = 0; i < checkBoxGroup1.length; i++) {
+        if(checkBoxGroup1[i].checked){
+            checkBoxGroup1[i].checked = false;
+        }
+    }
 
     //vbs plants
     if(year == 3){
@@ -678,17 +678,16 @@ function enterPressed(){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
         }
 
-        addFer = true;
-        addFertilisers()
 
-        // let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
-        // if(checkBoxGroup[0].checked){
-        //     addFer = true
-        //
-        //     addFertilisers()
-        // }else{
-        //     addFer = false
-        // }
+
+
+        let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
+        if(checkBoxGroup[0].checked){
+            addFer = false
+        }else{
+            addFer = true
+            addFertilisers()
+        }
 
 
 
@@ -1381,9 +1380,9 @@ function createSun(){
 function addFertilisers(){
     //bankBalance -= fertiliserCost
    // amountSpent += fertiliserCost
-    // if(soilHealth > DEAD_SOIL){
-    //     soilHealth--;
-    // }
+    if(soilHealth > DEAD_SOIL){
+        soilHealth--;
+    }
 
     createN2(true, fertiliserPopSize);
 }
@@ -1501,7 +1500,7 @@ function restartChallenge1() {
     vbsToPlant = []
 
 
-    waterQuality = 60
+    waterQuality = 20
     year = 1;
     bankBalance = 1000;
     amountMade = 0;

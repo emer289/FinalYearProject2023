@@ -83,7 +83,6 @@ class NitrogenCycleComponents {
             } else if ( this.inTransit && !this.inWater &&this.pos.x <= water.x + water.width && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
                 NitrogenCyclePop.splice(NitrogenCyclePop.indexOf(this), 1)
                 NitrogenCycleWaterPop.push(this)
-                waterQuality = waterQuality - 1
                 this.inWater = true;
                 this.inTransit = false
             } else {

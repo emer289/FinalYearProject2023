@@ -51,6 +51,7 @@ class Fish {
 
                 this.state = "dead";
                 fishPopulationSize--;
+                waterQuality = waterQuality - 1
                 fishPoped = true;
             } else if(NitrogenCycleWaterPop.length%2 != 0 && NitrogenCycleWaterPop.length != 0){
 
