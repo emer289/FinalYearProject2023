@@ -29,7 +29,7 @@
 <div id="sketch-container"></div>
 <h1 >Challenge 1</h1>
 <p class="taskDescription">As a farmer, your goal is to enhance the soil quality over a period of three years, so
-    that the soil quality is Excellent by the end of the three-year span. </p>
+    that the soil quality is good by the end of the three-year span. </p>
 <p class="taskDescription">The controls for this
  task can be found on the bottom right side of your screen, while the dashboard which displays your
  progress is located to the left. At the beginning of year 1 you will pick the vegetative buffer strip (VBS) length, the VBS plant, and
@@ -48,20 +48,7 @@
     <h2>Controls</h2>
 
 
-    <!--    SoilQuality-->
-    <h3 id="SoilQuality_Question">Choose a starting soil quality</h3>
-    <form method="post" name="SoilQuality_form" id="SoilQuality_form">
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Dead"/>Dead</label>
-        <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Bad"/>Bad</label>
-        <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Average"/>Average</label>
-        <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Good"/>Good</label>
-        <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Excellent"/>Excellent</label>
 
-    </form>
 
     <h3>Choose the Vegetative Buffer Strip (VBS) Length</h3>
     <h3 id="length"><span id="vbsText"></span></h3>
@@ -97,12 +84,11 @@
 
     <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
 
-<!--    SoilQuality-->
-    <script type="text/javascript">checkBoxLimit('SoilQuality_form', 'checkSoilQuality[]', 1)</script>
+
 
     <h3>Add fertiliser €<span id="ferCostText"></span></h3>
     <form method="post" name="fer_form" id="fer_form">
-        <label><input type="checkbox" name="checkfer[]" value="No"/>No fertiliser</label>
+        <label><input type="checkbox" name="checkfer[]" value="0"/>No fertiliser</label>
         <label><input type="checkbox" name="checkfer[]" value="150"/>150 kg</label>
         <label><input type="checkbox" name="checkfer[]" value="300"/>300 kg</label>
 
@@ -123,7 +109,7 @@
         <h2 id="quantity" >Soil Quality: <span id="soilQualityText"></span></h2>
         <h3>Number of Worms: <span id="wormText"></span></h3>
         <h3>Number of Bacteria: <span id="bacteriaText"></span></h3>
-        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>
+<!--        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>-->
     </div>
 
 

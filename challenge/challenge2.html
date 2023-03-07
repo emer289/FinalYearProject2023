@@ -30,7 +30,7 @@
 
 <div id="sketch-container"></div>
 <h1 >Challenge 2</h1>
-<p class="taskDescription">As a farmer, your goal is to improve the soil quality to Excellent while keeping the river quality above the level of 17. </p>
+<p class="taskDescription">As a farmer, your goal is to improve the soil quality to good while keeping the river quality above the level of 17. </p>
 <p class="taskDescription">The controls for this
     task can be found on the bottom right of your screen, while the dashboard which displays your
     progress is located to the left. At the beginning of year one you will pick the vegetative buffer strip (VBS) length, the VBS plant, and
@@ -82,13 +82,14 @@
 
     <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
 
-    <!--    <h3>Add fertiliser €<span id="ferCostText"></span></h3>-->
-    <!--    <form method="post" name="fer_form" id="fer_form">-->
-    <!--        <label><input type="checkbox" name="checkfer[]" value="Yes"/>Yes</label>-->
-    <!--        <label><input type="checkbox" name="checkfer[]" value="No"/>No</label>-->
+    <h3>Add fertiliser €<span id="ferCostText"></span></h3>
+    <form method="post" name="fer_form" id="fer_form">
+        <label><input type="checkbox" name="checkfer[]" value="No"/>No fertiliser</label>
+        <label><input type="checkbox" name="checkfer[]" value="150"/>150 kg</label>
+        <label><input type="checkbox" name="checkfer[]" value="300"/>300 kg</label>
 
-    <!--    </form>-->
-    <!--    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>-->
+    </form>
+    <script type="text/javascript">checkBoxLimit('fer_form', 'checkfer[]', 1)</script>
 
     <button class="enterButton" id="enterButton" onclick="enterPressed()">Start</button>
 
@@ -99,11 +100,12 @@
 <!--  start of dashboard -->
 <div id="dashboardC2">
 
+
     <div class="section">
         <h2 id="quantity" >Soil Quality: <span id="soilQualityText2"></span></h2>
         <h3>Number of Worms: <span id="wormText"></span></h3>
         <h3>Number of Bacteria: <span id="bacteriaText"></span></h3>
-        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>
+<!--        <h3>Number of nutrients: <span id="nutrientsText"></span></h3>-->
     </div>
 
     <div class="section">
