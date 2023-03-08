@@ -204,8 +204,8 @@ button {
     width: 700px;
     display: none;
     position: absolute;
-    top: 200%;
-    left: 50%;
+    top: 0%;
+    left: 150%;
     transform: translate(-50%, -50%);
     background-color: lightsteelblue;
     padding: 20px;

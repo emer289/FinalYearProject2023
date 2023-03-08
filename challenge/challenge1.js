@@ -605,7 +605,7 @@ function updateText(){
         select("#fishText").html(`${fishPopulationSize}`)
 
         select("#bankText").html(`€ ${calculateBankBalance()}`);
-        select("#profitText").html(`€ ${profit}`)
+        select("#profitText").html(`€ ${profit.toFixed(2)}`)
         select("#yieldText").html(`${yield} kg`)
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
@@ -868,6 +868,8 @@ function organiseCropsToSow(){
 
     if(addFer){
         profit = (soilHealth/100)*profit - (Math.floor((ferAmount*150)/300) * 200) + (0.5 * 600)
+    }else {
+        profit = (soilHealth/100)*profit
     }
 
 
@@ -1473,15 +1475,14 @@ function calcSoilHealth(){
     if(soilHealthCount < 1){
         if(nigtrogenFixingPlantPicked){
             soilHealthCount++
-            console.log("1 soilHealth is ", soilHealth)
-            console.log("Math.floor(ferAmount)*(-12) is ", Math.floor(ferAmount)*(-12))
+
             soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
-            console.log("2 soilHealth is ", soilHealth)
+
         }else{
             soilHealthCount++
-            console.log("3 soilHealth is ", soilHealth)
+
             soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
-            console.log("4 soilHealth is ", soilHealth)
+
         }
     }
 
@@ -1529,6 +1530,9 @@ function displayYield(){
             profitCount++
         }
         calcSoilHealth()
+        progressSoilHealth()
+
+
         nigtrogenFixingPlantPicked = false;
 
         if(soilHealth < GOOD_SOIL){
@@ -1538,6 +1542,11 @@ function displayYield(){
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
     }else if(yearOver && challengeOver && currentChallenge == 3) {
+
+        calcSoilHealth()
+        progressSoilHealth()
+
+
         if (bankBalance < 2500 || waterQuality < 17) {
             challengeOverText = "You have failed the challenge because you have not made enough money :("
         }else{
@@ -1547,7 +1556,13 @@ function displayYield(){
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
     }else if(yearOver && challengeOver && currentChallenge == 2){
-        if (soilHealth >= GOOD_SOIL || waterQuality < 17) {
+
+
+        calcSoilHealth()
+        progressSoilHealth()
+
+
+        if (soilHealth < GOOD_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
             challengeOverText = "Well done the soil quality is good and the water quality is above 17"
