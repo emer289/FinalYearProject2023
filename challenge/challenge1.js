@@ -191,6 +191,7 @@ let plString = "Plantago lanceolata";
 let profitCount = 0;
 
 let currentChallenge = 1
+let soilHealthCount = 0
 
 function preload(){
    fishImage = loadImage('../Pictures/freshWaterFish.png');
@@ -306,18 +307,14 @@ function draw() {
 
 function calcYield(){
 
-    console.log("addFer is ", addFer)
-    console.log("yield is ", yield)
+
 
     if(addFer){
         yield = (soilHealth/100)*yield + (1/2)*yield
     }else{
-        console.log(soilHealth)
-        console.log(soilHealth/100)
+
         yield = (soilHealth/100)*yield
     }
-
-    console.log("yield is ", yield)
 
     yield = parseFloat(yield.toFixed(2))
 
@@ -387,6 +384,8 @@ function calcYield(){
          }
 
      })
+
+     soilHealthCount = 0;
 
 }
 
@@ -870,7 +869,7 @@ function organiseCropsToSow(){
     if(addFer){
         profit = (soilHealth/100)*profit - (Math.floor((ferAmount*150)/300) * 200) + (0.5 * 600)
     }
-    console.log("profit is ", profit)
+
 
     if(cropCount == 1){
 
@@ -1438,11 +1437,9 @@ function createSun(){
 
 
 function addFertilisers(){
-    bankBalance -= (Math.floor(ferAmount/300))*fertiliserCost
-    amountSpent += (Math.floor(ferAmount/300))*fertiliserCost
-   //  if(soilHealth > DEAD_SOIL){
-   //      soilHealth--;
-   //  }
+    bankBalance -= (Math.floor(ferAmount*150/300))*fertiliserCost
+    amountSpent += (Math.floor(ferAmount*150/300))*fertiliserCost
+
 
     createN2(true, ferAmount*fertiliserPopSize);
 }
@@ -1472,11 +1469,22 @@ function initVBSPlants(){
 
 function calcSoilHealth(){
 
-    if(nigtrogenFixingPlantPicked){
-        soilHealth = soilHealth + (Math.floor(ferAmount/150))*(-12) + 12
-    }else{
-        soilHealth = soilHealth + (Math.floor(ferAmount/150))*(-12)
+
+    if(soilHealthCount < 1){
+        if(nigtrogenFixingPlantPicked){
+            soilHealthCount++
+            console.log("1 soilHealth is ", soilHealth)
+            console.log("Math.floor(ferAmount)*(-12) is ", Math.floor(ferAmount)*(-12))
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
+            console.log("2 soilHealth is ", soilHealth)
+        }else{
+            soilHealthCount++
+            console.log("3 soilHealth is ", soilHealth)
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+            console.log("4 soilHealth is ", soilHealth)
+        }
     }
+
 
 
 
@@ -1523,7 +1531,7 @@ function displayYield(){
         calcSoilHealth()
         nigtrogenFixingPlantPicked = false;
 
-        if(soilHealth >= GOOD_SOIL){
+        if(soilHealth < GOOD_SOIL){
             challengeOverText = "You have failed the challenge because the soil is not good :("
         }
 
@@ -1555,7 +1563,7 @@ function displayYield(){
 function restartChallenge1() {
 
 
-
+    soilHealthCount = 0
     initVBSPlants();
     challengeOver = false
     nextYear()

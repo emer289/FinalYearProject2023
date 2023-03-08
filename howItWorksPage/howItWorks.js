@@ -48,7 +48,7 @@ function preload(){
     nh4Image = loadImage("../Pictures/NH4.png");
     no2Image = loadImage("../Pictures/NO2.png");
     no3Image = loadImage("../Pictures/no3.png");
-    loliumPerenneImage = loadImage("../Pictures/loliumPerenneImage.png");
+ //   loliumPerenneImage = loadImage("../Pictures/loliumPerenneImage.png");
 
 }
 
@@ -75,13 +75,13 @@ function setup() {
 
     //chemical reaction 4 (absorbed by the plant)
 
-    cr4Region = new Region(cr1Region.x + cr1Region.width + spacing*6, cr1Region.y + cr1Region.height*2, regionWidth, regionWidth/2, [175,100,0], "")
-    areas[3] = cr4Region;
-    loliumPerenne = new Plant("Lolium Perenne",  3.5, loliumPerenneImage, cr4Region.x, cr4Region.width, cr4Region.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", 60, [1,1,1,1]);
+    // cr4Region = new Region(cr1Region.x + cr1Region.width + spacing*6, cr1Region.y + cr1Region.height*2, regionWidth, regionWidth/2, [175,100,0], "")
+    // areas[3] = cr4Region;
+  //  loliumPerenne = new Plant("Lolium Perenne",  3.5, loliumPerenneImage, cr4Region.x, cr4Region.width, cr4Region.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", 60, [1,-.5,1,1]);
 
 
 
-    loliumPerenne.size = loliumPerenne.size*2
+   // loliumPerenne.size = loliumPerenne.size*2
     background(100);
     resetSketch()
 
@@ -92,14 +92,14 @@ function setup() {
 function draw(){
 
 
-    checkLegend()
+   // checkLegend()
 
     for(const area of areas){
         area.render()
     }
-    loliumPerenne.render(areas[3].x, areas[3].width, areas[3].y);
-    textSize(texSize);
-    text("Diagram 4", areas[3].x+spacing, areas[3].y+areas[3].height-spacing/3)
+   // // loliumPerenne.render(areas[3].x, areas[3].width, areas[3].y);
+   //  textSize(texSize);
+   //  text("Diagram 4", areas[3].x+spacing, areas[3].y+areas[3].height-spacing/3)
 
 
     //
@@ -118,7 +118,7 @@ function draw(){
     text('Diagram 3', areas[2].x+spacing, areas[2].y+areas[2].height-spacing/3);
     moveChemicals(chemicalReaction3);
 
-    moveChemicals(no3s);
+    // moveChemicals(no3s);
 
 
 
@@ -129,7 +129,7 @@ function draw(){
 
 function resetSketch(){
 
-    loliumPerenne.size = 60
+   // loliumPerenne.size = 60
     no3s = []
     createChemicalReact("n2", "bacterium1", chemicalReaction1, areas[0])
     createChemicalReact("nh4", "bacterium2", chemicalReaction2, areas[1])
@@ -138,9 +138,9 @@ function resetSketch(){
 
 
     //no3s for the sketch with the plant
-    for(let i=0; i<10; i++){
-        no3s.push(new ChemicalReactions(bacteriaSize, "healthy",  "no3", areas[3]))
-    }
+    // for(let i=0; i<10; i++){
+    //     no3s.push(new ChemicalReactions(bacteriaSize, "healthy",  "no3", areas[3]))
+    // }
 
 }
 
@@ -151,9 +151,9 @@ function moveChemicals(chemicalReaction){
         nc.move()
         nc.render()
         //if it's nitrite, check if it collides with the plant roots
-        if(nc.type == "no3"){
-            checkCollision(nc, i)
-        }
+        // if(nc.type == "no3"){
+        //     checkCollision(nc, i)
+        // }
 
         for(const nc2 of chemicalReaction){
             nc.checkCollision(nc2)
@@ -173,38 +173,38 @@ function createChemicalReact(nutrient, bacterium, chemicalReaction, region){
 }
 
 
-function checkCollision(nutrient, index){
+// function checkCollision(nutrient, index){
+//
+//     //collision detection
+//     if(no3s.length > 0){
+//
+//         if(Math.floor(nutrient.pos.x) <= Math.floor(loliumPerenne.rootBottomRight.x-100)
+//             && Math.floor(nutrient.pos.x) >= Math.floor(loliumPerenne.rootTopLeft.x-5)
+//             && Math.floor(nutrient.pos.y) <= Math.floor(loliumPerenne.rootBottomRight.y*(7/8))
+//         )
+//         {
+//
+//             no3s.splice(index, 1)
+//            // loliumPerenne.size += 10
+//
+//
+//         }
+//     }
+//
+//
+// }
 
-    //collision detection
-    if(no3s.length > 0){
-
-        if(Math.floor(nutrient.pos.x) <= Math.floor(loliumPerenne.rootBottomRight.x-100)
-            && Math.floor(nutrient.pos.x) >= Math.floor(loliumPerenne.rootTopLeft.x-5)
-            && Math.floor(nutrient.pos.y) <= Math.floor(loliumPerenne.rootBottomRight.y*(7/8))
-        )
-        {
-
-            no3s.splice(index, 1)
-            loliumPerenne.size += 10
-
-
-        }
-    }
-
-
-}
-
-function checkLegend(){
-    const images = document.querySelectorAll(".image");
-    const popups = document.querySelectorAll(".popup1");
-
-    images.forEach(function(image, index) {
-        image.addEventListener("mouseover", function() {
-            popups[index].style.display = "block";
-        });
-
-        image.addEventListener("mouseout", function() {
-            popups[index].style.display = "none";
-        });
-    });
-}
+// function checkLegend(){
+//     const images = document.querySelectorAll(".image");
+//     const popups = document.querySelectorAll(".popup1");
+//
+//     images.forEach(function(image, index) {
+//         image.addEventListener("mouseover", function() {
+//             popups[index].style.display = "block";
+//         });
+//
+//         image.addEventListener("mouseout", function() {
+//             popups[index].style.display = "none";
+//         });
+//     });
+// }
