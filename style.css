@@ -4,7 +4,7 @@
 #controls {
     /* display: none; */
     position: absolute;
-    top: 115%;
+    top: 90%;
     left: 72%;
     right: 1%;
     font-size: 85%;
@@ -40,7 +40,7 @@ h1 {
     width: 400px;
     text-align: center;
     position: absolute;
-    top: 90%;
+    top: 80%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -56,7 +56,7 @@ h1 {
 
 #dashboardC2 {
     position: absolute;
-    top: 90%;
+    top: 80%;
     left: 1%;
     right: 50%;
     font-size: 85%;
@@ -133,9 +133,9 @@ button {
 
 .legend {
     position: absolute;
-    top: 90%;
-    left: 52%;
-    right: 1%;
+    top: 190%;
+    left: 1%;
+    right: 52%;
     font-size: 85%;
     color: white;
     float: right;
@@ -270,3 +270,38 @@ button {
 }
 
 
+#myProgress {
+    position: absolute;
+    width: 80%;
+    background-color: #ddd;
+    right: 10%;
+}
+
+#myProgress2{
+    position: absolute;
+    width: 40%;
+    background-color: #ddd;
+    left: 5%;
+}
+
+#myBar {
+    width: 0%;
+    height: 30px;
+    background-color: #04AA6D;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}
+
+#labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-weight: bold;
+    color: black;
+}
+
+#labels span {
+    flex: 0;
+    text-align: center;
+}

@@ -249,6 +249,7 @@ function setup() {
         soilHealth = AVERAGE_SOIL
         initSoilHealth()
         createWorms(calculateWormPop())
+        progressSoilHealth()
     }
 
 }
@@ -718,6 +719,7 @@ function enterPressed(){
                 getSoilHealth()
                 initSoilHealth()
                 createWorms(calculateWormPop())
+                progressSoilHealth()
             }
 
         }
@@ -864,10 +866,7 @@ function organiseCropsToSow(){
     }
 
     //account for fertiliser
-    console.log("addFer is ", addFer)
-    console.log("profit is ", profit)
-    console.log("ferAmoutn is ", ferAmount)
-    console.log("(Math.floor(ferAmount/300) * 200)  is ", (Math.floor((ferAmount*150)/300) * 200))
+
     if(addFer){
         profit = (soilHealth/100)*profit - (Math.floor((ferAmount*150)/300) * 200) + (0.5 * 600)
     }
@@ -1260,6 +1259,7 @@ function initSoilHealth(){
 
     createBacteria(false);
     createN2(false, n2PopulationSize);
+    progressSoilHealth()
 }
 
 function createBacteria(isFer){
@@ -1508,6 +1508,7 @@ function displayYield(){
         calcSoilHealth()
         nigtrogenFixingPlantPicked = false;
         updateText()
+        progressSoilHealth();
 
 
         let popup = document.getElementById("popup");
@@ -1529,10 +1530,10 @@ function displayYield(){
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
     }else if(yearOver && challengeOver && currentChallenge == 3) {
-        if (bankBalance < 2000 || waterQuality < 17) {
+        if (bankBalance < 2500 || waterQuality < 17) {
             challengeOverText = "You have failed the challenge because you have not made enough money :("
         }else{
-            challengeOverText = "Well done you made over 1000 euro"
+            challengeOverText = "Well done you made over €1,500"
         }
 
         let popup = document.getElementById("popup3");
@@ -1669,4 +1670,13 @@ function validateCheckboxes() {
     });
 
     return isValid;
+}
+
+
+function progressSoilHealth() {
+    let elem = document.getElementById("myBar");
+    let width = soilHealth; // get the current width or use 0 if it's not set
+
+    elem.style.width = width + "%";
+    elem.innerHTML = width  + "%";
 }
