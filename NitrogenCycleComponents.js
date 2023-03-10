@@ -77,7 +77,7 @@ class NitrogenCycleComponents {
 
             }
         }else{
-            if (this.inTransit && !this.inWater && this.pos.y >= water.y && this.pos.x + this.size > water.x + water.width) {
+            if (this.inTransit && !this.inWater && this.pos.y >= water.y && this.pos.x + this.size > water.x + 2*water.width/3) {
                 this.direction.x -= .01;
                 this.direction.y = 0
             } else if ( this.inTransit && !this.inWater &&this.pos.x <= water.x + water.width && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
@@ -111,7 +111,7 @@ class NitrogenCycleComponents {
                             cropsToSow[c].size += 2
                         }
                     }else if(this.pos.y < (farm.y + farm.height/5)){
-                        if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3") {
+                        if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3" && this.type != "n2") {
                             this.direction.x = 0;
                             this.direction.y -= .01
                         }else {
