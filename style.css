@@ -210,22 +210,12 @@ button {
 }
 
 
-#myProgress {
-    position: absolute;
-    width: 80%;
-    background-color: #ddd;
-    right: 10%;
-}
 
-#myProgress2{
-    position: absolute;
-    width: 30%;
-    background-color: #ddd;
-    left: 5%;
-}
+
+
 
 #myBar {
-    width: 0%;
+    width: 25%;
     height: 30px;
     background-color: #04AA6D;
     text-align: center;

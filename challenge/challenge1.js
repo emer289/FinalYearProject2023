@@ -1463,12 +1463,7 @@ function initCropsToSow(){
 
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }else if(cropsToSow[i].name == ciString){
-                console.log("crops[1] is ", crops[1])
-                console.log("tempCrops are ", tempCrops)
-                console.log("cropsToSow[i] are ", cropsToSow[i])
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
-                console.log("tempCrops are ", tempCrops)
-                console.log("crops[1] is ", crops[1])
             }else if(cropsToSow[i].name == plString){
 
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)

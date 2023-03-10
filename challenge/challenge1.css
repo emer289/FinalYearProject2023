@@ -37,3 +37,10 @@
     border: 5px solid white;
     padding: 20px;
 }
+
+#myProgress {
+    position: absolute;
+    width: 80%;
+    background-color: #ddd;
+    right: 10%;
+}

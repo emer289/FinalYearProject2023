@@ -65,3 +65,11 @@
     border: 5px solid white;
     padding: 20px;
 }
+
+#myProgress2 {
+    position: absolute;
+    width: 30%;
+    background-color: #ddd;
+    left: 1%;
+
+}
