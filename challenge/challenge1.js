@@ -289,8 +289,13 @@ function draw() {
 
 
     fill(255)
+    textSize(30)
+    if(!infoSubmitted){
+        text("Choose your crops to sow -->", 3*width/5, 3*height/5);
+    }
     textSize(60);
     text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
+
 
 
 
@@ -780,8 +785,7 @@ function updateText(){
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
         updateSoilText()
     }
-
-    // select("#ferCostText").html(`${fertiliserCost}`)
+    select("#ferCostText").html(`${fertiliserCost}`)
     select("#lpCostText").html(`${lpCostPrice}`)
     select("#ppCostText").html(`${ppCostPrice}`)
     select("#tpCostText").html(`${tpCostPrice}`)
