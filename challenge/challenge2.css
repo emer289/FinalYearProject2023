@@ -1,7 +1,4 @@
-#dashboardC1 {
-    height: 200px;
-    width: 400px;
-    text-align: center;
+#dashboardC2 {
     position: absolute;
     top: 90%;
     left: 1%;
@@ -14,19 +11,17 @@
     border: 5px solid white;
     padding: 5px;
     display: flex;
-
+    flex-direction: row;
 }
-
-.sectionC1 {
-    width: 100%;
+.section {
+    width: 50%;
     text-align: center;
-
 }
 
 #controls {
     /* display: none; */
     position: absolute;
-    top: 130%;
+    top: 110%;
     left: 72%;
     right: 1%;
     font-size: 85%;

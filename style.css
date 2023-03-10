@@ -1,20 +1,7 @@
 .emphasized { font-style: italic; }
 
 
-#controls {
-    /* display: none; */
-    position: absolute;
-    top: 100%;
-    left: 72%;
-    right: 1%;
-    font-size: 85%;
-    color: white;
-    float: right;
-    background-color: #1e242a;
-    border-radius: 25px;
-    border: 5px solid white;
-    padding: 20px;
-}
+
 
 h3 {
     padding: 10px;
@@ -26,6 +13,11 @@ h1 {
     margin: 10px;
     text-align: center;
 }
+p {
+    color: black;
+    font-size: 20px;
+}
+
 
 #sketch-container {
     position: absolute;
@@ -33,88 +25,12 @@ h1 {
     top: 110%;
     left: 1%;
 }
-#dashboardC1 {
-    height: 200px;
-    width: 400px;
-    text-align: center;
-    position: absolute;
-    top: 90%;
-    left: 1%;
-    right: 50%;
-    font-size: 85%;
-    color: white;
-    float: right;
-    background-color: #1e242a;
-    border-radius: 25px;
-    border: 5px solid white;
-    padding: 5px;
-    display: flex;
-
-}
-
-#dashboardC2 {
-    position: absolute;
-    top: 85%;
-    left: 1%;
-    right: 50%;
-    font-size: 85%;
-    color: white;
-    float: right;
-    background-color: #1e242a;
-    border-radius: 25px;
-    border: 5px solid white;
-    padding: 5px;
-    display: flex;
-    flex-direction: row;
-}
-
-#dashboardC3 {
-    height: 200px;
-    width: 800px;
-    text-align: center;
-    position: absolute;
-    top: 90%;
-    left: 1%;
-    right: 50%;
-    font-size: 85%;
-    color: white;
-    float: right;
-    background-color: #1e242a;
-    border-radius: 25px;
-    border: 5px solid white;
-    padding: 5px;
-    display: flex;
-
-}
-
-
-p {
-    color: black;
-    font-size: 20px;
-
-}
 
 .taskDescription {
     text-align: center;
     font-size: 36px;
 }
-.section {
-    width: 50%;
-    text-align: center;
 
-}
-
-.sectionC1 {
-    width: 100%;
-    text-align: center;
-
-}
-
-.sectionC3 {
-    width: 33%;
-    text-align: center;
-
-}
 button {
     background-color: #4CAF50;
     border: none;
