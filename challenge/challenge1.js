@@ -431,6 +431,8 @@ function calcSoilHealth(){
             soilHealth = 0
         }
 
+
+
     }
 }
 function calcWormPop(){
