@@ -214,47 +214,32 @@ function preload(){
    rootPic = loadImage("../Pictures/plantRoots.png")
 
 }
-
 function setup() {
     let canvas = createCanvas(
         width,
         height
     );
-
-
     canvas.parent("sketch-container");
     createRegions();
     createFishes();
+    //create slider
     vbsSlider = createSlider(0, 60, 0, 12);
     vbsSlider.style("width", "100px");
     vbsSlider.parent(`length`);
     initCrops();
     initVBSPlants();
+    initChallenge();
 
-    let url = window.location.href.toString()
-    if(url.includes("challenge3")){
-        currentChallenge = 3
-    }else if(url.includes("challenge2")){
-        currentChallenge = 2
-    }else{
-        currentChallenge = 1
-    }
 
     if(currentChallenge != 3 && year === 1){
         soilHealth = AVERAGE_SOIL
         initSoilHealth()
-        createWorms(calculateWormPop())
+        createWorms(calcWormPop())
         progressSoilHealth()
     }
 
 }
-
-
 function draw() {
-
-
-
-
 
     if(vbsSlider.value() == 24){
         vbsSlider.value(36)
@@ -298,31 +283,142 @@ function draw() {
 }
 
 
+//create functions start
+function createRegions(){
 
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, wColour, "Water")
+    regions[0] = water;
+    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
+    regions[1] = VBS;
+    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
+    regions[0] = water;
+    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [175,100,0], "Farm")
+    regions[2] = farm;
+
+}
+function createWorms(quantity){
+    for(let i=0; i<quantity; i++){
+        let s = new EarthWorm(regions[1], regions[2])
+        worms.push(s)
+    }
+}
+function createFishes(){
+    let water = regions[0];
+    for(let i=0; i<fishPopulationSize; i++){
+        let fish = new Fish(fishSize, "healthy", water, fishImage);
+        fishPopulation[i]=fish
+        if(i < fishPopulationSize/2){
+            fish.direction.x *= -1
+            fish.direction.y *= -1
+        }
+    }
+}
+function createBacteria(isFer){
+
+
+
+    for(let i=0; i<=bacteriaPopulationSize; i++){
+        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer );
+        NitrogenCyclePop.push(bacterium1)
+        if(i < bacteriaPopulationSize/2){
+            bacterium1.direction.x *= -1
+            bacterium1.direction.y *= -1
+        }
+
+        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2", VBS, farm, isFer);
+        NitrogenCyclePop.push(bacterium2)
+        if(i < bacteriaPopulationSize/2){
+            bacterium2.direction.x *= -1
+            bacterium2.direction.y *= -1
+        }
+
+        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3", VBS, farm, isFer);
+        NitrogenCyclePop.push(bacterium3)
+        if(i < bacteriaPopulationSize/2){
+            bacterium3.direction.x *= -1
+            bacterium3.direction.y *= -1
+        }
+    }
+}
+function createN2(isFer, amount){
+
+    for(let i=0; i<=amount/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+    for(let i=0; i<=amount/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "nh4", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+    for(let i=0; i<=amount/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no2", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+
+    for(let i=0; i<=amount/3; i++){
+        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no3", VBS, farm, isFer);
+        NitrogenCyclePop.push(n2)
+        if(i < n2PopulationSize/2){
+            n2.direction.x *= -1
+            n2.direction.y *= -1
+        }
+    }
+
+}
+//create functions end
+
+
+
+//calc functions start
 function calcYield(){
-
-
-
     if(addFer){
         yield = (soilHealth/100)*yield + (1/2)*yield
     }else{
-
         yield = (soilHealth/100)*yield
     }
-
     yield = parseFloat(yield.toFixed(2))
-
-
-
+}
+function calcSoilHealth(){
+    if(soilHealthCount < 1){
+        if(nigtrogenFixingPlantPicked){
+            soilHealthCount++
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
+        }else{
+            soilHealthCount++
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+        }
+    }
+}
+function calcWormPop(){
+    if(soilHealth >= EXCELLENT_SOIL){
+        return(5)
+    }else if(soilHealth >= GOOD_SOIL){
+        return(4)
+    }else if(soilHealth >= AVERAGE_SOIL){
+        return(3)
+    }else if(soilHealth >= BAD_SOIL){
+        return(2)
+    }else if(soilHealth >= DEAD_SOIL){
+        return(0)
+    }
 }
 
- function closePopup(id) {
-     let errorPopup = document.getElementById(id);
-     errorPopup.style.display = "none";
- }
+//calc functions end
 
 
- function nextYear() {
+function nextYear() {
 
 
     proportion = 1;
@@ -354,7 +450,7 @@ function calcYield(){
     //NitrogenCycleWaterPop = [];
     createRegions();
     initSoilHealth();
-    createWorms(calculateWormPop())
+    createWorms(calcWormPop())
 
 
     year++;
@@ -382,7 +478,6 @@ function calcYield(){
      soilHealthCount = 0;
 
 }
-
 function resetControls(){
 
     //crops
@@ -437,12 +532,51 @@ function checkYearStatus(){
         yearOver = true
         isRaining = false
         textSize(10)
-
-
-
     }
 }
 
+
+
+//draw functions start
+
+function drawRegions(){
+    for(const region of regions){
+        region.render()
+    }
+}
+function drawCrops(){
+    for(let i=0; i<cropsToSow.length; i++){
+        cropsToSow[i].pos = i+1;
+        cropsToSow[i].render(farm.x, farm.width, farm.y)
+
+
+    }
+
+
+}
+function drawVbsPlants(){
+    for(let i=0; i<vbsToPlant.length; i++){
+        vbsToPlant[i].render()
+    }
+}
+function drawWorms(){
+    for(const worm of worms){
+        if(worm.count<170){
+            worm.grow()
+            worm.count++
+        }
+        worm.update();
+        worm.show();
+        worm.changeDir();
+    }
+}
+function drawFertilisers(){
+    bankBalance -= (Math.floor(ferAmount*150/300))*fertiliserCost
+    amountSpent += (Math.floor(ferAmount*150/300))*fertiliserCost
+    createN2(true, ferAmount*fertiliserPopSize);
+}
+
+//draw weather start
 function drawWeather(){
 
 
@@ -457,8 +591,6 @@ function drawWeather(){
     }
     createSun()
     makeItRain()
-
-
 
     if(infoSubmitted){
         textSize(32);
@@ -507,71 +639,113 @@ function drawWeather(){
         }
     }
 }
-
 function makeItRain(){
     for (let i = 0; i < rain.length; i++) {
-
         if (isRaining) {
             rain[i].fall();
             rain[i].show();
         }
-
     }
 
-
 }
+function toggleRain() {
 
-function createRegions(){
+    //isRaining = !isRaining;
+    if (isRaining) {
+        for (let i = 0; i < 500; i++) {
+            rain[i] = new Raindrop();
+        }
 
-    //index 0
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, wColour, "Water")
-    regions[0] = water;
+        if(ferAmount != 0){
+            for(const ncc of  NitrogenCyclePop){
+                if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3" || ncc.type == "n2") && ncc.inWater == false){
 
-    //index 1
-    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
-    regions[1] = VBS;
+                    //12m grass VBS
 
-    water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
-    regions[0] = water;
+                    if(vbsToPlant[0] == VbsPlants[grassIndex]
+                        && vbsSlider.value() == 12
+                        && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                        && vbsSlider.value() == 12
+                        && inTransitCounter/NitrogenCyclePop.length < (1-s12prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                        && vbsSlider.value() == 12
+                        && inTransitCounter/NitrogenCyclePop.length < (1-w12prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[grassIndex]
+                        && vbsSlider.value() == 36
+                        && inTransitCounter/NitrogenCyclePop.length < (1-g36prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                        && vbsSlider.value() == 36
+                        && inTransitCounter/NitrogenCyclePop.length < (1-s36prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                        && vbsSlider.value() == 36
+                        && inTransitCounter/NitrogenCyclePop.length < (1-w36prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[grassIndex]
+                        && vbsSlider.value() == 60
+                        && inTransitCounter/NitrogenCyclePop.length < (1-g60prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                        && vbsSlider.value() == 60
+                        && inTransitCounter/NitrogenCyclePop.length < (1-s60prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
+                        && vbsSlider.value() == 60
+                        && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
+                        ncc.inTransit = true;
+                        inTransitCounter++
 
-    //index 2
-    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [175,100,0], "Farm")
-    regions[2] = farm;
+                    }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSlider.value() == 0){
+                        //vbs of length 0
+                        ncc.inTransit = true;
+                        inTransitCounter++
+                    }
+
+                }
+            }
+
+        }
 
 
-}
-
-function drawRegions(){
-    for(const region of regions){
-        region.render()
+    } else {
+        rain = [];
     }
 }
-
-function drawCrops(){
-    for(let i=0; i<cropsToSow.length; i++){
-        cropsToSow[i].pos = i+1;
-        cropsToSow[i].render(farm.x, farm.width, farm.y)
-
-
-    }
+function createSun(){
+    noStroke();
+    fill(255, 255, 0);
+    ellipse(width / 6, height / 5, sunSize, sunSize);
+    stroke(2)
 
 
 }
+//draw weather end
 
-function drawVbsPlants(){
-    for(let i=0; i<vbsToPlant.length; i++){
-        vbsToPlant[i].render()
-    }
-}
+//draw functions end
+
+//misc function start
 function updateText(){
 
 
     if(currentChallenge === 1){
 
 
-        select("#wormText").html(`${calculateWormPop()}`)
+        select("#wormText").html(`${calcWormPop()}`)
         select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
-      //  select("#nutrientsText").html(`${n2PopulationSize}`)
+        //  select("#nutrientsText").html(`${n2PopulationSize}`)
 
 
 
@@ -595,10 +769,10 @@ function updateText(){
 
     }else if(currentChallenge === 3){
 
-        select("#waterQualityText").html(`${calculateWaterQuality()}`)
+        select("#waterQualityText").html(`${waterQuality}`)
         select("#fishText").html(`${fishPopulationSize}`)
 
-        select("#bankText").html(`€ ${calculateBankBalance()}`);
+        select("#bankText").html(`€ ${bankBalance.toFixed(2)}`);
         select("#profitText").html(`€ ${profit.toFixed(2)}`)
         select("#yieldText").html(`${yield} kg`)
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
@@ -607,9 +781,9 @@ function updateText(){
         //challenge 2
 
         //soil
-        select("#wormText").html(`${calculateWormPop()}`)
+        select("#wormText").html(`${calcWormPop()}`)
         select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
-      //  select("#nutrientsText").html(`${n2PopulationSize}`)
+        //  select("#nutrientsText").html(`${n2PopulationSize}`)
 
 
         if(soilHealth >= EXCELLENT_SOIL){
@@ -636,7 +810,7 @@ function updateText(){
 
         //water
 
-        select("#waterQualityText").html(`${calculateWaterQuality()}`)
+        select("#waterQualityText").html(`${waterQuality}`)
         select("#fishText").html(`${fishPopulationSize}`)
     }
 
@@ -657,14 +831,10 @@ function updateText(){
 
 
 }
+function updateSoilText(){
 
-
-
+}
 function enterPressed(){
-
-
-
-
 
     if (validateCheckboxes()) {
 
@@ -686,9 +856,9 @@ function enterPressed(){
 
         if(vbsWidth>0){
             VBS.text = "VBS"
-            organiseVbsPlants();
+            initVbsPlantsToSow();
         }
-        //organiseSoilQuality();
+
 
         let checkBoxGroup = document.forms['fer_form']['checkfer[]'];
         if(checkBoxGroup[0].checked){
@@ -697,11 +867,11 @@ function enterPressed(){
         }else if(checkBoxGroup[1].checked){
             ferAmount = 1
             addFer = true
-            addFertilisers()
+            drawFertilisers()
         }else if(checkBoxGroup[2].checked){
             ferAmount = 2
             addFer = true
-            addFertilisers()
+            drawFertilisers()
         }
 
 
@@ -711,45 +881,249 @@ function enterPressed(){
             if(currentChallenge === 3){
                 getSoilHealth()
                 initSoilHealth()
-                createWorms(calculateWormPop())
+                createWorms(calcWormPop())
                 progressSoilHealth()
             }
 
         }
 
-        organiseCropsToSow();
-
-
-
-
-
+        initCropsToSow();
         for(const ncc of NitrogenCyclePop){
             ncc.topLeft = new Coordinate(VBS.x, VBS.y)
         }
-
-
-
-
-
-
 
         infoSubmitted = true;
     }
 
 
 }
+function displayYield(){
 
 
-function lockSlider() {
 
-    if (lock) {
-        vbsSlider.attribute("disabled", "");
-    } else {
-        vbsSlider.removeAttribute("disabled");
+    if(year == 3){
+        challengeOver = true;
+    }
+
+    if (yearOver && !challengeOver) {
+
+
+        if(profitCount == 0){
+
+            bankBalance += profit;
+
+
+            amountMade += profit;
+
+            profitCount++
+        }
+        calcSoilHealth()
+        nigtrogenFixingPlantPicked = false;
+        updateText()
+        progressSoilHealth();
+
+
+        let popup = document.getElementById("popup");
+        popup.style.display = "block";
+        yearOver = false
+    }else if(yearOver && challengeOver && currentChallenge == 1){
+        if(profitCount == 0){
+            bankBalance += profit;
+            amountMade += profit;
+            profitCount++
+        }
+        calcSoilHealth()
+        progressSoilHealth()
+
+
+        nigtrogenFixingPlantPicked = false;
+
+        if(soilHealth < GOOD_SOIL){
+            challengeOverText = "You have failed the challenge because the soil is not good :("
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
+    }else if(yearOver && challengeOver && currentChallenge == 3) {
+
+        calcSoilHealth()
+        progressSoilHealth()
+
+
+        if (bankBalance < 2500 || waterQuality < 17) {
+            challengeOverText = "You have failed the challenge because you have not made enough money :("
+        }else{
+            challengeOverText = "Well done you made over €1,500"
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
+    }else if(yearOver && challengeOver && currentChallenge == 2){
+
+
+        calcSoilHealth()
+        progressSoilHealth()
+
+
+        if (soilHealth < GOOD_SOIL || waterQuality < 17) {
+            challengeOverText = "You have failed the challenge :("
+        }else{
+            challengeOverText = "Well done the soil quality is good and the water quality is above 17"
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
+    }
+
+}
+function restartChallenge1() {
+
+
+    soilHealthCount = 0
+    initVBSPlants();
+    challengeOver = false
+    nextYear()
+
+
+    NitrogenCyclePop = []
+    NitrogenCycleWaterPop = []
+    fishPopulation = []
+    worms = []
+    cropsToSow = []
+    vbsToPlant = []
+
+
+    waterQuality = 20
+    year = 1;
+    bankBalance = 1000;
+    amountMade = 0;
+    amountSpent = 0;
+    soilHealth = AVERAGE_SOIL
+
+    vbsSlider.value(0);
+    vbsWidth = 0;
+    lock = false;
+    lockSlider();
+    createRegions()
+
+    fishPopulationSize = 20;
+    createWorms(calcWormPop())
+
+    initSoilHealth()
+    createFishes();
+
+
+}
+//misc function end
+
+//move functions start
+function moveFish(){
+
+    for(const fish of fishPopulation){
+        fish.move()
+        fish.render(5)
+    }
+
+}
+function moveNCP(){
+    let i=0;
+    for(const nc of NitrogenCyclePop){
+
+
+        nc.render(5)
+        if(infoSubmitted){
+            nc.move()
+            for(const nc2 of NitrogenCyclePop){
+                nc.checkCollision(nc2)
+            }
+            i++;
+        }
+
     }
 }
+//move functions end
 
-function organiseCropsToSow(){
+
+
+
+
+//init functions
+function initChallenge(){
+    let url = window.location.href.toString()
+    if(url.includes("challenge3")){
+        currentChallenge = 3
+    }else if(url.includes("challenge2")){
+        currentChallenge = 2
+    }else{
+        currentChallenge = 1
+    }
+}
+function initSoilHealth(){
+
+    if(soilHealth >= EXCELLENT_SOIL){
+        bacteriaPopulationSize = 5
+    }else if(soilHealth >= GOOD_SOIL){
+        bacteriaPopulationSize = 4
+    }else if(soilHealth >= AVERAGE_SOIL){
+        bacteriaPopulationSize = 3
+    }else if(soilHealth >= BAD_SOIL){
+        bacteriaPopulationSize = 2
+    }else if(soilHealth >= DEAD_SOIL){
+        bacteriaPopulationSize = 0
+    }
+
+    createBacteria(false);
+    createN2(false, n2PopulationSize);
+    progressSoilHealth()
+}
+function getSoilHealth() {
+
+    let checkBoxGroup1 = document.forms['SoilQuality_form']['checkSoilQuality[]'];
+    for (let i = 0; i < checkBoxGroup1.length; i++) {
+        if(checkBoxGroup1[i].checked){
+            let quality = checkBoxGroup1[i].value;
+
+            if(quality == 'Excellent'){
+                soilHealth = EXCELLENT_SOIL
+            }else if(quality == 'Good'){
+                soilHealth = GOOD_SOIL
+            }else if(quality == 'Average'){
+                soilHealth = AVERAGE_SOIL
+            }else if(quality == 'Bad'){
+                soilHealth = BAD_SOIL
+            }else if(quality == 'Dead'){
+                soilHealth = DEAD_SOIL
+            }
+
+        }
+    }
+}
+function initCrops(){
+    let posistions = [2, 10, 5, 4/5]
+    crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize, [2, 10, 5, 4/5]);
+    crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize, [2, 5, 5, 4/5]);
+    crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize, [2, 5, 11, 4/5]);
+    crops[3] = new Plant(trString,  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize, posistions);
+    crops[4] = new Plant(ciString,  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize, posistions);
+    crops[5] = new Plant(plString,  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize, posistions);
+}
+function initVBSPlants(){
+    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic, shrubSize, [shrubSize*1/3, shrubSize, 2*(shrubSize/4), 2*(shrubSize/2)])
+    VbsPlants[0] = shrub;
+    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic, woodSize, [woodSize*1/7, woodSize/2, 2*(woodSize/4), 2*(woodSize/2)])
+    VbsPlants[1] = tree;
+    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize, [plantSize*1/3, plantSize, 2*(plantSize/4), 2*(plantSize/2)])
+    VbsPlants[2] = grass;
+}
+function initVbsPlantsToSow(){
+    let checkBoxGroup = document.forms['Vbs_form']['checkVbs[]'];
+    for (let i = 0; i < checkBoxGroup.length; i++) {
+        if(checkBoxGroup[i].checked){
+            vbsToPlant.push(VbsPlants[i]);
+        }
+    }
+}
+function initCropsToSow(){
 
     let checkBoxGroupAll = document.forms['crops_form']['checkCrops[]'];
     let checkBoxGroup = Array.from(checkBoxGroupAll).filter(a => a.checked);
@@ -762,7 +1136,7 @@ function organiseCropsToSow(){
 
             if((checkBoxGroupAll[i].value == tpString || checkBoxGroupAll[i].value == trString) ){
 
-                    nigtrogenFixingPlantPicked = true;
+                nigtrogenFixingPlantPicked = true;
 
             }
 
@@ -846,10 +1220,10 @@ function organiseCropsToSow(){
 
         //if they pick the two legumes
         if((checkBoxGroup[0].value == tpString || checkBoxGroup[1].value == tpString
-                    || checkBoxGroup[2].value == tpString || checkBoxGroup[3].value == tpString)
-                && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString
-                    || checkBoxGroup[3].value == trString || checkBoxGroup[4].value == trString)) {
-                profit += 578
+                || checkBoxGroup[2].value == tpString || checkBoxGroup[3].value == tpString)
+            && (checkBoxGroup[1].value == trString || checkBoxGroup[2].value == trString
+                || checkBoxGroup[3].value == trString || checkBoxGroup[4].value == trString)) {
+            profit += 578
         }else{
             profit += 488
         }
@@ -897,7 +1271,7 @@ function organiseCropsToSow(){
         }else if(cropsToSow[0].type == "herb" && cropsToSow[1].type == "herb"){
             fgInteraction.push(herbHerb)
         }else if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume")
-        || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass")){
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass")){
             fgInteraction.push(grassLegume)
         }else if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb")
             || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass")){
@@ -918,7 +1292,7 @@ function organiseCropsToSow(){
 
 
         if((cropsToSow[0].type == "grass" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
-        || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
+            || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
             || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "grass")){
             fgInteraction.push(grassGrass)
             fgInteraction.push(grassLegume)
@@ -930,8 +1304,8 @@ function organiseCropsToSow(){
             fgInteraction.push(grassGrass)
             fgInteraction.push(grassHerb)
         }else if((cropsToSow[0].type == "legume" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "grass")
-        || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
-        || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "legume")){
+            || (cropsToSow[0].type == "legume" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "legume")
+            || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "legume")){
             fgInteraction.push(legumeLegume)
             fgInteraction.push(grassLegume)
         }else if((cropsToSow[0].type == "legume" && cropsToSow[1].type == "legume" && cropsToSow[2].type == "herb")
@@ -940,7 +1314,7 @@ function organiseCropsToSow(){
             fgInteraction.push(legumeLegume)
             fgInteraction.push(legumeHerb)
         }else if((cropsToSow[0].type == "herb" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "grass")
-        || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "herb")
+            || (cropsToSow[0].type == "herb" && cropsToSow[1].type == "grass" && cropsToSow[2].type == "herb")
             || (cropsToSow[0].type == "grass" && cropsToSow[1].type == "herb" && cropsToSow[2].type == "herb")){
             fgInteraction.push(herbHerb)
             fgInteraction.push(grassHerb)
@@ -977,9 +1351,9 @@ function organiseCropsToSow(){
 
         //check if a grass is picked
         for(let i=0; i<cropCount; i++){
-           if(cropsToSow[i].type == "grass" ) {
-               isPicked++;
-           }
+            if(cropsToSow[i].type == "grass" ) {
+                isPicked++;
+            }
         }
         //if grass has not been picked
         if(isPicked == 0){
@@ -1125,496 +1499,4 @@ function organiseCropsToSow(){
 
 
 }
-
-function organiseVbsPlants(){
-
-
-    let checkBoxGroup = document.forms['Vbs_form']['checkVbs[]'];
-    for (let i = 0; i < checkBoxGroup.length; i++) {
-        if(checkBoxGroup[i].checked){
-            vbsToPlant.push(VbsPlants[i]);
-        }
-    }
-}
-
-
-
-
-
-function createWorms(quantity){
-    for(let i=0; i<quantity; i++){
-        let s = new EarthWorm(regions[1], regions[2])
-        worms.push(s)
-    }
-}
-
-function drawWorms(){
-
-
-    for(const worm of worms){
-        if(worm.count<170){
-            worm.grow()
-            worm.count++
-        }
-        worm.update();
-        worm.show();
-        worm.changeDir();
-
-    }
-}
-
-function calculateWormPop(){
-
-    if(soilHealth >= EXCELLENT_SOIL){
-        return(5)
-    }else if(soilHealth >= GOOD_SOIL){
-        return(4)
-    }else if(soilHealth >= AVERAGE_SOIL){
-        return(3)
-    }else if(soilHealth >= BAD_SOIL){
-        return(2)
-    }else if(soilHealth >= DEAD_SOIL){
-        return(0)
-    }
-}
-function calculateWaterQuality(){
-
-    return waterQuality
-}
-
-function calculateBankBalance(){
-
-    return bankBalance.toFixed(2);
-}
-
-
-
-
-
-//fish
-function createFishes(){
-    let water = regions[0];
-    for(let i=0; i<fishPopulationSize; i++){
-        let fish = new Fish(fishSize, "healthy", water, fishImage);
-        fishPopulation[i]=fish
-        if(i < fishPopulationSize/2){
-            fish.direction.x *= -1
-            fish.direction.y *= -1
-        }
-    }
-}
-
-function moveFish(){
-
-    for(const fish of fishPopulation){
-        fish.move()
-        fish.render(5)
-    }
-
-}
-
-function getSoilHealth() {
-
-    let checkBoxGroup1 = document.forms['SoilQuality_form']['checkSoilQuality[]'];
-    for (let i = 0; i < checkBoxGroup1.length; i++) {
-        if(checkBoxGroup1[i].checked){
-            let quality = checkBoxGroup1[i].value;
-
-                if(quality == 'Excellent'){
-                    soilHealth = EXCELLENT_SOIL
-                }else if(quality == 'Good'){
-                    soilHealth = GOOD_SOIL
-                }else if(quality == 'Average'){
-                    soilHealth = AVERAGE_SOIL
-                }else if(quality == 'Bad'){
-                    soilHealth = BAD_SOIL
-                }else if(quality == 'Dead'){
-                    soilHealth = DEAD_SOIL
-                }
-
-        }
-    }
-}
-
-function initSoilHealth(){
-
-
-
-    if(soilHealth >= EXCELLENT_SOIL){
-        bacteriaPopulationSize = 5
-    }else if(soilHealth >= GOOD_SOIL){
-        bacteriaPopulationSize = 4
-    }else if(soilHealth >= AVERAGE_SOIL){
-        bacteriaPopulationSize = 3
-    }else if(soilHealth >= BAD_SOIL){
-        bacteriaPopulationSize = 2
-    }else if(soilHealth >= DEAD_SOIL){
-        bacteriaPopulationSize = 0
-    }
-
-    createBacteria(false);
-    createN2(false, n2PopulationSize);
-    progressSoilHealth()
-}
-
-function createBacteria(isFer){
-
-
-
-    for(let i=0; i<=bacteriaPopulationSize; i++){
-        let bacterium1 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium1", VBS, farm, isFer );
-        NitrogenCyclePop.push(bacterium1)
-        if(i < bacteriaPopulationSize/2){
-            bacterium1.direction.x *= -1
-            bacterium1.direction.y *= -1
-        }
-
-        let bacterium2 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium2", VBS, farm, isFer);
-        NitrogenCyclePop.push(bacterium2)
-        if(i < bacteriaPopulationSize/2){
-            bacterium2.direction.x *= -1
-            bacterium2.direction.y *= -1
-        }
-
-        let bacterium3 = new NitrogenCycleComponents(bacteriaSize, "healthy",  "bacterium3", VBS, farm, isFer);
-        NitrogenCyclePop.push(bacterium3)
-        if(i < bacteriaPopulationSize/2){
-            bacterium3.direction.x *= -1
-            bacterium3.direction.y *= -1
-        }
-    }
-}
-
-function createN2(isFer, amount){
-
-    for(let i=0; i<=amount/3; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "n2", VBS, farm, isFer);
-        NitrogenCyclePop.push(n2)
-        if(i < n2PopulationSize/2){
-            n2.direction.x *= -1
-            n2.direction.y *= -1
-        }
-    }
-    for(let i=0; i<=amount/3; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "nh4", VBS, farm, isFer);
-        NitrogenCyclePop.push(n2)
-        if(i < n2PopulationSize/2){
-            n2.direction.x *= -1
-            n2.direction.y *= -1
-        }
-    }
-    for(let i=0; i<=amount/3; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no2", VBS, farm, isFer);
-        NitrogenCyclePop.push(n2)
-        if(i < n2PopulationSize/2){
-            n2.direction.x *= -1
-            n2.direction.y *= -1
-        }
-    }
-
-    for(let i=0; i<=amount/3; i++){
-        let n2 = new NitrogenCycleComponents(n2Size, "healthy", "no3", VBS, farm, isFer);
-        NitrogenCyclePop.push(n2)
-        if(i < n2PopulationSize/2){
-            n2.direction.x *= -1
-            n2.direction.y *= -1
-        }
-    }
-
-}
-
-function moveNCP(){
-    let i=0;
-    for(const nc of NitrogenCyclePop){
-
-
-        nc.render(5)
-        if(infoSubmitted){
-            nc.move()
-            for(const nc2 of NitrogenCyclePop){
-                nc.checkCollision(nc2)
-            }
-            i++;
-        }
-
-    }
-}
-
-
-
-
-
-function toggleRain() {
-
-    //isRaining = !isRaining;
-    if (isRaining) {
-        for (let i = 0; i < 500; i++) {
-            rain[i] = new Raindrop();
-        }
-
-        if(ferAmount != 0){
-            for(const ncc of  NitrogenCyclePop){
-                if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3" || ncc.type == "n2") && ncc.inWater == false){
-
-                    //12m grass VBS
-
-                    if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 12
-                        && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 12
-                        && inTransitCounter/NitrogenCyclePop.length < (1-s12prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 12
-                        && inTransitCounter/NitrogenCyclePop.length < (1-w12prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 36
-                        && inTransitCounter/NitrogenCyclePop.length < (1-g36prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 36
-                        && inTransitCounter/NitrogenCyclePop.length < (1-s36prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 36
-                        && inTransitCounter/NitrogenCyclePop.length < (1-w36prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 60
-                        && inTransitCounter/NitrogenCyclePop.length < (1-g60prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 60
-                        && inTransitCounter/NitrogenCyclePop.length < (1-s60prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 60
-                        && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
-                        ncc.inTransit = true;
-                        inTransitCounter++
-
-                    }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSlider.value() == 0){
-                        //vbs of length 0
-                        ncc.inTransit = true;
-                        inTransitCounter++
-                    }
-
-                }
-            }
-
-        }
-
-
-    } else {
-        rain = [];
-    }
-}
-
-
-function createSun(){
-    noStroke();
-    fill(255, 255, 0);
-    ellipse(width / 6, height / 5, sunSize, sunSize);
-    stroke(2)
-
-
-}
-
-
-function addFertilisers(){
-    bankBalance -= (Math.floor(ferAmount*150/300))*fertiliserCost
-    amountSpent += (Math.floor(ferAmount*150/300))*fertiliserCost
-
-
-    createN2(true, ferAmount*fertiliserPopSize);
-}
-
-
-function initCrops(){
-    let posistions = [2, 10, 5, 4/5]
-    crops[0] = new Plant(lpString,  0,  loliumPerenneImage,  farm.x, farm.width, farm.y, rootPic, lpCostPrice, lpSellPrice, lpSpeciesIdentity, "grass", plantSize, [2, 10, 5, 4/5]);
-    crops[1] = new Plant(ppString,  1,  phleumPratenseImage,  farm.x, farm.width, farm.y, rootPic, ppCostPrice, ppSellPrice, ppSpeciesIdentity, "grass", plantSize, [2, 5, 5, 4/5]);
-    crops[2] = new Plant(tpString,  2,  trifoliumPratenseImage,  farm.x, farm.width, farm.y, rootPic, tpCostPrice, tpSellPrice, tpSpeciesIdentity, "legume", plantSize, [2, 5, 11, 4/5]);
-    crops[3] = new Plant(trString,  3,  trifoliumRepensImage,  farm.x, farm.width, farm.y, rootPic, trCostPrice, trSellPrice, trSpeciesIdentity, "legume", plantSize, posistions);
-    crops[4] = new Plant(ciString,  4,  cichoriumIntybusImage,  farm.x, farm.width, farm.y, rootPic, ciCostPrice, ciSellPrice, ciSpeciesIdentity, "herb", plantSize, posistions);
-    crops[5] = new Plant(plString,  5,  plantagoLanceolataImage,  farm.x, farm.width, farm.y, rootPic, plCostPrice, plSellPrice, plSpeciesIdentity, "herb", plantSize, posistions);
-}
-
-function initVBSPlants(){
-    //init Vbs plant dictionary
-
-
-    let shrub = new VbsPlant("shrub" + (0+1).toString(),  0,  shrubImage, rootPic, shrubSize, [shrubSize*1/3, shrubSize, 2*(shrubSize/4), 2*(shrubSize/2)])
-    VbsPlants[0] = shrub;
-    let tree = new VbsPlant("tree" + (1+1).toString(),  1,  treeImage, rootPic, woodSize, [woodSize*1/7, woodSize/2, 2*(woodSize/4), 2*(woodSize/2)])
-    VbsPlants[1] = tree;
-    let grass = new VbsPlant("grass" + (2+1).toString(),  2,  loliumPerenneImage, rootPic, plantSize, [plantSize*1/3, plantSize, 2*(plantSize/4), 2*(plantSize/2)])
-    VbsPlants[2] = grass;
-}
-
-function calcSoilHealth(){
-
-
-    if(soilHealthCount < 1){
-        if(nigtrogenFixingPlantPicked){
-            soilHealthCount++
-
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
-
-        }else{
-            soilHealthCount++
-
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
-
-        }
-    }
-
-
-
-
-
-}
-
-
-
-function displayYield(){
-
-
-
-    if(year == 3){
-        challengeOver = true;
-    }
-
-    if (yearOver && !challengeOver) {
-
-
-        if(profitCount == 0){
-
-            bankBalance += profit;
-
-
-            amountMade += profit;
-
-            profitCount++
-        }
-        calcSoilHealth()
-        nigtrogenFixingPlantPicked = false;
-        updateText()
-        progressSoilHealth();
-
-
-        let popup = document.getElementById("popup");
-        popup.style.display = "block";
-        yearOver = false
-    }else if(yearOver && challengeOver && currentChallenge == 1){
-        if(profitCount == 0){
-            bankBalance += profit;
-            amountMade += profit;
-            profitCount++
-        }
-        calcSoilHealth()
-        progressSoilHealth()
-
-
-        nigtrogenFixingPlantPicked = false;
-
-        if(soilHealth < GOOD_SOIL){
-            challengeOverText = "You have failed the challenge because the soil is not good :("
-        }
-
-        let popup = document.getElementById("popup3");
-        popup.style.display = "block";
-    }else if(yearOver && challengeOver && currentChallenge == 3) {
-
-        calcSoilHealth()
-        progressSoilHealth()
-
-
-        if (bankBalance < 2500 || waterQuality < 17) {
-            challengeOverText = "You have failed the challenge because you have not made enough money :("
-        }else{
-            challengeOverText = "Well done you made over €1,500"
-        }
-
-        let popup = document.getElementById("popup3");
-        popup.style.display = "block";
-    }else if(yearOver && challengeOver && currentChallenge == 2){
-
-
-        calcSoilHealth()
-        progressSoilHealth()
-
-
-        if (soilHealth < GOOD_SOIL || waterQuality < 17) {
-            challengeOverText = "You have failed the challenge :("
-        }else{
-            challengeOverText = "Well done the soil quality is good and the water quality is above 17"
-        }
-
-        let popup = document.getElementById("popup3");
-        popup.style.display = "block";
-    }
-
-}
-
-
-function restartChallenge1() {
-
-
-    soilHealthCount = 0
-    initVBSPlants();
-    challengeOver = false
-    nextYear()
-
-
-    NitrogenCyclePop = []
-    NitrogenCycleWaterPop = []
-    fishPopulation = []
-    worms = []
-    cropsToSow = []
-    vbsToPlant = []
-
-
-    waterQuality = 20
-    year = 1;
-    bankBalance = 1000;
-    amountMade = 0;
-    amountSpent = 0;
-    soilHealth = AVERAGE_SOIL
-
-    vbsSlider.value(0);
-    vbsWidth = 0;
-    lock = false;
-    lockSlider();
-    createRegions()
-
-    fishPopulationSize = 20;
-    createWorms(calculateWormPop())
-
-    initSoilHealth()
-    createFishes();
-
-
-}
-
-
-
-
-function progressSoilHealth() {
-    let elem = document.getElementById("myBar");
-    let width = soilHealth; // get the current width or use 0 if it's not set
-
-    elem.style.width = width + "%";
-    elem.innerHTML = width  + "%";
-}
+//init function end

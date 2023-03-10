@@ -77,3 +77,30 @@ function validateCheckboxes() {
 
     return isValid;
 }
+
+
+function closePopup(id) {
+    let errorPopup = document.getElementById(id);
+    errorPopup.style.display = "none";
+}
+
+
+
+function progressSoilHealth() {
+    let elem = document.getElementById("myBar");
+    let width = soilHealth; // get the current width or use 0 if it's not set
+
+    elem.style.width = width + "%";
+    elem.innerHTML = width  + "%";
+}
+
+
+function lockSlider() {
+    if (lock) {
+        vbsSlider.attribute("disabled", "");
+    } else {
+        vbsSlider.removeAttribute("disabled");
+    }
+}
+
+
