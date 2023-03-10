@@ -233,10 +233,12 @@ function setup() {
 
     if(currentChallenge != 3 && year === 1){
         soilHealth = AVERAGE_SOIL
-        initSoilHealth()
-        createWorms(calcWormPop())
-        progressSoilHealth()
+    }else{
+        soilHealth = BAD_SOIL
     }
+    initSoilHealth()
+    createWorms(calcWormPop())
+    progressSoilHealth()
 
 }
 function draw() {
@@ -741,77 +743,24 @@ function updateText(){
 
 
     if(currentChallenge === 1){
-
-
         select("#wormText").html(`${calcWormPop()}`)
         select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
-        //  select("#nutrientsText").html(`${n2PopulationSize}`)
-
-
-
-        if(soilHealth >= EXCELLENT_SOIL){
-            select("#soilText").html("Excellent");
-            select('#soilQualityText').html('Excellent');
-        }else if(soilHealth >= GOOD_SOIL){
-            select("#soilText").html("Good");
-            select("#soilQualityText").html("Good");
-        }else if(soilHealth >= AVERAGE_SOIL){
-            select("#soilText").html("Average");
-            select("#soilQualityText").html("Average");
-        }else if(soilHealth >= BAD_SOIL){
-            select("#soilText").html("Bad");
-            select("#soilQualityText").html("Bad");
-        }else if(soilHealth >= DEAD_SOIL){
-            select("#soilText").html("Dead");
-            select("#soilQualityText").html("Dead");
-        }
-
-
-    }else if(currentChallenge === 3){
-
+        updateSoilText()
+    }else if(currentChallenge === 2){
+        select("#wormText").html(`${calcWormPop()}`)
+        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
         select("#waterQualityText").html(`${waterQuality}`)
         select("#fishText").html(`${fishPopulationSize}`)
-
+        updateSoilText()
+    }else if(currentChallenge === 3){
+        select("#waterQualityText").html(`${waterQuality}`)
+        select("#fishText").html(`${fishPopulationSize}`)
         select("#bankText").html(`€ ${bankBalance.toFixed(2)}`);
         select("#profitText").html(`€ ${profit.toFixed(2)}`)
         select("#yieldText").html(`${yield} kg`)
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
-    }else{
-        //challenge 2
-
-        //soil
-        select("#wormText").html(`${calcWormPop()}`)
-        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
-        //  select("#nutrientsText").html(`${n2PopulationSize}`)
-
-
-        if(soilHealth >= EXCELLENT_SOIL){
-            select("#soilText").html("Excellent");
-            select("#soilQualityText2").html("Excellent");
-
-        }else if(soilHealth >= GOOD_SOIL){
-            select("#soilText").html("Good");
-            select("#soilQualityText2").html("Good");
-
-        }else if(soilHealth >= AVERAGE_SOIL){
-            select("#soilText").html("Average");
-            select("#soilQualityText2").html("Average");
-
-        }else if(soilHealth >= BAD_SOIL){
-            select("#soilText").html("Bad");
-            select("#soilQualityText2").html("Bad");
-
-        }else if(soilHealth >= DEAD_SOIL){
-            select("#soilText").html("Dead");
-            select("#soilQualityText2").html("Dead");
-
-        }
-
-        //water
-
-        select("#waterQualityText").html(`${waterQuality}`)
-        select("#fishText").html(`${fishPopulationSize}`)
+        updateSoilText()
     }
 
     // select("#ferCostText").html(`${fertiliserCost}`)
@@ -821,9 +770,7 @@ function updateText(){
     select("#trCostText").html(`${trCostPrice}`)
     select("#ciCostText").html(`${ciCostPrice}`)
     select("#plCostText").html(`${plCostPrice}`)
-
     select("#vbsText").html(`${vbsSlider.value()} meters   `);
-
     select("#challenge1OverText").html(`${challengeOverText}`)
 
 
@@ -832,7 +779,22 @@ function updateText(){
 
 }
 function updateSoilText(){
-
+    if(soilHealth >= EXCELLENT_SOIL){
+        select("#soilText").html(soilHealth);
+        select('#soilQualityText').html(soilHealth);
+    }else if(soilHealth >= GOOD_SOIL){
+        select("#soilText").html(soilHealth);
+        select("#soilQualityText").html(soilHealth);
+    }else if(soilHealth >= AVERAGE_SOIL){
+        select("#soilText").html(soilHealth);
+        select("#soilQualityText").html(soilHealth);
+    }else if(soilHealth >= BAD_SOIL){
+        select("#soilText").html(soilHealth);
+        select("#soilQualityText").html(soilHealth);
+    }else if(soilHealth >= DEAD_SOIL){
+        select("#soilText").html(soilHealth);
+        select("#soilQualityText").html(soilHealth);
+    }
 }
 function enterPressed(){
 
