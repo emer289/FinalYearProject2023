@@ -1,0 +1,28 @@
+.info-button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.plantPopup {
+    visibility: hidden;
+    position: absolute;
+    top: 10%;
+    left: -10%;
+    width: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+}
+
+.plantPopup::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}

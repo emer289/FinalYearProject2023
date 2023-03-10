@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
     <script src="../Raindrop.js"></script>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="challenge3.css">
 
 
 
@@ -30,7 +31,7 @@
 <a href="challenge2.html" class="btn">challenge 2 &rarr;</a>
 <div id="sketch-container"></div>
 <h1 >Challenge 3</h1>
-<p class="taskDescription">As a farmer, your goal is to make €1,500 by the end of the three-year span while keeping the river quality above the level of 17. </p>
+<p class="taskDescription">As a farmer, your goal is to make €1,500 by the end of the three-year span while keeping 17 fish alive. </p>
 <p class="taskDescription">
     The controls for this
     task can be found on the bottom right of your screen, while the dashboard which displays your
@@ -84,24 +85,101 @@
     <h3>Choose your crops to sow</h3>
     <form method="post" name="crops_form" id="crops_form">
 
-        <label><input type="checkbox" name="checkCrops[]" value="Lolium perenne"/><span class="emphasized">Lolium perenne</span> (Perennial ryegrass) €<span id="lpCostText"></span> (€ per kg)</label>
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Lolium perenne"/>
+            <span class="emphasized">Lolium perenne</span> (Perennial ryegrass)
+            <span class="info-button" onmouseover="showPopup('lpPopup')" onmouseout="hidePopup('lpPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style="width: 20px; height: 20px;">
+            </span>
+            <div class="plantPopup" id="lpPopup">
+                <p>Lolium perenne info:</p>
+                <p>Cost price: €<span id="lpCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Phleum pratense"/><span class="emphasized">Phleum pratense</span> (Timothy) €<span id="ppCostText"></span> (€ per kg)</label>
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Phleum pratense"/>
+            <span class="emphasized">Phleum pratense</span> (Timothy)
+            <span class="info-button" onmouseover="showPopup('ppPopup')" onmouseout="hidePopup('ppPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+            <div class="plantPopup" id="ppPopup">
+                <p>Phleum pratense info:</p>
+                <p>Cost price: €<span id="ppCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/><span class="emphasized">Trifolium pratense</span> (Red clover) €<span id="tpCostText"></span> (€ per kg)</label>
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Trifolium pratense"/>
+            <span class="emphasized">Trifolium pratense</span> (Red clover)
+            <span class="info-button" onmouseover="showPopup('tpPopup')" onmouseout="hidePopup('tpPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+            <div class="plantPopup" id="tpPopup">
+                <p>Trifolium pratense info:</p>
+                <p>Cost price: €<span id="tpCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Trifolium repens"/><span class="emphasized">Trifolium repens</span>  (White clover) €<span id="trCostText"></span> (€ per kg)</label>
+
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Trifolium repens"/>
+            <span class="emphasized">Trifolium repens</span>  (White clover)
+            <span class="info-button" onmouseover="showPopup('trPopup')" onmouseout="hidePopup('trPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+            <div class="plantPopup" id="trPopup">
+                <p>Trifolium repens info:</p>
+                <p>Cost price: €<span id="trCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/><span class="emphasized">Cichorium intybus</span> (Chicory) €<span id="ciCostText"></span> (€ per kg)</label>
+
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Cichorium intybus"/>
+            <span class="emphasized">Cichorium intybus</span> (Chicory)
+            <span class="info-button" onmouseover="showPopup('ciPopup')" onmouseout="hidePopup('ciPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+            <div class="plantPopup" id="ciPopup">
+                <p>Cichorium intybus info:</p>
+                <p>Cost price: €<span id="ciCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
         <br>
-        <label><input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/><span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain) €<span id="plCostText"></span> (€ per kg)</label>
+
+        <label>
+            <input type="checkbox" name="checkCrops[]" value="Plantago lanceolata"/>
+            <span class="emphasized">Plantago lanceolata</span> (Ribwort Plantain)
+            <span class="info-button" onmouseover="showPopup('plPopup')" onmouseout="hidePopup('plPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+            <div class="plantPopup" id="plPopup">
+                <p>Plantago lanceolata info:</p>
+                <p>Cost price: €<span id="plCostText"></span>/kg</p>
+                <p>Sell price: €57/bale</p>
+            </div>
+        </label>
+
     </form>
     <script type="text/javascript">checkBoxLimit('crops_form', 'checkCrops[]', 6)</script>
 
 
     <script type="text/javascript">checkBoxLimit('Vbs_form', 'checkVbs[]', 1)</script>
 
-    <h3>Add fertiliser €<span id="ferCostText"></span> (€ per 150kg)</h3>
+    <h3>Add fertiliser </h3>
+    <span class="info-button" onmouseover="showPopup('ferPopup')" onmouseout="hidePopup('ferPopup')">
+                <img src="../Pictures/infoIcon.png" alt="info button" style=" width: 20px; height: 20px; ">
+            </span>
+    <div class="plantPopup" id="ferPopup">
+        <p>Fertiliser info:</p>
+       <p>€<span id="ferCostText"></span>/150kg</p>
+    </div>
     <form method="post" name="fer_form" id="fer_form">
         <label><input type="checkbox" name="checkfer[]" value="No"/>No fertiliser</label>
         <label><input type="checkbox" name="checkfer[]" value="150"/>150 kg</label>

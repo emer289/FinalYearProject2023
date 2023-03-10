@@ -290,7 +290,7 @@ function draw() {
 
     fill(255)
     textSize(30)
-    if(!infoSubmitted){
+    if(!infoSubmitted && !yearOver){
         text("Choose your crops to sow -->", 3*width/5, 3*height/5);
     }
     textSize(60);
@@ -453,8 +453,7 @@ function nextYear() {
     proportion = 1;
     inTransitCounter = 0
 
-    yearOver = false;
-    cropIndex = 0
+
 
 
      let popup = document.getElementById("popup");
@@ -462,6 +461,9 @@ function nextYear() {
 
      let popup3 = document.getElementById("popup3");
      popup3.style.display = "none";
+
+     yearOver = false;
+     cropIndex = 0
 
     worms = [];
 
@@ -784,14 +786,15 @@ function updateText(){
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
         updateSoilText()
+        select("#ferCostText").html(`${fertiliserCost}`)
+        select("#lpCostText").html(`${lpCostPrice}`)
+        select("#ppCostText").html(`${ppCostPrice}`)
+        select("#tpCostText").html(`${tpCostPrice}`)
+        select("#trCostText").html(`${trCostPrice}`)
+        select("#ciCostText").html(`${ciCostPrice}`)
+        select("#plCostText").html(`${plCostPrice}`)
     }
-    select("#ferCostText").html(`${fertiliserCost}`)
-    select("#lpCostText").html(`${lpCostPrice}`)
-    select("#ppCostText").html(`${ppCostPrice}`)
-    select("#tpCostText").html(`${tpCostPrice}`)
-    select("#trCostText").html(`${trCostPrice}`)
-    select("#ciCostText").html(`${ciCostPrice}`)
-    select("#plCostText").html(`${plCostPrice}`)
+
 
     select("#challenge1OverText").html(`${challengeOverText}`)
 
@@ -912,7 +915,7 @@ function displayYield(){
 
         let popup = document.getElementById("popup");
         popup.style.display = "block";
-        yearOver = false
+        // yearOver = false
     }else if(yearOver && challengeOver && currentChallenge == 1){
         if(profitCount == 0){
             bankBalance += profit;
@@ -938,9 +941,9 @@ function displayYield(){
 
 
         if (bankBalance < 2500 || waterQuality < 17) {
-            challengeOverText = "You have failed the challenge because you have not made enough money :("
+            challengeOverText = "You have failed the challenge :("
         }else{
-            challengeOverText = "Well done you made over €1,500"
+            challengeOverText = "Well done you made over €1,500 and more than 16 fish are alive"
         }
 
         let popup = document.getElementById("popup3");
@@ -955,7 +958,7 @@ function displayYield(){
         if (soilHealth < GOOD_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
-            challengeOverText = "Well done the soil quality is above 75% and the water quality is above 17"
+            challengeOverText = "Well done the soil quality is above 75% and more than 16 fish are alive"
         }
 
         let popup = document.getElementById("popup3");
@@ -1491,3 +1494,14 @@ function initCropsToSow(){
 
 }
 //init function end
+
+
+function showPopup(popupID) {
+    var plantPopup = document.getElementById(popupID);
+    plantPopup.style.visibility = "visible";
+}
+
+function hidePopup(popupID) {
+    var plantPopup = document.getElementById(popupID);
+    plantPopup.style.visibility = "hidden";
+}
