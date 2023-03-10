@@ -394,13 +394,16 @@ function calcYield(){
 }
 function calcSoilHealth(){
     if(soilHealthCount < 1){
-        if(nigtrogenFixingPlantPicked){
-            soilHealthCount++
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
-        }else{
-            soilHealthCount++
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+        if(soilHealth < 100){
+            if(nigtrogenFixingPlantPicked){
+                soilHealthCount++
+                soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
+            }else{
+                soilHealthCount++
+                soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+            }
         }
+
     }
 }
 function calcWormPop(){
@@ -901,7 +904,7 @@ function displayYield(){
         nigtrogenFixingPlantPicked = false;
 
         if(soilHealth < GOOD_SOIL){
-            challengeOverText = "You have failed the challenge because the soil is not good :("
+            challengeOverText = "You have failed the challenge because the soil is below 75% :("
         }
 
         let popup = document.getElementById("popup3");
@@ -930,7 +933,7 @@ function displayYield(){
         if (soilHealth < GOOD_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
-            challengeOverText = "Well done the soil quality is good and the water quality is above 17"
+            challengeOverText = "Well done the soil quality is above 75% and the water quality is above 17"
         }
 
         let popup = document.getElementById("popup3");
