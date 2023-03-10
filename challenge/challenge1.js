@@ -4,7 +4,7 @@ const EXCELLENT_SOIL = 100
 const GOOD_SOIL = 75
 const AVERAGE_SOIL = 50
 const BAD_SOIL = 25
-const DEAD_SOIL = 0
+const DEAD_SOIL = 2
 
 const spacing = 0;
 const regionWidth = (width / 4);
@@ -226,6 +226,7 @@ function setup() {
 
 
     initCrops();
+    console.log("crops are ", crops)
     initVBSPlants();
     initChallenge();
     if(currentChallenge !== 1){
@@ -248,7 +249,8 @@ function setup() {
 }
 function draw() {
 
-    console.log(currentChallenge)
+
+
     if(currentChallenge !== 1){
         vbsSliderValue = vbsSlider.value();
     }else{
@@ -263,6 +265,7 @@ function draw() {
     }
     displayVbsQuestion()
 
+
     background(100);
     noStroke()
     checkLegend()
@@ -270,6 +273,7 @@ function draw() {
     frameRate(60);
     moveFish();
     moveNCP();
+
 
     drawWorms();
 
@@ -286,7 +290,6 @@ function draw() {
     checkYearStatus()
     updateText()
     displayYield();
-
 
     fill(255)
     textSize(30)
@@ -603,7 +606,9 @@ function drawWorms(){
 }
 function drawFertilisers(){
     bankBalance -= ferAmount*fertiliserCost
+
     amountSpent += ferAmount*fertiliserCost
+
     createN2(true, ferAmount*fertiliserPopSize);
 }
 
@@ -823,12 +828,14 @@ function updateSoilText(){
 }
 function enterPressed(){
 
+    console.log("100 crops are ", crops)
     if (validateCheckboxes()) {
 
         if(currentChallenge !== 1){
             lock=true;
             lockSlider();
         }
+
 
 
         const forms = document.querySelectorAll("form");
@@ -843,6 +850,7 @@ function enterPressed(){
         document.getElementById("enterButton").style.display = "none";
         vbsWidth = vbsSliderValue*6
         createRegions();
+
 
         if(vbsWidth>0){
             VBS.text = "VBS"
@@ -863,6 +871,7 @@ function enterPressed(){
             addFer = true
             drawFertilisers()
         }
+
 
 
         if(year == 1){
@@ -901,8 +910,6 @@ function displayYield(){
         if(profitCount == 0){
 
             bankBalance += profit;
-
-
             amountMade += profit;
 
             profitCount++
@@ -917,12 +924,9 @@ function displayYield(){
         popup.style.display = "block";
         // yearOver = false
     }else if(yearOver && challengeOver && currentChallenge == 1){
-        if(profitCount == 0){
-            bankBalance += profit;
-            amountMade += profit;
-            profitCount++
-        }
+
         calcSoilHealth()
+        updateText()
         progressSoilHealth()
 
 
@@ -934,31 +938,41 @@ function displayYield(){
 
         let popup = document.getElementById("popup3");
         popup.style.display = "block";
-    }else if(yearOver && challengeOver && currentChallenge == 3) {
-
-        calcSoilHealth()
-        progressSoilHealth()
-
-
-        if (bankBalance < 2500 || waterQuality < 17) {
-            challengeOverText = "You have failed the challenge :("
-        }else{
-            challengeOverText = "Well done you made over €1,500 and more than 16 fish are alive"
-        }
-
-        let popup = document.getElementById("popup3");
-        popup.style.display = "block";
     }else if(yearOver && challengeOver && currentChallenge == 2){
 
 
         calcSoilHealth()
+        updateText()
         progressSoilHealth()
+
 
 
         if (soilHealth < GOOD_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
             challengeOverText = "Well done the soil quality is above 75% and more than 16 fish are alive"
+        }
+
+        let popup = document.getElementById("popup3");
+        popup.style.display = "block";
+    }else if(yearOver && challengeOver && currentChallenge == 3) {
+
+        if(profitCount == 0){
+            bankBalance += profit;
+            amountMade += profit;
+            profitCount++
+        }
+
+        calcSoilHealth()
+        updateText()
+        progressSoilHealth()
+
+
+
+        if (bankBalance < 1500 || waterQuality < 17) {
+            challengeOverText = "You have failed the challenge :("
+        }else{
+            challengeOverText = "Well done you made over €1,500 and 17 fish are alive"
         }
 
         let popup = document.getElementById("popup3");
@@ -1119,9 +1133,10 @@ function initVbsPlantsToSow(){
 }
 function initCropsToSow(){
 
+
+
     let checkBoxGroupAll = document.forms['crops_form']['checkCrops[]'];
     let checkBoxGroup = Array.from(checkBoxGroupAll).filter(a => a.checked);
-
 
     let fgInteraction = [];
 
@@ -1140,18 +1155,7 @@ function initCropsToSow(){
         }
     }
 
-    proportion = 1/cropCount
 
-    for (let i = 0; i < checkBoxGroupAll.length; i++) {
-
-
-        if(checkBoxGroupAll[i].checked){
-
-            bankBalance -= (crops[i].costPrice*proportion)
-            amountSpent += (crops[i].costPrice*proportion)
-        }
-
-    }
 
 
     //calculates the profit
@@ -1236,6 +1240,7 @@ function initCropsToSow(){
 
 
     if(cropCount == 1){
+        proportion = 1;
 
         for(let i=1; i<totNumOfCrops; i++){
 
@@ -1249,6 +1254,7 @@ function initCropsToSow(){
 
 
     }else if(cropCount == 2){
+        proportion = 1/2;
 
         for(let i=2; i<totNumOfCrops; i=i+2){
             cropsToSow[i] = cropsToSow[0]
@@ -1278,7 +1284,7 @@ function initCropsToSow(){
         yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (fgInteraction[0] * proportion * proportion)
 
     }else if(cropCount == 3){
-
+        proportion = 1/3;
 
         cropsToSow[3] = cropsToSow[0]
         cropsToSow[4] = cropsToSow[1]
@@ -1336,6 +1342,7 @@ function initCropsToSow(){
 
 
     }else if(cropCount == 4){
+        proportion = 1/4
 
         cropsToSow[4] = cropsToSow[0]
         cropsToSow[5] = cropsToSow[1]
@@ -1432,25 +1439,43 @@ function initCropsToSow(){
 
     }else if(cropCount == 5){
 
-
+        proportion = 1/5;
         cropsToSow[5] = cropsToSow[0]
-        let tempCrops = crops
+        let tempCrops = []
+
+        for (let i = 0; i < crops.length; i++) {
+            tempCrops[i] = crops[i];
+        }
 
         for(let i=0; i<cropCount; i++){
+
+
             if(cropsToSow[i].name == lpString){
+
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }else if(cropsToSow[i].name == ppString){
+
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }else if(cropsToSow[i].name == tpString){
+
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }else if(cropsToSow[i].name == trString){
+
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }else if(cropsToSow[i].name == ciString){
+                console.log("crops[1] is ", crops[1])
+                console.log("tempCrops are ", tempCrops)
+                console.log("cropsToSow[i] are ", cropsToSow[i])
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
+                console.log("tempCrops are ", tempCrops)
+                console.log("crops[1] is ", crops[1])
             }else if(cropsToSow[i].name == plString){
+
                 tempCrops.splice(tempCrops.indexOf(cropsToSow[i]) , 1)
             }
+
         }
+
 
         //the crop that's not used should be left
         if(tempCrops[0].type == "grass"){
@@ -1477,6 +1502,7 @@ function initCropsToSow(){
                 + (legumeHerb * proportion * proportion * proportion)
         }
 
+
     }else if(cropCount == 6){
         proportion = 1/6;
         yield = (cropsToSow[0].speciesIdentity * proportion) + (cropsToSow[1].speciesIdentity * proportion) + (cropsToSow[2].speciesIdentity * proportion)
@@ -1488,6 +1514,17 @@ function initCropsToSow(){
     }
 
 
+
+    for (let i = 0; i < checkBoxGroupAll.length; i++) {
+
+        if(checkBoxGroupAll[i].checked){
+
+            bankBalance -= (crops[i].costPrice*proportion)
+            amountSpent += (crops[i].costPrice*proportion)
+
+        }
+
+    }
 
     calcYield(yield)
 
