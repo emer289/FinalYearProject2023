@@ -1,11 +1,14 @@
 function displayVbsQuestion(){
-    if (vbsSlider.value() > 0) {
-        document.getElementById("Vbs_form").style.display = "block";
-        document.getElementById("Vbs_Question").style.display = "block";
-    } else {
-        document.getElementById("Vbs_form").style.display = "none";
-        document.getElementById("Vbs_Question").style.display = "none";
+    if(currentChallenge !== 1){
+        if (vbsSlider.value() > 0) {
+            document.getElementById("Vbs_form").style.display = "block";
+            document.getElementById("Vbs_Question").style.display = "block";
+        } else {
+            document.getElementById("Vbs_form").style.display = "none";
+            document.getElementById("Vbs_Question").style.display = "none";
+        }
     }
+
 }
 
 function checkBoxLimit(form_name, check, limit) {

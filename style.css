@@ -70,6 +70,26 @@ h1 {
     flex-direction: row;
 }
 
+#dashboardC3 {
+    height: 200px;
+    width: 800px;
+    text-align: center;
+    position: absolute;
+    top: 90%;
+    left: 1%;
+    right: 50%;
+    font-size: 85%;
+    color: white;
+    float: right;
+    background-color: #1e242a;
+    border-radius: 25px;
+    border: 5px solid white;
+    padding: 5px;
+    display: flex;
+
+}
+
+
 p {
     color: black;
     font-size: 20px;
@@ -88,6 +108,12 @@ p {
 
 .sectionC1 {
     width: 100%;
+    text-align: center;
+
+}
+
+.sectionC3 {
+    width: 33%;
     text-align: center;
 
 }
@@ -279,7 +305,7 @@ button {
 
 #myProgress2{
     position: absolute;
-    width: 40%;
+    width: 30%;
     background-color: #ddd;
     left: 5%;
 }

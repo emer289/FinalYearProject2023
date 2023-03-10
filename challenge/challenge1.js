@@ -17,6 +17,7 @@ let water;
 
 //VBS
 let vbsWidth = 0;
+let vbsSliderValue = 0;
 let vbsSlider;
 let lock = false;
 //Worms
@@ -96,7 +97,7 @@ let plSellPrice = 36
 
 let rootPic;
 
-let bankBalance = 1000;
+let bankBalance = 0;
 let amountMade = 0;
 let amountSpent = 0;
 
@@ -129,7 +130,7 @@ let profit = 0;
 
 let soilHealth;
 
-let fertiliserCost = 200
+let fertiliserCost = 100
 let perfectWaterQuality = 20
 let waterQuality = perfectWaterQuality
 let wColour = [0,50,100];
@@ -222,31 +223,42 @@ function setup() {
     canvas.parent("sketch-container");
     createRegions();
     createFishes();
-    //create slider
-    vbsSlider = createSlider(0, 60, 0, 12);
-    vbsSlider.style("width", "100px");
-    vbsSlider.parent(`length`);
+
+
     initCrops();
     initVBSPlants();
     initChallenge();
+    if(currentChallenge !== 1){
+        //create slider
+        vbsSlider = createSlider(0, 60, 0, 12);
+        vbsSlider.style("width", "100px");
+        vbsSlider.parent(`length`);
+    }
+
 
 
     if(currentChallenge != 3 && year === 1){
         soilHealth = AVERAGE_SOIL
-    }else{
-        soilHealth = BAD_SOIL
+        initSoilHealth()
+        createWorms(calcWormPop())
+        progressSoilHealth()
     }
-    initSoilHealth()
-    createWorms(calcWormPop())
-    progressSoilHealth()
+
 
 }
 function draw() {
 
-    if(vbsSlider.value() == 24){
+    console.log(currentChallenge)
+    if(currentChallenge !== 1){
+        vbsSliderValue = vbsSlider.value();
+    }else{
+        vbsSliderValue = 0
+    }
+
+    if(vbsSliderValue == 24){
         vbsSlider.value(36)
 
-    }else if(vbsSlider.value() == 48){
+    }else if(vbsSliderValue == 48){
         vbsSlider.value(60)
     }
     displayVbsQuestion()
@@ -267,7 +279,7 @@ function draw() {
 
     drawWeather()
 
-    if(vbsSlider.value() > 0){
+    if(vbsSliderValue > 0){
         drawVbsPlants();
     }
 
@@ -390,18 +402,25 @@ function calcYield(){
     }else{
         yield = (soilHealth/100)*yield
     }
-    yield = parseFloat(yield.toFixed(2))
+    yield = parseFloat(yield.toFixed(2));
+    if(yield < 0){
+        yield = 0;
+    }
 }
 function calcSoilHealth(){
     if(soilHealthCount < 1){
-        if(soilHealth < 100){
-            if(nigtrogenFixingPlantPicked){
-                soilHealthCount++
-                soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
-            }else{
-                soilHealthCount++
-                soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
-            }
+
+        if(nigtrogenFixingPlantPicked){
+            soilHealthCount++
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
+        }else{
+            soilHealthCount++
+            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+        }
+        if(soilHealth > 100){
+            soilHealth = 100
+        }else if (soilHealth < 0){
+            soilHealth = 0
         }
 
     }
@@ -576,8 +595,8 @@ function drawWorms(){
     }
 }
 function drawFertilisers(){
-    bankBalance -= (Math.floor(ferAmount*150/300))*fertiliserCost
-    amountSpent += (Math.floor(ferAmount*150/300))*fertiliserCost
+    bankBalance -= ferAmount*fertiliserCost
+    amountSpent += ferAmount*fertiliserCost
     createN2(true, ferAmount*fertiliserPopSize);
 }
 
@@ -668,52 +687,52 @@ function toggleRain() {
                     //12m grass VBS
 
                     if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 12
+                        && vbsSliderValue == 12
                         && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 12
+                        && vbsSliderValue == 12
                         && inTransitCounter/NitrogenCyclePop.length < (1-s12prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 12
+                        && vbsSliderValue == 12
                         && inTransitCounter/NitrogenCyclePop.length < (1-w12prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 36
+                        && vbsSliderValue == 36
                         && inTransitCounter/NitrogenCyclePop.length < (1-g36prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 36
+                        && vbsSliderValue == 36
                         && inTransitCounter/NitrogenCyclePop.length < (1-s36prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 36
+                        && vbsSliderValue == 36
                         && inTransitCounter/NitrogenCyclePop.length < (1-w36prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSlider.value() == 60
+                        && vbsSliderValue == 60
                         && inTransitCounter/NitrogenCyclePop.length < (1-g60prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
-                        && vbsSlider.value() == 60
+                        && vbsSliderValue == 60
                         && inTransitCounter/NitrogenCyclePop.length < (1-s60prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
                     }else if(vbsToPlant[0] == VbsPlants[woodIndex]
-                        && vbsSlider.value() == 60
+                        && vbsSliderValue == 60
                         && inTransitCounter/NitrogenCyclePop.length < (1-w60prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
 
-                    }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSlider.value() == 0){
+                    }else if(inTransitCounter/NitrogenCyclePop.length < 0.75 && vbsSliderValue == 0){
                         //vbs of length 0
                         ncc.inTransit = true;
                         inTransitCounter++
@@ -746,18 +765,14 @@ function updateText(){
 
 
     if(currentChallenge === 1){
-        select("#wormText").html(`${calcWormPop()}`)
-        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
         updateSoilText()
     }else if(currentChallenge === 2){
-        select("#wormText").html(`${calcWormPop()}`)
-        select("#bacteriaText").html(`${3*(bacteriaPopulationSize+1)}`)
         select("#waterQualityText").html(`${waterQuality}`)
-        select("#fishText").html(`${fishPopulationSize}`)
+        select("#vbsText").html(`${vbsSlider.value()} meters   `);
         updateSoilText()
     }else if(currentChallenge === 3){
+        select("#vbsText").html(`${vbsSlider.value()} meters   `);
         select("#waterQualityText").html(`${waterQuality}`)
-        select("#fishText").html(`${fishPopulationSize}`)
         select("#bankText").html(`€ ${bankBalance.toFixed(2)}`);
         select("#profitText").html(`€ ${profit.toFixed(2)}`)
         select("#yieldText").html(`${yield} kg`)
@@ -773,7 +788,7 @@ function updateText(){
     select("#trCostText").html(`${trCostPrice}`)
     select("#ciCostText").html(`${ciCostPrice}`)
     select("#plCostText").html(`${plCostPrice}`)
-    select("#vbsText").html(`${vbsSlider.value()} meters   `);
+
     select("#challenge1OverText").html(`${challengeOverText}`)
 
 
@@ -803,8 +818,11 @@ function enterPressed(){
 
     if (validateCheckboxes()) {
 
-        lock=true;
-        lockSlider();
+        if(currentChallenge !== 1){
+            lock=true;
+            lockSlider();
+        }
+
 
         const forms = document.querySelectorAll("form");
         forms.forEach(form => {
@@ -816,7 +834,7 @@ function enterPressed(){
         })
 
         document.getElementById("enterButton").style.display = "none";
-        vbsWidth = vbsSlider.value()*6
+        vbsWidth = vbsSliderValue*6
         createRegions();
 
         if(vbsWidth>0){
@@ -965,10 +983,14 @@ function restartChallenge1() {
     amountSpent = 0;
     soilHealth = AVERAGE_SOIL
 
-    vbsSlider.value(0);
-    vbsWidth = 0;
-    lock = false;
-    lockSlider();
+    if(currentChallenge !== 1){
+        vbsSlider.value(0);
+        vbsSliderValue = 0;
+        vbsWidth = 0;
+        lock = false;
+        lockSlider();
+    }
+
     createRegions()
 
     fishPopulationSize = 20;

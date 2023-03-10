@@ -52,15 +52,15 @@
     <!--    SoilQuality-->
     <h3 id="SoilQuality_Question">Choose a starting soil quality</h3>
     <form method="post" name="SoilQuality_form" id="SoilQuality_form">
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Dead"/>Dead</label>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Dead"/>Dead (0%)</label>
         <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Bad"/>Bad</label>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Bad"/>25%</label>
         <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Average"/>Average</label>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Average"/>50%</label>
         <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Good"/>Good</label>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Good"/>75%</label>
         <br>
-        <label><input type="checkbox" name="checkSoilQuality[]" value="Excellent"/>Excellent</label>
+        <label><input type="checkbox" name="checkSoilQuality[]" value="Excellent"/>Excellent (100%)</label>
 
     </form>
 
@@ -117,20 +117,15 @@
 
 
 <!--  start of dashboard -->
-<div id="dashboardC2">
+<div id="dashboardC3">
 
-
-
-    <div class="section">
+    <div class="sectionC3">
 
         <h2 id="quantity" >Soil Quality: <span id="soilQualityText"></span>%</h2>
         <div id="myProgress2">
             <div id="myBar">0%</div>
             <div id="labels">
                 <span>Dead</span>
-                <span>Bad</span>
-                <span>Average</span>
-                <span>Good (75%)</span>
                 <span>Excellent</span>
             </div>
         </div>
@@ -141,13 +136,15 @@
         <br>
         <br>
 
-        <h2 id="quantity">Water Quality: <span id="waterQualityText"></span></h2>
-        <h3 id="quantity">Number of Fish: <span id="fishText"></span></h3>
-        <!--        <h3 id="quantity">Level of Oxygen: <span id="water"></span></h3>-->
+
+
     </div>
 
+    <div class="sectionC3">
+        <h2 id="quantity">Number of Fish: <span id="waterQualityText"></span></h2>
+    </div>
 
-    <div class="section">
+    <div class="sectionC3">
         <h2 id="euro" >Bank Balance: <span id="bankText"></span></h2>
         <h3 id="euro" >Amount made: <span id="amountMadeText"></span></h3>
         <h3 id="euro" >Amount spent: <span id="amountSpentText"></span></h3>
