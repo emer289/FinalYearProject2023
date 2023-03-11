@@ -839,19 +839,19 @@ function updateText(){
 }
 function updateSoilText(){
     if(soilHealth >= EXCELLENT_SOIL){
-        select("#soilText").html(soilHealthDiff);
+        select("#soilText").html(soilHealth);
         select('#soilQualityText').html(soilHealth);
     }else if(soilHealth >= GOOD_SOIL){
-        select("#soilText").html(soilHealthDiff);
+        select("#soilText").html(soilHealth);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= AVERAGE_SOIL){
-        select("#soilText").html(soilHealthDiff);
+        select("#soilText").html(soilHealth);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= BAD_SOIL){
-        select("#soilText").html(soilHealthDiff);
+        select("#soilText").html(soilHealth);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= DEAD_SOIL){
-        select("#soilText").html(soilHealthDiff);
+        select("#soilText").html(soilHealth);
         select("#soilQualityText").html(soilHealth);
     }
 }
