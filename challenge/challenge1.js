@@ -195,8 +195,7 @@ let currentChallenge = 1
 let soilHealthCount = 0
 let soilHealthDiff = 0
 let soilTextChallenge1;
-let soilTextChallenge2;
-let soilTextChallenge3;
+
 
 function preload(){
    fishImage = loadImage('../Pictures/freshWaterFish.png');
@@ -805,12 +804,14 @@ function updateText(){
 
     if(currentChallenge === 1){
         select("#soilTextChallenge1").html(`${soilTextChallenge1}`)
-
+        updateSoilText('#soilQualityText')
         //updateSoilText()
     }else if(currentChallenge === 2){
+        select("#soilTextChallenge2").html(`${soilTextChallenge1}`)
         select("#waterQualityText").html(`${waterQuality}`)
         select("#vbsText").html(`${vbsSlider.value()} meters   `);
-        updateSoilText()
+        updateSoilText('#soilQualityText')
+        //updateSoilText()
     }else if(currentChallenge === 3){
         select("#vbsText").html(`${vbsSlider.value()} meters   `);
         select("#waterQualityText").html(`${waterQuality}`)
@@ -819,7 +820,9 @@ function updateText(){
         select("#yieldText").html(`${yield} kg`)
         select("#amountMadeText").html(`${amountMade.toFixed(2)}`)
         select("#amountSpentText").html(`${amountSpent.toFixed(2)}`)
-        updateSoilText()
+
+        updateSoilText('#soilQualityText')
+        updateSoilText('#soilText')
         select("#ferCostText").html(`${fertiliserCost}`)
         select("#lpCostText").html(`${lpCostPrice}`)
         select("#ppCostText").html(`${ppCostPrice}`)
@@ -837,22 +840,18 @@ function updateText(){
 
 
 }
-function updateSoilText(){
+function updateSoilText(id){
     if(soilHealth >= EXCELLENT_SOIL){
-        select("#soilText").html(soilHealth);
-        select('#soilQualityText').html(soilHealth);
+        select(id).html(soilHealth);
     }else if(soilHealth >= GOOD_SOIL){
-        select("#soilText").html(soilHealth);
-        select("#soilQualityText").html(soilHealth);
+        select(id).html(soilHealth);
     }else if(soilHealth >= AVERAGE_SOIL){
-        select("#soilText").html(soilHealth);
-        select("#soilQualityText").html(soilHealth);
+        select(id).html(soilHealth);
     }else if(soilHealth >= BAD_SOIL){
-        select("#soilText").html(soilHealth);
-        select("#soilQualityText").html(soilHealth);
+        select(id).html(soilHealth);
     }else if(soilHealth >= DEAD_SOIL){
-        select("#soilText").html(soilHealth);
-        select("#soilQualityText").html(soilHealth);
+        select(id).html(soilHealth);
+
     }
 }
 function enterPressed(){
