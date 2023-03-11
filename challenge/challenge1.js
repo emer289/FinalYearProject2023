@@ -216,6 +216,9 @@ function preload(){
 
 }
 function setup() {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        alert("This website is only accessible on laptops.");
+    }
     let canvas = createCanvas(
         width,
         height
