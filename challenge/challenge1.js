@@ -193,6 +193,10 @@ let profitCount = 0;
 
 let currentChallenge = 1
 let soilHealthCount = 0
+let soilHealthDiff = 0
+let soilTextChallenge1;
+let soilTextChallenge2;
+let soilTextChallenge3;
 
 function preload(){
    fishImage = loadImage('../Pictures/freshWaterFish.png');
@@ -308,8 +312,6 @@ function draw() {
     text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
 
 
-
-
 }
 
 
@@ -318,11 +320,12 @@ function createRegions(){
 
     water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, wColour, "Water")
     regions[0] = water;
-    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
+    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [139,69,19], water.x+water.width+spacing,farmHeight, "")
     regions[1] = VBS;
     water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
     regions[0] = water;
-    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [175,100,0], "Farm")
+
+    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [139,69,19], "Farm")
     regions[2] = farm;
 
 }
@@ -428,15 +431,28 @@ function calcSoilHealth(){
 
         if(nigtrogenFixingPlantPicked){
             soilHealthCount++
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12) + 12
+            soilHealthDiff =  Math.floor(ferAmount)*(-12) + 12
+            soilHealth += soilHealthDiff
+
         }else{
             soilHealthCount++
-            soilHealth = soilHealth + Math.floor(ferAmount)*(-12)
+            soilHealthDiff =  Math.floor(ferAmount)*(-12)
+            soilHealth += soilHealthDiff
         }
         if(soilHealth > 100){
             soilHealth = 100
+            soilHealthDiff = 0
         }else if (soilHealth < 0){
             soilHealth = 0
+            soilHealthDiff = 0
+        }
+
+        if(soilHealthDiff < 0){
+            soilTextChallenge1 = "In year " + year + ", the soil quality decreased by " + soilHealthDiff*(-1) + "% from the previous year."
+        }else if(soilHealthDiff > 0){
+            soilTextChallenge1 = "In year " + year + ", the soil quality increased by " + soilHealthDiff + "% from the previous year."
+        }else if(soilHealthDiff === 0){
+            soilTextChallenge1 = "In year " + year + ", the soil quality has remained the same as the previous year. "
         }
 
 
@@ -495,6 +511,7 @@ function nextYear() {
     createRegions();
     initSoilHealth();
     createWorms(calcWormPop())
+
 
 
     year++;
@@ -787,7 +804,9 @@ function updateText(){
 
 
     if(currentChallenge === 1){
-        updateSoilText()
+        select("#soilTextChallenge1").html(`${soilTextChallenge1}`)
+
+        //updateSoilText()
     }else if(currentChallenge === 2){
         select("#waterQualityText").html(`${waterQuality}`)
         select("#vbsText").html(`${vbsSlider.value()} meters   `);
@@ -820,19 +839,19 @@ function updateText(){
 }
 function updateSoilText(){
     if(soilHealth >= EXCELLENT_SOIL){
-        select("#soilText").html(soilHealth);
+        select("#soilText").html(soilHealthDiff);
         select('#soilQualityText').html(soilHealth);
     }else if(soilHealth >= GOOD_SOIL){
-        select("#soilText").html(soilHealth);
+        select("#soilText").html(soilHealthDiff);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= AVERAGE_SOIL){
-        select("#soilText").html(soilHealth);
+        select("#soilText").html(soilHealthDiff);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= BAD_SOIL){
-        select("#soilText").html(soilHealth);
+        select("#soilText").html(soilHealthDiff);
         select("#soilQualityText").html(soilHealth);
     }else if(soilHealth >= DEAD_SOIL){
-        select("#soilText").html(soilHealth);
+        select("#soilText").html(soilHealthDiff);
         select("#soilQualityText").html(soilHealth);
     }
 }
@@ -943,7 +962,9 @@ function displayYield(){
         nigtrogenFixingPlantPicked = false;
 
         if(soilHealth < GOOD_SOIL){
-            challengeOverText = "You have failed the challenge because the soil is below 75% :("
+            challengeOverText = "You have failed the challenge because your soil quality is at "+ soilHealth + " which is below 75% :("
+        }else{
+            challengeOverText = "Well done! Your soil is at " + soilHealth + " which is above 75%"
         }
 
         let popup = document.getElementById("popup3");

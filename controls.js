@@ -95,6 +95,7 @@ function progressSoilHealth() {
 
     elem.style.width = width + "%";
     elem.innerHTML = width  + "%";
+
 }
 
 
