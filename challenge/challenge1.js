@@ -319,12 +319,12 @@ function createRegions(){
 
     water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25, farmHeight/2 - spacing, wColour, "Water")
     regions[0] = water;
-    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [139,69,19], water.x+water.width+spacing,farmHeight, "")
+    VBS = new Vbs( water.x+water.width+spacing-vbsWidth, water.y, vbsWidth, water.height, [175,100,0], water.x+water.width+spacing,farmHeight, "")
     regions[1] = VBS;
     water = new Region(spacing, farmHeight + farmHeight/2, regionWidth*2.25 - vbsWidth, farmHeight/2 - spacing, [25,50,255], "Water")
     regions[0] = water;
 
-    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [139,69,19], "Farm")
+    farm = new Region(VBS.x+VBS.width+spacing, farmHeight, regionWidth*1.5,farmHeight - spacing, [175,100,0], "Farm")
     regions[2] = farm;
 
 }
