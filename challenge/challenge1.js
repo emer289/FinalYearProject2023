@@ -225,8 +225,9 @@ function setup() {
 
     }
 
+    console.log("1 frameRate is", frameRate())
     frameRate(30)
-
+    console.log("2 frameRate is", frameRate())
 
     let canvas = createCanvas(
         width,
