@@ -695,7 +695,7 @@ function drawWeather(){
 
 
 
-        if (frameCount % 15 == 0 && timer > 0) {
+        if (frameCount % 24 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -812,10 +812,31 @@ function updateText(){
     }else if(currentChallenge === 2){
         select("#soilTextChallenge2").html(`${soilTextChallenge1}`)
         select("#waterQualityText").html(`${waterQuality}`)
+        if(year != 1){
+            select("#vbsQuText").html(`Chosen in Year 1`);
+            select("#vbsPlantQuText").html(`Chosen in Year 1`)
+        }else{
+            select("#vbsQuText").html(`Choose a VBS length`);
+            select("#vbsPlantQuText").html(`Choose a VBS plant`)
+        }
+
+
+
         select("#vbsText").html(`${vbsSlider.value()} meters   `);
         updateSoilText('#soilQualityText')
         //updateSoilText()
     }else if(currentChallenge === 3){
+        if(year != 1){
+            select("#vbsQuText").html(`Chosen in Year 1`);
+            select("#vbsPlantQuText").html(`Chosen in Year 1`)
+            select("#startingSoilQu").html(`Chosen in Year 1`)
+        }else{
+            select("#vbsQuText").html(`Choose a VBS length`);
+            select("#vbsPlantQuText").html(`Choose a VBS plant`)
+            select("#startingSoilQu").html(`Choose a starting soil quality`)
+        }
+
+
         select("#vbsText").html(`${vbsSlider.value()} meters   `);
         select("#waterQualityText").html(`${waterQuality}`)
         select("#bankText").html(`€ ${bankBalance.toFixed(2)}`);
