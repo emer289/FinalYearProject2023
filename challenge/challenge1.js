@@ -310,7 +310,7 @@ function draw() {
     textSize(60);
     text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
 
-    console.log("framrate is ", frameRate())
+
 
 
 }
