@@ -4,13 +4,13 @@ class Raindrop {
         this.y = random(-500, -50);
         this.z = random(0, 20);
         this.len = map(this.z, 0, 20, 10, 20);
-        this.yspeed = map(this.z, 0, 20, 4, 10);
+        this.yspeed = map(this.z, 0, 20, 10, 20);
     }
 
     fall() {
         this.y = this.y + this.yspeed;
 
-        let grav = map(this.z, 0, 20, 0, 0.2);
+        let grav = map(this.z, 0, 20, 0, 0.5);
         this.yspeed = this.yspeed + grav;
         if (this.y > height) {
             this.y = random(-200, -100);
