@@ -226,7 +226,7 @@ function setup() {
     }
 
 
-    frameRate(30)
+    frameRate(24)
 
 
     let canvas = createCanvas(
@@ -311,7 +311,6 @@ function draw() {
     textSize(60);
     text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
 
-    console.log("2 frameRate is", frameRate())
 
 
 

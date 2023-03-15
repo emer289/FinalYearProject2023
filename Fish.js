@@ -35,7 +35,7 @@ class Fish {
 
             }{
                 this.direction.x = 0;
-                this.direction.y -= 0.01;
+                this.direction.y -= 0.1;
             }
 
 

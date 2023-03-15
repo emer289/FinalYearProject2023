@@ -4,7 +4,7 @@ class Raindrop {
         this.y = random(-500, -50);
         this.z = random(0, 20);
         this.len = map(this.z, 0, 20, 10, 20);
-        this.yspeed = 2*map(this.z, 0, 20, 4, 10);
+        this.yspeed = map(this.z, 0, 20, 4, 10);
     }
 
     fall() {

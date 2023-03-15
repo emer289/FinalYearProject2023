@@ -55,7 +55,7 @@ class NitrogenCycleComponents {
         if(!this.inTransit && !this.inWater && this.pos.x + this.size*4 < farm.x  && this.pos.y < water.y + rootSize && !isInside(water.x + water.width, water.y + rootSize, farm.x, water.y + rootSize, farm.x, farm.y+rootSize, this.pos.x, this.pos.y)){
             if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3") {
                 this.direction.x = 0;
-                this.direction.y -= .1
+                this.direction.y -= .05
             }else {
                 this.direction.x *= -1;
                 this.direction.y *= -1;
@@ -68,7 +68,7 @@ class NitrogenCycleComponents {
                     //VBS absorbs plant
                     NitrogenCyclePop.splice(ind, 1)
                     for (let i = 0; i < vbsToPlant.length; i++) {
-                        vbsToPlant[i].size += .01
+                        vbsToPlant[i].size += .05
                     }
                 } else {
                     this.direction.x *= -1;
@@ -78,7 +78,7 @@ class NitrogenCycleComponents {
             }
         }else{
             if (this.inTransit && !this.inWater && this.pos.y >= water.y && this.pos.x + this.size > water.x + 2*water.width/3) {
-                this.direction.x -= .1;
+                this.direction.x -= .05;
                 this.direction.y = 0
             } else if ( this.inTransit && !this.inWater &&this.pos.x <= water.x + water.width && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
                 NitrogenCyclePop.splice(NitrogenCyclePop.indexOf(this), 1)
@@ -113,7 +113,7 @@ class NitrogenCycleComponents {
                     }else if(this.pos.y < (farm.y + farm.height/5)){
                         if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3" && this.type != "n2") {
                             this.direction.x = 0;
-                            this.direction.y -= .1
+                            this.direction.y -= .05
                         }else {
                             this.direction.x *= -1;
                             this.direction.y *= -1;
