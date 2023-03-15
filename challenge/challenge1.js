@@ -225,6 +225,7 @@ function setup() {
 
     }
 
+    frameRate(30)
 
 
     let canvas = createCanvas(
@@ -237,7 +238,7 @@ function setup() {
 
 
     initCrops();
-    console.log("crops are ", crops)
+
     initVBSPlants();
     initChallenge();
     if(currentChallenge !== 1){
@@ -281,7 +282,6 @@ function draw() {
     noStroke()
     checkLegend()
     drawRegions();
-    frameRate(60);
     moveFish();
     moveNCP();
 
@@ -309,6 +309,8 @@ function draw() {
     }
     textSize(60);
     text("Year " + year + ": " + currentMonth, 2*width/5, height/5);
+
+    console.log("framrate is ", frameRate())
 
 
 }
@@ -692,7 +694,7 @@ function drawWeather(){
 
 
 
-        if (frameCount % 60 == 0 && timer > 0) {
+        if (frameCount % 15 == 0 && timer > 0) {
             timer --;
         }
         if(timer == 0){
@@ -856,7 +858,6 @@ function updateSoilText(id){
 }
 function enterPressed(){
 
-    console.log("100 crops are ", crops)
     if (validateCheckboxes()) {
 
         if(currentChallenge !== 1){

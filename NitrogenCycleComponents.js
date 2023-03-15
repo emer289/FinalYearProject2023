@@ -55,7 +55,7 @@ class NitrogenCycleComponents {
         if(!this.inTransit && !this.inWater && this.pos.x + this.size*4 < farm.x  && this.pos.y < water.y + rootSize && !isInside(water.x + water.width, water.y + rootSize, farm.x, water.y + rootSize, farm.x, farm.y+rootSize, this.pos.x, this.pos.y)){
             if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3") {
                 this.direction.x = 0;
-                this.direction.y -= .01
+                this.direction.y -= .1
             }else {
                 this.direction.x *= -1;
                 this.direction.y *= -1;
@@ -78,7 +78,7 @@ class NitrogenCycleComponents {
             }
         }else{
             if (this.inTransit && !this.inWater && this.pos.y >= water.y && this.pos.x + this.size > water.x + 2*water.width/3) {
-                this.direction.x -= .01;
+                this.direction.x -= .1;
                 this.direction.y = 0
             } else if ( this.inTransit && !this.inWater &&this.pos.x <= water.x + water.width && this.pos.y > water.y && this.pos.y + this.size < water.y + water.height) {
                 NitrogenCyclePop.splice(NitrogenCyclePop.indexOf(this), 1)
@@ -113,7 +113,7 @@ class NitrogenCycleComponents {
                     }else if(this.pos.y < (farm.y + farm.height/5)){
                         if (this.type != "bacterium1" && this.type != "bacterium2" && this.type != "bacterium3" && this.type != "n2") {
                             this.direction.x = 0;
-                            this.direction.y -= .01
+                            this.direction.y -= .1
                         }else {
                             this.direction.x *= -1;
                             this.direction.y *= -1;
@@ -150,8 +150,8 @@ class NitrogenCycleComponents {
 
 
         this.pos = new Coordinate(
-            this.pos.x + this.direction.x / 4,
-            this.pos.y + this.direction.y / 4
+            this.pos.x + this.direction.x / 2,
+            this.pos.y + this.direction.y / 2
         );
     }
 
