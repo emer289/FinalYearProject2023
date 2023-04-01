@@ -816,7 +816,7 @@ function updateText(){
             select("#vbsQuText").html(`Chosen in Year 1`);
             select("#vbsPlantQuText").html(`Chosen in Year 1`)
         }else{
-            select("#vbsQuText").html(`Choose a VBS length`);
+            select("#vbsQuText").html(`Choose a VBS width`);
             select("#vbsPlantQuText").html(`Choose a VBS plant`)
         }
 
@@ -831,7 +831,7 @@ function updateText(){
             select("#vbsPlantQuText").html(`Chosen in Year 1`)
             select("#startingSoilQu").html(`Chosen in Year 1`)
         }else{
-            select("#vbsQuText").html(`Choose a VBS length`);
+            select("#vbsQuText").html(`Choose a VBS width`);
             select("#vbsPlantQuText").html(`Choose a VBS plant`)
             select("#startingSoilQu").html(`Choose a starting soil quality`)
         }
@@ -984,9 +984,9 @@ function displayYield(){
         nigtrogenFixingPlantPicked = false;
 
         if(soilHealth < GOOD_SOIL){
-            challengeOverText = "You have failed the challenge because your soil quality is at "+ soilHealth + " which is below 75% :("
+            challengeOverText = "You have failed the challenge because your soil quality is at "+ soilHealth + "% which is below 75% :("
         }else{
-            challengeOverText = "Well done! Your soil is at " + soilHealth + " which is above 75%"
+            challengeOverText = "Well done! Your soil is at " + soilHealth + "% which is above 75%"
         }
 
         let popup = document.getElementById("popup3");

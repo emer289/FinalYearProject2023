@@ -56,9 +56,6 @@ class EarthWorm {
 
         this.x = this.x + this.xspeed * scl;
         this.y = this.y + this.yspeed * scl;
-
-        // this.x = constrain(this.x, this.VBS.x + this.VBS.width/2, this.farm.x + this.farm.width - scl);
-        // this.y = constrain(this.y, this.VBS.y + this.VBS.height/4, this.farm.height - scl);
     }
     show() {
         fill(255, 155, 155);
@@ -90,7 +87,7 @@ class EarthWorm {
                 this.dir(-1, 0);
                 this.trav = "left";
             } else {
-                console.log("error");
+               // console.log("error");
             }
 
         }
@@ -111,7 +108,7 @@ class EarthWorm {
                 this.dir(-1, 0);
                 this.trav = "left";
             } else {
-                console.log("error");
+              //  console.log("error");
             }
 
         }
@@ -131,7 +128,7 @@ class EarthWorm {
                 this.dir(0, 1);
                 this.trav = "down";
             } else {
-                console.log("error");
+                //console.log("error");
             }
 
         }
@@ -151,7 +148,7 @@ class EarthWorm {
                 this.dir(0, 1);
                 this.trav = "down";
             } else {
-                console.log("error");
+               // console.log("error");
             }
 
         }

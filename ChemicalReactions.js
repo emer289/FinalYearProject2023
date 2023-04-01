@@ -1,9 +1,8 @@
 
 
 class ChemicalReactions {
-    constructor(size, state, type, region) {
+    constructor(size,  type, region) {
         this.size = size;
-        this.state = state;
         this.type = type;
         this.region = region;
 
