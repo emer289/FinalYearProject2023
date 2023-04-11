@@ -196,9 +196,11 @@ button {
 .center {
     margin: 0;
     position: absolute;
-    right: 50%;
+    right: 40%;
     -ms-transform: translateX(50%);
     transform: translateX(50%);
+    justify-content: center;
+    align-items: center;
 }
 
 
