@@ -1003,7 +1003,7 @@ function displayYield(){
         if (soilHealth < GOOD_SOIL || waterQuality < 17) {
             challengeOverText = "You have failed the challenge :("
         }else{
-            challengeOverText = "Well done the soil quality is above 75% and more than 16 fish are alive"
+            challengeOverText = "Well done the soil quality is above 75% and more than 17 fish are alive"
         }
 
         let popup = document.getElementById("popup3");
