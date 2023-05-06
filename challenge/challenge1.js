@@ -715,24 +715,26 @@ function makeItRain(){
 }
 function toggleRain() {
 
-    //isRaining = !isRaining;
+    //check if it's raining
     if (isRaining) {
+        //creates the rain
         for (let i = 0; i < 500; i++) {
             rain[i] = new Raindrop();
         }
 
         if(ferAmount != 0){
+            //if no fertiliser has been added
+            //Step 1: Calculate the percentage of fertiliser that is not absorbed considering the VBS length and plant
+            //Step 2: Set that percentage of fertiliser to inTransit 
             for(const ncc of  NitrogenCyclePop){
                 if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3" || ncc.type == "n2") && ncc.inWater == false){
 
-                    //12m grass VBS
-
-                    if(vbsToPlant[0] == VbsPlants[grassIndex]
-                        && vbsSliderValue == 12
-                        && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
+                    if(vbsToPlant[0] == VbsPlants[grassIndex] && vbsSliderValue == 12 && inTransitCounter/NitrogenCyclePop.length < (1-g12prob)){
                         ncc.inTransit = true;
                         inTransitCounter++
-                    }else if(vbsToPlant[0] == VbsPlants[shrubIndex]
+                    }
+
+                    else if(vbsToPlant[0] == VbsPlants[shrubIndex]
                         && vbsSliderValue == 12
                         && inTransitCounter/NitrogenCyclePop.length < (1-s12prob)){
                         ncc.inTransit = true;
