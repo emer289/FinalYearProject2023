@@ -725,7 +725,7 @@ function toggleRain() {
         if(ferAmount != 0){
             //if no fertiliser has been added
             //Step 1: Calculate the percentage of fertiliser that is not absorbed considering the VBS length and plant
-            //Step 2: Set that percentage of fertiliser to inTransit 
+            //Step 2: Set that percentage of fertiliser to inTransit
             for(const ncc of  NitrogenCyclePop){
                 if((ncc.type === "nh4" || ncc.type === "no2" || ncc.type === "no3" || ncc.type == "n2") && ncc.inWater == false){
 
@@ -799,9 +799,7 @@ function createSun(){
 
 
 }
-//draw weather end
 
-//draw functions end
 
 //misc function start
 function updateText(){
